@@ -7,13 +7,12 @@
   </head>
   <body style="text-align: center">
     <canvas id="unity-canvas" width=1280 height=720 style="width: 1280px; height: 720px; background: #231F20"></canvas>
-    <script src="Build/11780308cc7132fc6d9a87f3b9b156fe.js"></script>
+    <script src="Build/Build.loader.js"></script>
     <script>
       createUnityInstance(document.querySelector("#unity-canvas"), {
-        dataUrl: "Build/4c7e75491b7073fc080354248fd69f1b.data",
-        frameworkUrl: "Build/71153d0122133f1293466ebc6b90e57a.js",
-        codeUrl: "Build/601457e8ce52cb43944cf607b097fe3e.wasm",
-        symbolsUrl: "Build/3ecddacfb45ec6c4dcc4c1fb04ec3c63.json",
+        dataUrl: "Build/Build.data",
+        frameworkUrl: "Build/Build.framework.js",
+        codeUrl: "Build/Build.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DeftWisdomStudios",
         productName: "CyberSecurityGJ",
