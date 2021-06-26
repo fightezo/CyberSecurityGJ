@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Realtime;
 using PlayerModule.Class;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -83,7 +84,10 @@ namespace GameModule.Class
 
         public void LeaveRoom()
         {
-            PhotonNetwork.LeaveRoom();
+            if (PhotonNetwork.NetworkClientState != ClientState.Leaving)
+            {
+                PhotonNetwork.LeaveRoom();
+            }
         }
 
         #endregion

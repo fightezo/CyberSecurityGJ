@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 1
-  PlayerUiPrefab: {fileID: 0}
+  PlayerUiPrefab: {fileID: 2474196413565887850, guid: 40118693ce1a4354d8ad6baf3136245c, type: 3}
   beams: {fileID: 593584671086448497}
 --- !u!114 &4892555563263498037
 MonoBehaviour:
@@ -203,6 +203,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
+  - {fileID: 1743058855359103902}
   - {fileID: 6652456962848532512}
   - {fileID: 1852195459213806181}
   sceneViewId: 0
@@ -1967,8 +1968,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 30, y: 10, z: 1}
-  m_Center: {x: 6.25, y: 0, z: -0.00000011920929}
+  m_Size: {x: 30, y: 10, z: 0.93}
+  m_Center: {x: 6.25, y: 0, z: 0.07}
 --- !u!1 &6779512910979056886
 GameObject:
   m_ObjectHideFlags: 0
