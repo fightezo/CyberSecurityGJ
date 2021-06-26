@@ -1,20 +1,17 @@
+using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using GameModule.Class;
+using ItemModule.Class.Interface;
+using Photon.Realtime;
+using PlayerModule.Class.UI;
 
 namespace PlayerModule.Class
 {
-    /// <summary>
-    /// Player manager.
-    /// Handles fire Input and Beams.
-    /// </summary>
     public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         #region Public Fields
-
-        [Tooltip("The current Health of our player")]
-        public float Health = 1f;
 
         [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
         public static GameObject LocalPlayerInstance;
@@ -26,10 +23,9 @@ namespace PlayerModule.Class
 
         #region Private Fields
 
-        [Tooltip("The Beams GameObject to control")] [SerializeField]
-        private GameObject beams;
-
-        bool IsFiring;
+        private bool _withinItemRange;
+        private List<int> itemList = new List<int>();
+        private PlayerManager _taggedPlayer;
 
         #endregion
 
@@ -43,39 +39,23 @@ namespace PlayerModule.Class
             }
 
             DontDestroyOnLoad(gameObject);
-            if (beams == null)
-            {
-                Debug.LogError("<Color=Red><a>Missing</a></Color> Beams Reference.", this);
-            }
-            else
-            {
-                beams.SetActive(false);
-            }
         }
 
         private void Start()
         {
             SceneManager.sceneLoaded += _OnSceneLoaded;
-            var cameraWork = gameObject.GetComponent<CameraWork>();
-            if (cameraWork != null)
-            {
-                if (photonView.IsMine)
-                {
-                    cameraWork.OnStartFollowing();
-                }
-            }
-            else
-            {
-                Debug.LogError("<Color=Red><a>Missing</a></Color> CameraWork Component on playerPrefab.", this);
-            }
+            // var cameraWork = gameObject.GetComponent<CameraWork>();
+            // if (cameraWork != null)
+            // {
+                // if (photonView.IsMine)
+                // {
+                    // cameraWork.OnStartFollowing();
+                // }
+            // }
 
             if (PlayerUiPrefab != null)
             {
                 _CreatePlayerUi();
-            }
-            else
-            {
-                Debug.LogWarning("<Color=Red><a>Missing</a></Color> PlayerUiPrefab reference on player Prefab.", this);
             }
         }
 
@@ -84,19 +64,14 @@ namespace PlayerModule.Class
         {
             if (photonView.IsMine)
             {
-                if (Health <= 0f)
+                if (_taggedPlayer != null)
                 {
-                    GameManager.Instance.LeaveRoom();
+                    GameManager.Instance.CheckState(this, _taggedPlayer);
                 }
 
                 _ProcessInputs();
             }
 
-            // trigger Beams active state
-            if (beams != null && IsFiring != beams.activeInHierarchy)
-            {
-                beams.SetActive(IsFiring);
-            }
         }
 
         private void OnTriggerEnter(Collider other)
@@ -106,12 +81,15 @@ namespace PlayerModule.Class
                 return;
             }
 
-            if (!other.name.Contains("Beam"))
+            if (other.CompareTag("Item"))
             {
-                return;
+                _withinItemRange = true;
             }
 
-            Health -= 0.1f;
+            if (other.CompareTag("Player"))
+            {
+                _taggedPlayer = other.gameObject.GetComponent<PlayerManager>();
+            }
         }
 
         private void OnTriggerStay(Collider other)
@@ -120,13 +98,23 @@ namespace PlayerModule.Class
             {
                 return;
             }
+        }
 
-            if (!other.name.Contains("Beam"))
+        private void OnTriggerExit(Collider other)
+        {
+            if (!photonView.IsMine)
             {
                 return;
             }
-
-            Health -= 0.1f * Time.deltaTime;
+            
+            if (other.CompareTag("Item"))
+            {
+                _withinItemRange = false;
+            } 
+            if (other.CompareTag("Player"))
+            {
+                _taggedPlayer = null;
+            }
         }
 
         public override void OnDisable()
@@ -142,13 +130,13 @@ namespace PlayerModule.Class
         {
             if (stream.IsWriting)
             {
-                stream.SendNext(IsFiring);
-                stream.SendNext(Health);
+                // stream.SendNext(IsFiring);
+                stream.SendNext(itemList);
             }
             else
             {
-                IsFiring = (bool) stream.ReceiveNext();
-                Health = (float) stream.ReceiveNext();
+                // IsFiring = (bool) stream.ReceiveNext();
+                itemList = (List<int>) stream.ReceiveNext();
             }
         }
 
@@ -157,25 +145,14 @@ namespace PlayerModule.Class
         #region Private Methods
         private void _CreatePlayerUi()
         {
-            var uiGameObject = Instantiate(PlayerUiPrefab);
-            uiGameObject.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
+            var uiGameObject = Instantiate(PlayerUiPrefab).GetComponent<PlayerUI>();
+            uiGameObject.SetTarget(this);
         }
         private void _ProcessInputs()
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetKeyDown(KeyCode.E) && _withinItemRange)
             {
-                if (!IsFiring)
-                {
-                    IsFiring = true;
-                }
-            }
-
-            if (Input.GetButtonUp("Fire1"))
-            {
-                if (IsFiring)
-                {
-                    IsFiring = false;
-                }
+                
             }
         }
 

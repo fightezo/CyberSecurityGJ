@@ -22,9 +22,6 @@ namespace GameModule.Class
 
         #region Private Serializable Fields
 
-        /// <summary>
-        /// The maximum number of players per room. When a room is full, it can't be joined by new players, and so new room will be created.
-        /// </summary>
         [Tooltip(
             "The maximum number of players per room. When a room is full, it can't be joined by new players, and so new room will be created")]
         [SerializeField]
@@ -35,7 +32,6 @@ namespace GameModule.Class
         #region Private Fields
         private readonly string _gameVersion = "1";
         private bool _isConnecting;
-        // private LoadBalancingClient _loadBalancingClient;
         private int _roomIdLength = 5;
 
         #endregion
@@ -59,35 +55,33 @@ namespace GameModule.Class
 
         public override void OnConnectedToMaster()
         {
-            Debug.Log("PUN Basics Tutorial/Launcher: OnConnectedToMaster() was called by PUN");
             if (_isConnecting)
             {
                 // #Critical: The first we try to do is to join a potential existing room. If there is, good, else, we'll be called back with OnJoinRandomFailed()
-                PhotonNetwork.JoinRandomRoom();
+                // PhotonNetwork.JoinRandomRoom();
+                if (string.IsNullOrEmpty(RoomIdInputField.GetRoomId()))
+                {
+                    _JoinOrCreatePrivateRoom(_CreateRandomRoomId());
+                }
+                else
+                {
+                    _JoinOrCreatePrivateRoom(RoomIdInputField.GetRoomId());
+                }
                 _isConnecting = false;
             }
         }
 
         public override void OnDisconnected(DisconnectCause cause)
         {
-            Debug.LogWarningFormat("PUN Basics Tutorial/Launcher: OnDisconnected() was called by PUN with reason {0}",
-                cause);
+            Debug.LogWarningFormat("OnDisconnected() was called by PUN with reason {0}", cause);
             _isConnecting = false;
         }
 
 
         public override void OnJoinedRoom()
         {
-            Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
-
-
             if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
             {
-                Debug.Log("We load the 'Room for 1' ");
-
-
-                // #Critical
-                // Load the Room Level.
                 PhotonNetwork.LoadLevel("MazeRoom");
             }
         }
@@ -95,13 +89,11 @@ namespace GameModule.Class
         public override void OnJoinRoomFailed(short returnCode, string message)
         {
             Debug.Log($"returnCode::{returnCode}, message::{message}");
-            Debug.Log("JoinRoomFailed, going to try random room");
             PhotonNetwork.JoinRandomRoom();
         }
         public override void OnJoinRandomFailed(short returnCode, string message)
         {
-            Debug.Log(
-                "PUN Basics Tutorial/Launcher:OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
+            Debug.Log("No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
             _JoinOrCreatePrivateRoom(_CreateRandomRoomId());
             // PhotonNetwork.CreateRoom(_CreateRandomRoomId(), new RoomOptions {MaxPlayers = maxPlayersPerRoom});
         }
@@ -145,7 +137,6 @@ namespace GameModule.Class
             enterRoomParams.RoomName = roomId;
             enterRoomParams.RoomOptions = roomOptions;
             PhotonNetwork.JoinOrCreateRoom(roomId, roomOptions, TypedLobby.Default);
-            // _loadBalancingClient.OpJoinOrCreateRoom(enterRoomParams);
         }
         private string _CreateRandomRoomId()
         {
