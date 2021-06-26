@@ -2,7 +2,7 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace PlayerModule.Class.UI
+namespace GameModule.Class.Component.UI
 {
     [RequireComponent(typeof(InputField))]
     public class PlayerNameInputField : MonoBehaviour

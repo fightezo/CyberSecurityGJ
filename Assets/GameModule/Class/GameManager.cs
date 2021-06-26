@@ -1,8 +1,10 @@
+using System;
 using Photon.Pun;
 using Photon.Realtime;
 using PlayerModule.Class;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace GameModule.Class
 {
@@ -13,12 +15,16 @@ namespace GameModule.Class
         public static GameManager Instance;
         [Tooltip("The prefab to use for representing the player")]
         public GameObject playerPrefab;
+
+        [SerializeField] private Text _roomIdTextField;
+
         #endregion
 
         #region MonoBehaviour CallBacks
         private void Start()
         {
             Instance = this;
+            _roomIdTextField.text = $"RoomID: {PhotonNetwork.CurrentRoom.Name}";
             if (playerPrefab == null)
             {
                 Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'",this);
@@ -106,5 +112,7 @@ namespace GameModule.Class
         }
 
         #endregion
+
+     
     }
 }
