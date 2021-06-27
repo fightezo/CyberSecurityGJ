@@ -1,9 +1,15 @@
 namespace PlayerModule.Class.Data
 {
 
-    public enum State
+    public enum Team
     {
         GoodCitizen,
         Hacker
+    }
+
+    public enum PlayerState
+    {
+        Normal,
+        Invading,
     }
 }

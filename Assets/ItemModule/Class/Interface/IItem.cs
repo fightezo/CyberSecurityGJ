@@ -4,6 +4,7 @@ namespace ItemModule.Class.Interface
 {
     public interface IItem
     {
-        public ItemType Type();
+        public ItemType GetItemType();
+        public ItemState GetItemState();
     }
 }

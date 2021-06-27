@@ -5,7 +5,7 @@ namespace ItemModule.Class.Data
         Treasure,
     }
 
-    public enum State
+    public enum ItemState
     {
         World,
         Player,

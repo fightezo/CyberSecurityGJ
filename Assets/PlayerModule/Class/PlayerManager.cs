@@ -1,10 +1,14 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using GameModule.Class;
+using ItemModule.Class.Data;
 using ItemModule.Class.Interface;
 using Photon.Realtime;
+using PlayerModule.Class.Data;
 using PlayerModule.Class.UI;
 
 namespace PlayerModule.Class
@@ -24,9 +28,10 @@ namespace PlayerModule.Class
         #region Private Fields
 
         private bool _withinItemRange;
-        private List<int> itemList = new List<int>();
+        private List<int> _itemList = new List<int>();
         private PlayerManager _taggedPlayer;
-
+        private PlayerModule.Class.Data.Team _team;
+        private PlayerModule.Class.Data.PlayerState _currentState;
         #endregion
 
         #region MonoBehaviour Callbacks
@@ -64,11 +69,6 @@ namespace PlayerModule.Class
         {
             if (photonView.IsMine)
             {
-                if (_taggedPlayer != null)
-                {
-                    GameManager.Instance.CheckState(this, _taggedPlayer);
-                }
-
                 _ProcessInputs();
             }
 
@@ -83,14 +83,16 @@ namespace PlayerModule.Class
 
             if (other.CompareTag("Item"))
             {
+                var item = other.gameObject.GetComponent<IItem>();
+                if (item.GetItemState() == ItemState.World)
+                {
+                    _GetItem();
+                }
                 _withinItemRange = true;
             }
 
-            if (other.CompareTag("Player"))
-            {
-                _taggedPlayer = other.gameObject.GetComponent<PlayerManager>();
-            }
         }
+
 
         private void OnTriggerStay(Collider other)
         {
@@ -111,9 +113,18 @@ namespace PlayerModule.Class
             {
                 _withinItemRange = false;
             } 
-            if (other.CompareTag("Player"))
+
+        }
+
+        private void OnControllerColliderHit(ControllerColliderHit hit)
+        {
+            if (!photonView.IsMine)
             {
-                _taggedPlayer = null;
+                return;
+            }
+            if (hit.collider.CompareTag("Player"))
+            {
+                GameManager.Instance.CheckState(this, _taggedPlayer);
             }
         }
 
@@ -131,17 +142,29 @@ namespace PlayerModule.Class
             if (stream.IsWriting)
             {
                 // stream.SendNext(IsFiring);
-                stream.SendNext(itemList);
+                // stream.SendNext(itemList.ToArray());
             }
             else
             {
                 // IsFiring = (bool) stream.ReceiveNext();
-                itemList = (List<int>) stream.ReceiveNext();
+                // itemList = ((int[]) stream.ReceiveNext()).ToList();
             }
         }
 
         #endregion
-        
+
+        #region Public Methods
+
+        public PlayerState GetState()
+        {
+            return _currentState;
+        }
+        public void SetupPlayerManager(Data.Team team)
+        {
+            _team = team;
+        }
+
+        #endregion
         #region Private Methods
         private void _CreatePlayerUi()
         {
@@ -169,6 +192,17 @@ namespace PlayerModule.Class
             }
 
             _CreatePlayerUi();
+        }
+        
+        private void _GetItem()
+        {
+            photonView.RPC("_RPC_SendItemList", RpcTarget.Others, _itemList);
+        }
+        
+        [PunRPC]
+        private void _RPC_SendItemList(List<int> itemList)
+        {
+            _itemList = itemList;
         }
 
         #endregion

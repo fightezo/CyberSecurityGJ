@@ -7,9 +7,15 @@ namespace ItemModule.Class.Component
 {
     public class Treasure : MonoBehaviourPun, IItem
     {
-        public ItemType Type()
+        public ItemType GetItemType()
         {
             return ItemType.Treasure;
         }
+
+        public ItemState GetItemState()
+        {
+            return ItemState.World;
+        }
+        
     }
 }
