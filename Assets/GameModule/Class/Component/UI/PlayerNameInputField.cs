@@ -38,10 +38,7 @@ namespace GameModule.Class.Component.UI
         public void SetPlayerName(string value)
         {
             if (string.IsNullOrEmpty(value))
-            {
-                Debug.LogError("Player Name is null or empty");
                 return;
-            }
 
             PhotonNetwork.NickName = value;
             PlayerPrefs.SetString(playerNamePrefKey, value);

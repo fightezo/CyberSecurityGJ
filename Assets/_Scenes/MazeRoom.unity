@@ -908,17 +908,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 70391609400173630, guid: 1ef4b48e025767f42995170409cec3fe, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 70391609400173630, guid: 1ef4b48e025767f42995170409cec3fe, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 70391609400173630, guid: 1ef4b48e025767f42995170409cec3fe, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
+    - target: {fileID: 2040883570854011156, guid: 1ef4b48e025767f42995170409cec3fe, type: 3}
+      propertyPath: sceneViewId
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3874827416335730795, guid: 1ef4b48e025767f42995170409cec3fe, type: 3}
       propertyPath: m_AnchorMax.x
@@ -927,38 +919,6 @@ PrefabInstance:
     - target: {fileID: 3874827416335730795, guid: 1ef4b48e025767f42995170409cec3fe, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3874827416335730795, guid: 1ef4b48e025767f42995170409cec3fe, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3874827416335730795, guid: 1ef4b48e025767f42995170409cec3fe, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5108488031020629150, guid: 1ef4b48e025767f42995170409cec3fe, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5108488031020629150, guid: 1ef4b48e025767f42995170409cec3fe, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5108488031020629150, guid: 1ef4b48e025767f42995170409cec3fe, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5108488031020629150, guid: 1ef4b48e025767f42995170409cec3fe, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: -10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5108488031020629150, guid: 1ef4b48e025767f42995170409cec3fe, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5108488031020629150, guid: 1ef4b48e025767f42995170409cec3fe, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -0.0000038146973
       objectReference: {fileID: 0}
     - target: {fileID: 6451318952686320985, guid: 1ef4b48e025767f42995170409cec3fe, type: 3}
       propertyPath: m_RootOrder
@@ -1004,29 +964,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7624389402057157268, guid: 1ef4b48e025767f42995170409cec3fe, type: 3}
-      propertyPath: m_Value
-      value: -4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7624389402057157268, guid: 1ef4b48e025767f42995170409cec3fe, type: 3}
-      propertyPath: m_Interactable
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8386866152860933930, guid: 1ef4b48e025767f42995170409cec3fe, type: 3}
       propertyPath: m_Name
       value: Game Manager
-      objectReference: {fileID: 0}
-    - target: {fileID: 8444356173119037038, guid: 1ef4b48e025767f42995170409cec3fe, type: 3}
-      propertyPath: m_Type
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8444356173119037038, guid: 1ef4b48e025767f42995170409cec3fe, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-    - target: {fileID: 8444356173119037038, guid: 1ef4b48e025767f42995170409cec3fe, type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ef4b48e025767f42995170409cec3fe, type: 3}

@@ -18,9 +18,6 @@ namespace GameModule.Class
         [SerializeField] private GameObject _controlPanel;
 
         [SerializeField] private GameObject _progressLabel;
-        [SerializeField] private GameObject _waitingPanel;
-        [SerializeField] private GameObject _startButton;
-        [SerializeField] private List<Text> _playerNameList;
         #endregion
 
         #region Private Serializable Fields
@@ -35,13 +32,6 @@ namespace GameModule.Class
         private readonly string _gameVersion = "1";
         private bool _isConnecting;
         private int _roomIdLength = 5;
-        private Player[] _playerList;
-        private int _localPlayerIndex; 
-        private bool _isGoodCitizenChosen;
-        private string _goodCitizenUserId;
-        
-        private bool _isHackerChosen;
-        private string _hackerUserId;
 
         #endregion
 
@@ -56,7 +46,6 @@ namespace GameModule.Class
         {
             _controlPanel.SetActive(true);
             _progressLabel.SetActive(false);
-            _waitingPanel.SetActive(false);
         }
 
         #endregion
@@ -73,31 +62,12 @@ namespace GameModule.Class
         }
         public override void OnJoinedRoom()
         {
+            PhotonNetwork.LoadLevel("MazeRoom");
+
             _controlPanel.SetActive(false);
             _progressLabel.SetActive(false);
-            _waitingPanel.SetActive(true);
-            _UpdatePlayerList();
         }
         
-        
-        public override void OnPlayerEnteredRoom(Player newPlayer)
-        {
-            Debug.LogFormat("OnPlayerEnteredRoom() {0}", newPlayer.NickName); // not seen if you're the player connecting
-            _UpdatePlayerList();
-        }
-
-
-        public override void OnPlayerLeftRoom(Player otherPlayer)
-        {
-            Debug.LogFormat("OnPlayerLeftRoom() {0}", otherPlayer.NickName); // seen when other disconnects
-
-            _UpdatePlayerList();
-            if (PhotonNetwork.IsMasterClient)
-            {
-
-            }
-        }
-
         public override void OnDisconnected(DisconnectCause cause)
         {
             Debug.LogWarningFormat("OnDisconnected() was called by PUN with reason {0}", cause);
@@ -139,50 +109,6 @@ namespace GameModule.Class
             }
         }
 
-        public void StartGameButtonClicked()
-        {
-            if (string.IsNullOrEmpty(_hackerUserId) && string.IsNullOrEmpty(_goodCitizenUserId)) return;
-            
-            for (var index = 0; index < _playerList.Length; index++)
-            {
-                var player = _playerList[index];
-                if (_goodCitizenUserId == player.NickName)
-                {
-                    player.JoinTeam("GoodCitizen");
-                }
-                if (_hackerUserId == player.NickName)
-                {
-                    player.JoinTeam("Hacker");
-                }
-            }
-
-            PhotonNetwork.LoadLevel("MazeRoom");
-        }
-
-        public void OnGoodCitizenButtonClicked()
-        {
-            _isGoodCitizenChosen = !_isGoodCitizenChosen;
-            photonView.RPC("_RPC_SendGoodCitizenButtonClicked", RpcTarget.AllBuffered, _isGoodCitizenChosen ? PhotonNetwork.LocalPlayer.NickName : string.Empty);
-        }
-
-        [PunRPC]
-        private void _RPC_SendGoodCitizenButtonClicked(string name)
-        {
-            _goodCitizenUserId = name;
-            Debug.Log($"_RPC_SendGoodCitizenButtonClicked:: {_goodCitizenUserId}");
-        }
-        public void OnHackerButtonClicked()
-        {
-            _isHackerChosen = !_isHackerChosen;
-            photonView.RPC("_RPC_SendHackerButtonClicked", RpcTarget.AllBuffered, _isHackerChosen ? PhotonNetwork.LocalPlayer.NickName : string.Empty);
-        }
-        [PunRPC]
-        private void _RPC_SendHackerButtonClicked(string name)
-        {
-            _hackerUserId = name;
-            Debug.Log($"_RPC_SendHackerButtonClicked:: {_hackerUserId}");
-
-        }
         private void _CreateRoomBasedOnInputField()
         {
             if (string.IsNullOrEmpty(_roomIdInputField.GetRoomId()))
@@ -217,19 +143,6 @@ namespace GameModule.Class
             return new string(Enumerable.Repeat(chars, _roomIdLength)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         }        
-        private void _UpdatePlayerList()
-        {
-            _playerList = PhotonNetwork.PlayerList;
-            for (var index = 0; index < _playerList.Length; index++)
-            {
-                var player = _playerList[index];
-                if (player.IsLocal) 
-                    _localPlayerIndex = index;
-                _playerNameList[index].text = player.NickName;
-            }
-
-            _startButton.SetActive(_playerList.Length == maxPlayersPerRoom);
-        }
 
         #endregion
         

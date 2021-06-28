@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using GameModule.Class;
 using ItemModule.Class.Data;
 using ItemModule.Class.Interface;
+using Photon.Pun.UtilityScripts;
 using Photon.Realtime;
 using PlayerModule.Class.Data;
 using PlayerModule.Class.UI;
@@ -22,7 +23,9 @@ namespace PlayerModule.Class
         
         [Tooltip("The Player's UI GameObject Prefab")][SerializeField]
         public GameObject PlayerUiPrefab;
-        
+
+        public SkinnedMeshRenderer Renderer;
+        public Material PlayerMaterial;
         #endregion
 
         #region Private Fields
@@ -57,11 +60,16 @@ namespace PlayerModule.Class
                     // cameraWork.OnStartFollowing();
                 // }
             // }
+            if (photonView.IsMine)
+            {
+                photonView.RPC("_RPC_GetTeam", RpcTarget.MasterClient, photonView.Owner.NickName );
+            }
 
             if (PlayerUiPrefab != null)
             {
                 _CreatePlayerUi();
             }
+
         }
 
 
@@ -72,6 +80,15 @@ namespace PlayerModule.Class
                 _ProcessInputs();
             }
 
+            if (_team == Team.Hacker)
+            {
+                Renderer.material = new Material(PlayerMaterial) {color = Color.black};
+            }
+
+            if (_team == Team.GoodCitizen)
+            {
+                Renderer.material = new Material(PlayerMaterial) {color = Color.red};
+            }
         }
 
         private void OnTriggerEnter(Collider other)
@@ -159,17 +176,19 @@ namespace PlayerModule.Class
         {
             return _currentState;
         }
-        public void SetupPlayerManager(Data.Team team)
-        {
-            _team = team;
-        }
-
+        
         #endregion
         #region Private Methods
         private void _CreatePlayerUi()
         {
             var uiGameObject = Instantiate(PlayerUiPrefab).GetComponent<PlayerUI>();
             uiGameObject.SetTarget(this);
+        }
+
+        [PunRPC]
+        private void _RPC_GetTeam(string name)
+        {
+            _team = GameManager.Instance.GetTeam(name);
         }
         private void _ProcessInputs()
         {

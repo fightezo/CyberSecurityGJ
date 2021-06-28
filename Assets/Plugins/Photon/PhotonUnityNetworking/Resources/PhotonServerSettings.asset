@@ -42,6 +42,9 @@ MonoBehaviour:
   - _RPC_SendItemList
   - _RPC_SendGoodCitizenButtonClicked
   - _RPC_SendHackerButtonClicked
+  - _RPC_GetTeam
+  - _RPC_SendNewGameState
+  - _RPC_SendUpdatedGameState
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
