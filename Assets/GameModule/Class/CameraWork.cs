@@ -26,28 +26,12 @@ namespace GameModule.Class
         [Tooltip("The height we want the camera to be above the target")] [SerializeField]
         private float _height = 3.0f;
 
-        [Tooltip(
-            "Allow the camera to be offseted vertically from the target, for example giving more view of the sceneray and less ground.")]
-        [SerializeField]
         private Vector3 _centerOffset = Vector3.zero;
-
-
-        [Tooltip(
-            "Set this as false if a component of a prefab being instanciated by Photon Network, and manually call OnStartFollowing() when and if needed.")]
-        [SerializeField]
-        private bool _followOnStart = false;
-
-
-        [Tooltip("The Smoothing for the camera to follow the target")] [SerializeField]
-        private float _smoothSpeed = 0.125f;
-
+        private bool _followOnStart = true;
 
         // cached transform of the target
         private Transform _cameraTransform;
-
-
-        // maintain a flag internally to reconnect if target is lost or camera is switched
-        private bool _isFollowing;
+        private bool _isFollowing = true;
 
 
         // Cache for camera offset
@@ -113,12 +97,7 @@ namespace GameModule.Class
             _cameraOffset.z = -_distance;
             _cameraOffset.y = _height;
 
-
-            _cameraTransform.position = Vector3.Lerp(_cameraTransform.position,
-                this.transform.position + this.transform.TransformVector(_cameraOffset), _smoothSpeed * Time.deltaTime);
-
-
-            _cameraTransform.LookAt(this.transform.position + _centerOffset);
+            _cameraTransform.position = transform.position + _centerOffset;
         }
 
 
@@ -126,12 +105,8 @@ namespace GameModule.Class
         {
             _cameraOffset.z = -_distance;
             _cameraOffset.y = _height;
-
-
-            _cameraTransform.position = this.transform.position + this.transform.TransformVector(_cameraOffset);
-
-
-            _cameraTransform.LookAt(this.transform.position + _centerOffset);
+            
+            _cameraTransform.position = transform.position + _centerOffset;
         }
 
         #endregion

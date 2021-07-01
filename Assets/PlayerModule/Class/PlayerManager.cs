@@ -24,7 +24,7 @@ namespace PlayerModule.Class
         [Tooltip("The Player's UI GameObject Prefab")][SerializeField]
         public GameObject PlayerUiPrefab;
 
-        public SkinnedMeshRenderer Renderer;
+        public Renderer Renderer;
         public Material PlayerMaterial;
         #endregion
 
@@ -78,16 +78,6 @@ namespace PlayerModule.Class
             if (photonView.IsMine)
             {
                 _ProcessInputs();
-            }
-
-            if (_team == Team.Hacker)
-            {
-                Renderer.material = new Material(PlayerMaterial) {color = Color.black};
-            }
-
-            if (_team == Team.GoodCitizen)
-            {
-                Renderer.material = new Material(PlayerMaterial) {color = Color.red};
             }
         }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MapModule.Class;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
 using Photon.Realtime;
@@ -22,6 +23,9 @@ namespace GameModule.Class
         public GameObject playerPrefab;
         [SerializeField] private List<GameObject> _phasePanelList;
         [SerializeField] private List<Text> _playerNameList;
+        [SerializeField] private GameObject _player0ButtonGroup;
+        [SerializeField] private GameObject _player1ButtonGroup;
+
         [SerializeField] private GameObject _startButton;
 
         [SerializeField] private Text _roomIdText;
@@ -30,6 +34,8 @@ namespace GameModule.Class
 
         [SerializeField] private GameObject _goodCitizenScenarioPanel;
         [SerializeField] private GameObject _hacerScenarioPanel;
+        
+        
         #endregion
 
         #region Private Fields
@@ -46,9 +52,9 @@ namespace GameModule.Class
         private Dictionary<GameState, float> TotalTimeList = new Dictionary<GameState, float>()
         {
             {GameState.WaitingForPlayers, 60f},
-            {GameState.Planning, 60f},
-            {GameState.Preparation, 60f},
-            {GameState.Battle, 600f},
+            {GameState.Planning, 10f},
+            {GameState.Preparation, 30f},
+            {GameState.Battle, 300f},
             {GameState.End, 120f},
         };
 
@@ -193,12 +199,12 @@ namespace GameModule.Class
         private void _FirstTimeSetup()
         {
             _playerList = PhotonNetwork.PlayerList;
-
-            // _roomIdText.text = $"RoomID: {PhotonNetwork.CurrentRoom.Name}";
+            _roomIdText.text = $"RoomID: {PhotonNetwork.CurrentRoom.Name}";
         }
         private void _UpdateViewPanel()
         {
-            var currentIndex = (_currentState > GameState.Planning && _currentState < GameState.End ) ? 2 : (int) _currentState;
+            // var currentIndex = (_currentState > GameState.Planning && _currentState < GameState.End ) ? 2 : (int) _currentState;
+            var currentIndex = (int) _currentState;
             Debug.Log($"panelList::{(GameState)currentIndex}");
             for (var index = 0; index < _phasePanelList.Count; index++)
             {
@@ -244,20 +250,22 @@ namespace GameModule.Class
         {
             _currentState = GameState.Preparation;
             _currentPlayTime = TotalTimeList[_currentState];
+                        
+            if (playerPrefab != null)
+            {
+                // TODO: Create all players
+                if (PlayerManager.LocalPlayerInstance == null)
+                {
+                    _localPlayerManager = PhotonNetwork.Instantiate(playerPrefab.name, MapManager.Instance.GetSpawnPoint(),Quaternion.identity, 0).GetComponent<PlayerManager>();
+                }
+            }
         }
 
         private void _BeginBattlePhase()
         {
             _currentState = GameState.Battle;
             _currentPlayTime = TotalTimeList[_currentState];
-            
-            if (playerPrefab != null)
-            {
-                if (PlayerManager.LocalPlayerInstance == null)
-                {
-                    _localPlayerManager = PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0).GetComponent<PlayerManager>();
-                }
-            }
+
         }
 
         private void _BeginEndPhase()
@@ -283,10 +291,10 @@ namespace GameModule.Class
 
         private void _DisplayGoodCitizenEnding()
         {
-            if (_localPlayerManager.GetState() == PlayerState.Invading)
-            {
+            // if (_localPlayerManager.GetState() == PlayerState.Invading)
+            // {
                 
-            }
+            // }
         }
 
         private void _BeginAfterEnd()
@@ -307,8 +315,12 @@ namespace GameModule.Class
             for (var index = 0; index < _playerList.Length; index++)
             {
                 var player = _playerList[index];
-                if (player.IsLocal) 
+                if (player.IsLocal)
+                {
                     _localPlayerIndex = index;
+                    _player0ButtonGroup.SetActive(index == 0);
+                    _player1ButtonGroup.SetActive(index == 1);
+                }
                 _playerNameList[index].text = player.NickName;
             }
 
@@ -321,7 +333,6 @@ namespace GameModule.Class
             _currentState = gameState;
             _UpdateViewPanel();
         }
-
 
         [PunRPC]
         private void _RPC_SendGoodCitizenButtonClicked(string name)
