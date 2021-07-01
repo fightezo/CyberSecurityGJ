@@ -18,7 +18,7 @@ namespace MapModule.Class
 
         private void Start()
         {
-            _currentMapGameObject = (GameObject) Resources.Load(MapList[0].GetComponent<IMap>().GetResourcesName());
+            _currentMapGameObject = Instantiate((GameObject) Resources.Load(MapList[0].GetComponent<IMap>().GetResourcesName()), Vector3.zero, Quaternion.identity);
             _currentMap = _currentMapGameObject.GetComponent<IMap>();
        }
 
@@ -28,9 +28,13 @@ namespace MapModule.Class
 
         }
 
-        public Vector3 GetSpawnPoint()
+         public Vector3 GetCitizenSpawnPoint()
+         {
+             return _currentMap.GetCitizenSpawnPointWorldPosition();
+         }
+         public Vector3 GetHackerSpawnPoint()
         {
-            return _currentMap.GetSpawnPointWorldPosition();
+            return _currentMap.GetHackerSpawnPointWorldPosition();
         }
     }
 }

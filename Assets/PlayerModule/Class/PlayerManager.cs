@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Photon.Pun;
 using UnityEngine;
@@ -11,6 +11,7 @@ using Photon.Pun.UtilityScripts;
 using Photon.Realtime;
 using PlayerModule.Class.Data;
 using PlayerModule.Class.UI;
+using Debug = UnityEngine.Debug;
 
 namespace PlayerModule.Class
 {
@@ -25,7 +26,8 @@ namespace PlayerModule.Class
         public GameObject PlayerUiPrefab;
 
         public Renderer Renderer;
-        public Material PlayerMaterial;
+        public GameObject CitizenGameObject;
+        public GameObject HackerGameObject;
         #endregion
 
         #region Private Fields
@@ -35,41 +37,62 @@ namespace PlayerModule.Class
         private PlayerManager _taggedPlayer;
         private PlayerModule.Class.Data.Team _team;
         private PlayerModule.Class.Data.PlayerState _currentState;
+        private Vector3 _spawnPosition;
+        // private bool isLocalTesting;
         #endregion
 
         #region MonoBehaviour Callbacks
 
         private void Awake()
         {
-            if (photonView.IsMine)
+            if (photonView.IsMine )
             {
                 LocalPlayerInstance = gameObject;
             }
 
+            _SetIsLocalTesting();
             DontDestroyOnLoad(gameObject);
         }
 
         private void Start()
         {
             SceneManager.sceneLoaded += _OnSceneLoaded;
-            // var cameraWork = gameObject.GetComponent<CameraWork>();
-            // if (cameraWork != null)
-            // {
-                // if (photonView.IsMine)
-                // {
-                    // cameraWork.OnStartFollowing();
-                // }
-            // }
-            if (photonView.IsMine)
+        }
+
+        public void UpdatePlayerData(Vector3 spawnPosition, Team team)
+        {
+            var cameraWork = gameObject.GetComponent<CameraWork>();
+            if (cameraWork != null)
             {
-                photonView.RPC("_RPC_GetTeam", RpcTarget.MasterClient, photonView.Owner.NickName );
+                if (photonView.IsMine)
+                {
+                    cameraWork.OnStartFollowing(gameObject);
+                }
             }
 
-            if (PlayerUiPrefab != null)
+            _spawnPosition = spawnPosition;
+            if (photonView.IsMine 
+                //&& !isLocalTesting
+                )
+            {
+                _team = team;
+                _UpdateTeamView();
+                gameObject.transform.position = _spawnPosition;
+            }
+
+            if (PlayerUiPrefab != null 
+                //&& !isLocalTesting
+                )
             {
                 _CreatePlayerUi();
             }
+        }
 
+        private void _UpdateTeamView()
+        {
+            CitizenGameObject.SetActive(_team == Team.Citizen);
+            HackerGameObject.SetActive(_team == Team.Hacker);
+            
         }
 
 
@@ -166,7 +189,11 @@ namespace PlayerModule.Class
         {
             return _currentState;
         }
-        
+
+        public Team GetTeam()
+        {
+            return _team;
+        }
         #endregion
         #region Private Methods
         private void _CreatePlayerUi()
@@ -175,16 +202,10 @@ namespace PlayerModule.Class
             uiGameObject.SetTarget(this);
         }
 
-        [PunRPC]
-        private void _RPC_GetTeam(string name)
-        {
-            _team = GameManager.Instance.GetTeam(name);
-        }
         private void _ProcessInputs()
         {
             if (Input.GetKeyDown(KeyCode.E) && _withinItemRange)
             {
-                
             }
         }
 
@@ -214,6 +235,11 @@ namespace PlayerModule.Class
             _itemList = itemList;
         }
 
+        [Conditional("UNITY_EDITOR")]
+        private void _SetIsLocalTesting()
+        {
+            // isLocalTesting = false;
+        }
         #endregion
 
 

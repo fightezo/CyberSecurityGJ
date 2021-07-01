@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ItemModule.Class.Data;
 using MapModule.Class;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
@@ -21,6 +22,7 @@ namespace GameModule.Class
 
         [Tooltip("The prefab to use for representing the player")]
         public GameObject playerPrefab;
+
         [SerializeField] private List<GameObject> _phasePanelList;
         [SerializeField] private List<Text> _playerNameList;
         [SerializeField] private GameObject _player0ButtonGroup;
@@ -32,15 +34,14 @@ namespace GameModule.Class
         [SerializeField] private Text _countDownText;
         [SerializeField] private Slider _securityLevelSlider;
 
-        [SerializeField] private GameObject _goodCitizenScenarioPanel;
-        [SerializeField] private GameObject _hacerScenarioPanel;
-        
-        
+        [SerializeField] private GameObject _victoryPanel;
+        [SerializeField] private GameObject _gameOverPanel;
+
         #endregion
 
         #region Private Fields
 
-        private enum GameState
+        public enum GameState
         {
             WaitingForPlayers = 0,
             Planning = 1,
@@ -60,21 +61,22 @@ namespace GameModule.Class
 
         private float _currentPlayTime = 0f;
         private GameState _currentState = GameState.WaitingForPlayers;
-        private int _securityLevel = 10;
-        private int _goodCitizenSecurityThreshold = 5;
-        private int _hackerSecurityThreshold = -5;
+
+        [SerializeField] private int _securityLevel = 0;
+        private int _citizenSecurityThreshold = 5;
+        private int _citizenSecurityMax = 10;
+        private int _hackerSecurityThreshold = 0;
+        private int _hackerSecurityMax = -10;
 
         private PlayerManager _localPlayerManager;
-        private float _timertoStartGame;
 
         private Player[] _playerList;
-        private int _localPlayerIndex; 
-        private bool _isGoodCitizenChosen;
-        private string _goodCitizenUserId;
-        
-        private bool _isHackerChosen;
-        private string _hackerUserId;
+        private int _localPlayerIndex;
+        private List<Team> _playersTeamStateList = new List<Team>() {Team.None, Team.None};
+        private string _localPlayerName;
+
         #endregion
+
 
         #region MonoBehaviour CallBacks
 
@@ -89,7 +91,7 @@ namespace GameModule.Class
 
         private void Update()
         {
-            if (_currentState != GameState.WaitingForPlayers || _currentState != GameState.End)
+            if (_currentState != GameState.WaitingForPlayers && _currentState != GameState.End)
             {
                 _currentPlayTime -= Time.deltaTime;
                 var timeLeft = TimeSpan.FromSeconds(_currentPlayTime);
@@ -106,10 +108,10 @@ namespace GameModule.Class
 
         #region Photon Callbacks
 
-
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
-            Debug.LogFormat("OnPlayerEnteredRoom() {0}", newPlayer.NickName); // not seen if you're the player connecting
+            Debug.LogFormat("OnPlayerEnteredRoom() {0}",
+                newPlayer.NickName); // not seen if you're the player connecting
             _UpdatePlayerList();
         }
 
@@ -118,7 +120,7 @@ namespace GameModule.Class
         {
             Debug.LogFormat("OnPlayerLeftRoom() {0}", otherPlayer.NickName); // seen when other disconnects
 
-            _UpdatePlayerList();
+            // _UpdatePlayerList();
             // TODO: You Win~
             LeaveRoom();
         }
@@ -131,10 +133,16 @@ namespace GameModule.Class
         #endregion
 
         #region Public Methods
+
+        public GameState GetGameState()
+        {
+            return _currentState;
+        }
+
         public void CheckState(PlayerManager self, PlayerManager taggedPlayer)
         {
             Debug.Log("Check State");
-            _localPlayerManager = self;
+            // _localPlayerManager = self;
             if (_currentState == GameState.Battle)
             {
                 _UpdateNextGameState();
@@ -144,6 +152,7 @@ namespace GameModule.Class
                 Debug.LogWarning("Wrong Game State");
             }
         }
+
         public void LeaveRoom()
         {
             if (PhotonNetwork.NetworkClientState != ClientState.Leaving)
@@ -151,64 +160,87 @@ namespace GameModule.Class
                 PhotonNetwork.LeaveRoom();
             }
         }
-
-        public Team GetTeam(string name)
-        {
-            if (name == _goodCitizenUserId)
-                return Team.GoodCitizen;
-            if (name == _hackerUserId)
-                return Team.Hacker;
-            return Team.None;
-        }
         
+        #endregion
+
+        #region Public Button Methods
+
         public void OnStartGameButtonClicked()
         {
             if (!PhotonNetwork.IsMasterClient) return;
-            if (string.IsNullOrEmpty(_hackerUserId) && string.IsNullOrEmpty(_goodCitizenUserId)) return;
-            
-            for (var index = 0; index < _playerList.Length; index++)
-            {
-                var player = _playerList[index];
-                if (_goodCitizenUserId == player.NickName)
-                {
-                    player.JoinTeam("GoodCitizen");
-                }
-                if (_hackerUserId == player.NickName)
-                {
-                    player.JoinTeam("Hacker");
-                }
-            }
-
+            if (_playersTeamStateList.Contains(Team.None)) return;
             _UpdateNextGameState();
         }
 
-        public void OnGoodCitizenButtonClicked()
+        public void OnCitizenButtonClicked()
         {
-            _isGoodCitizenChosen = !_isGoodCitizenChosen;
-            photonView.RPC("_RPC_SendGoodCitizenButtonClicked", RpcTarget.AllBuffered, _isGoodCitizenChosen ? PhotonNetwork.LocalPlayer.NickName : string.Empty);
+            if (_playersTeamStateList.Contains(Team.Citizen) &&
+                _playersTeamStateList.FindIndex(x => x == Team.Citizen) != _localPlayerIndex)
+                return;
+
+            var newState = _playersTeamStateList[_localPlayerIndex];
+            switch (newState)
+            {
+                case Team.None:
+                case Team.Hacker:
+                    newState = Team.Citizen;
+                    break;
+                case Team.Citizen:
+                    newState = Team.None;
+                    break;
+            }
+
+            var itemList = new[] {_localPlayerIndex, (int) newState};
+            Debug.Log($"BEFORE::_RPC_SendCitizenButtonClicked:: {_playerList[itemList[0]]}::{newState}");
+            photonView.RPC("_RPC_SendCitizenButtonClicked", RpcTarget.AllBuffered, itemList);
         }
 
         public void OnHackerButtonClicked()
         {
-            _isHackerChosen = !_isHackerChosen;
-            photonView.RPC("_RPC_SendHackerButtonClicked", RpcTarget.AllBuffered, _isHackerChosen ? PhotonNetwork.LocalPlayer.NickName : string.Empty);
+            if (_playersTeamStateList.Contains(Team.Hacker) &&
+                _playersTeamStateList.FindIndex(x => x == Team.Hacker) != _localPlayerIndex)
+                return;
+
+            var newState = _playersTeamStateList[_localPlayerIndex];
+            switch (newState)
+            {
+                case Team.None:
+                case Team.Citizen:
+                    newState = Team.Hacker;
+                    break;
+                case Team.Hacker:
+                    newState = Team.None;
+                    break;
+            }
+
+            var itemList = new[] {_localPlayerIndex, (int) newState};
+            photonView.RPC("_RPC_SendHackerButtonClicked", RpcTarget.AllBuffered, itemList);
+        }
+
+        public void OnItemClicked()
+        {
+            
         }
         #endregion
 
         #region Private Methods
+
         private void _FirstTimeSetup()
         {
-            _playerList = PhotonNetwork.PlayerList;
             _roomIdText.text = $"RoomID: {PhotonNetwork.CurrentRoom.Name}";
+            _securityLevelSlider.minValue = _hackerSecurityMax;
+            _securityLevelSlider.maxValue = _citizenSecurityMax;
+            _securityLevelSlider.value = _securityLevel;
         }
+
         private void _UpdateViewPanel()
         {
             // var currentIndex = (_currentState > GameState.Planning && _currentState < GameState.End ) ? 2 : (int) _currentState;
             var currentIndex = (int) _currentState;
-            Debug.Log($"panelList::{(GameState)currentIndex}");
+            Debug.Log($"panelList::{(GameState) currentIndex}");
             for (var index = 0; index < _phasePanelList.Count; index++)
             {
-                _phasePanelList[index].SetActive( index == currentIndex);
+                _phasePanelList[index].SetActive(index == currentIndex);
             }
         }
 
@@ -219,7 +251,7 @@ namespace GameModule.Class
             {
                 case GameState.WaitingForPlayers:
                     _BeginPlanningPhase();
-                break;
+                    break;
                 case GameState.Planning:
                     _BeginPreparationPhase();
                     break;
@@ -235,6 +267,7 @@ namespace GameModule.Class
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
             photonView.RPC("_RPC_SendUpdatedGameState", RpcTarget.Others, _currentState);
             _UpdateViewPanel();
         }
@@ -244,20 +277,29 @@ namespace GameModule.Class
         {
             _currentState = GameState.Planning;
             _currentPlayTime = TotalTimeList[_currentState];
+            photonView.RPC("_RPC_UpdatePlayerData", RpcTarget.AllBuffered);
         }
 
         private void _BeginPreparationPhase()
         {
             _currentState = GameState.Preparation;
             _currentPlayTime = TotalTimeList[_currentState];
-                        
+        }
+
+        private void _CreateLocalPlayerInstance()
+        {
             if (playerPrefab != null)
             {
-                // TODO: Create all players
+                var position = Vector3.zero;
+
+                Debug.LogWarning($"BEFORE::PlayerManager.LocalPlayerInstance::{PlayerManager.LocalPlayerInstance}");
                 if (PlayerManager.LocalPlayerInstance == null)
                 {
-                    _localPlayerManager = PhotonNetwork.Instantiate(playerPrefab.name, MapManager.Instance.GetSpawnPoint(),Quaternion.identity, 0).GetComponent<PlayerManager>();
+                    _localPlayerManager = PhotonNetwork.Instantiate(playerPrefab.name, position, Quaternion.identity, 0)
+                        .GetComponent<PlayerManager>();
                 }
+
+                Debug.LogWarning($"AFTER::PlayerManager.LocalPlayerInstance::{PlayerManager.LocalPlayerInstance}");
             }
         }
 
@@ -265,36 +307,38 @@ namespace GameModule.Class
         {
             _currentState = GameState.Battle;
             _currentPlayTime = TotalTimeList[_currentState];
-
         }
 
         private void _BeginEndPhase()
         {
             _currentState = GameState.End;
             _currentPlayTime = TotalTimeList[_currentState];
-            //In the DarkWeb; capturing hacker
-            if (_securityLevel >= _goodCitizenSecurityThreshold)
+            if (_securityLevel >= _citizenSecurityThreshold)
             {
-                _DisplayGoodCitizenEnding();
+                _victoryPanel.SetActive(_localPlayerManager.GetTeam() == Team.Citizen);
+                _gameOverPanel.SetActive(_localPlayerManager.GetTeam() == Team.Hacker);
+                //In the DarkWeb; capturing hacker
+                // _DisplayCitizenEnding();
             }
-            //In Hacked Computer; steals identity
+
             if (_securityLevel <= _hackerSecurityThreshold)
             {
-                _DisplayHackerEnding();
+                _victoryPanel.SetActive(_localPlayerManager.GetTeam() == Team.Hacker);
+                _gameOverPanel.SetActive(_localPlayerManager.GetTeam() == Team.Citizen);
+                // In Hacked Computer; steals identity
+                // _DisplayHackerEnding();
             }
+
+            _victoryPanel.SetActive(_localPlayerManager.GetState() == PlayerState.Invading);
+            _gameOverPanel.SetActive(_localPlayerManager.GetState() != PlayerState.Invading);
         }
 
         private void _DisplayHackerEnding()
         {
-            
         }
 
-        private void _DisplayGoodCitizenEnding()
+        private void _DisplayCitizenEnding()
         {
-            // if (_localPlayerManager.GetState() == PlayerState.Invading)
-            // {
-                
-            // }
         }
 
         private void _BeginAfterEnd()
@@ -307,8 +351,8 @@ namespace GameModule.Class
             _currentPlayTime = TotalTimeList[_currentState];
             _startButton.SetActive(PhotonNetwork.IsMasterClient);
         }
-        
-               
+
+
         private void _UpdatePlayerList()
         {
             _playerList = PhotonNetwork.PlayerList;
@@ -318,13 +362,37 @@ namespace GameModule.Class
                 if (player.IsLocal)
                 {
                     _localPlayerIndex = index;
+                    _localPlayerName = player.NickName;
                     _player0ButtonGroup.SetActive(index == 0);
                     _player1ButtonGroup.SetActive(index == 1);
                 }
+
                 _playerNameList[index].text = player.NickName;
             }
 
-            _startButton.SetActive(_playerList.Length == PhotonNetwork.CurrentRoom.MaxPlayers );
+            _CreateLocalPlayerInstance();
+
+            _startButton.SetActive(_playerList.Length == PhotonNetwork.CurrentRoom.MaxPlayers);
+        }
+
+        #endregion
+
+        #region PUNRPC Methods
+
+        [PunRPC]
+        private void _RPC_UpdatePlayerData()
+        {
+            var position = Vector3.zero;
+            if (_playersTeamStateList[_localPlayerIndex] == Team.Citizen)
+            {
+                position = MapManager.Instance.GetCitizenSpawnPoint();
+            }
+            else if (_playersTeamStateList[_localPlayerIndex] == Team.Hacker)
+            {
+                position = MapManager.Instance.GetHackerSpawnPoint();
+            }
+
+            _localPlayerManager.UpdatePlayerData(position, _playersTeamStateList[_localPlayerIndex]);
         }
 
         [PunRPC]
@@ -335,20 +403,20 @@ namespace GameModule.Class
         }
 
         [PunRPC]
-        private void _RPC_SendGoodCitizenButtonClicked(string name)
+        private void _RPC_SendCitizenButtonClicked(int[] newState)
         {
-            _goodCitizenUserId = name;
-            Debug.Log($"_RPC_SendGoodCitizenButtonClicked:: {_goodCitizenUserId}");
+            _playersTeamStateList[newState[0]] = (Team) newState[1];
+            Debug.Log(
+                $"_RPC_SendCitizenButtonClicked:: {_playerList[newState[0]]}::{_playersTeamStateList[newState[0]]}");
         }
 
         [PunRPC]
-        private void _RPC_SendHackerButtonClicked(string name)
+        private void _RPC_SendHackerButtonClicked(int[] newState)
         {
-            _hackerUserId = name;
-            Debug.Log($"_RPC_SendHackerButtonClicked:: {_hackerUserId}");
-
+            _playersTeamStateList[newState[0]] = (Team) newState[1];
+            Debug.Log(
+                $"_RPC_SendHackerButtonClicked:: {_playerList[newState[0]]}::{_playersTeamStateList[newState[0]]}");
         }
-
 
         #endregion
 
@@ -359,7 +427,5 @@ namespace GameModule.Class
         }
 
         #endregion
-
-
     }
 }

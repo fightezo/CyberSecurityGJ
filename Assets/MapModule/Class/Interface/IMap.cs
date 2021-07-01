@@ -5,7 +5,8 @@ namespace MapModule.Class.Interface
     public interface IMap
     {
         string GetResourcesName();
-        Vector3 GetSpawnPointWorldPosition();
+        Vector3 GetCitizenSpawnPointWorldPosition();
+        Vector3 GetHackerSpawnPointWorldPosition();
         GameObject[] GetItemSpawnList();
         GameObject[] GetSlotList();
     }
