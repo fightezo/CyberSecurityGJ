@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MapModule.Class.Interface;
 using UnityEngine;
 
@@ -11,6 +12,9 @@ namespace MapModule.Class
         public List<GameObject> MapList;
         private IMap _currentMap;
         private GameObject _currentMapGameObject;
+        private Vector3 _translationToHackerMap;
+        private Vector3 _translationToCitizenMap;
+
         private void Awake()
         {
             Instance = this;
@@ -20,14 +24,20 @@ namespace MapModule.Class
         {
             _currentMapGameObject = Instantiate((GameObject) Resources.Load(MapList[0].GetComponent<IMap>().GetResourcesName()), Vector3.zero, Quaternion.identity);
             _currentMap = _currentMapGameObject.GetComponent<IMap>();
-       }
 
-        // Update is called once per frame
-        void Update()
-        {
-
+            _translationToCitizenMap = GetCitizenMap().transform.position - GetHackerMap().transform.position;
+            _translationToHackerMap = GetHackerMap().transform.position - GetCitizenMap().transform.position;
         }
 
+        public GameObject GetCitizenMap()
+        {
+            return _currentMap.GetCitizenMap();
+        }
+
+        public GameObject GetHackerMap()
+        {
+            return _currentMap.GetHackerMap();
+        }
          public Vector3 GetCitizenSpawnPoint()
          {
              return _currentMap.GetCitizenSpawnPointWorldPosition();
@@ -36,5 +46,35 @@ namespace MapModule.Class
         {
             return _currentMap.GetHackerSpawnPointWorldPosition();
         }
+
+         public Vector3 GetTranslateToCitizenMap()
+         {
+             return _translationToCitizenMap;
+         }
+
+         public Vector3 GetTranslationToHackerMap()
+         {
+             return _translationToHackerMap;
+         }
+
+         public List<GameObject> GetCitizenItemSpawnPoints()
+         {
+             return _currentMap.GetCitizenItemSpawnList().ToList();
+         }
+         
+         public List<GameObject> GetCitizenSlotPoints()
+         {
+             return _currentMap.GetCitizenSlotList().ToList();
+         }
+         
+         public List<GameObject> GetHackerItemSpawnPoints()
+         {
+             return _currentMap.GetHackerItemSpawnList().ToList();
+         }
+         public List<GameObject> GetHackerSlotPoints()
+         {
+             return _currentMap.GetHackerSlotList().ToList();
+         }
+         
     }
 }

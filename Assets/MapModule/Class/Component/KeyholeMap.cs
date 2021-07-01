@@ -8,9 +8,15 @@ namespace MapModule
     public class KeyholeMap : MonoBehaviour, IMap
     {
         [SerializeField] private GameObject _citizenSpawnPoint;
+        [SerializeField] private GameObject[] _citizenItemSpawnList;
+        [SerializeField] private GameObject[] _citizenSlotList;
+        [SerializeField] private GameObject _citizenMap;
+        
         [SerializeField] private GameObject _hackerSpawnPoint;
-        [SerializeField] private GameObject[] _itemSpawnList;
-        [SerializeField] private GameObject[] _slotPositionList;
+        [SerializeField] private GameObject[] _hackerItemSpawnList;
+        [SerializeField] private GameObject[] _hackerSlotList; 
+        [SerializeField] private GameObject _hackerMap;
+
         public string GetResourcesName()
         {
             return gameObject.name;
@@ -26,15 +32,35 @@ namespace MapModule
             return _hackerSpawnPoint.transform.position;
         }
 
-        public GameObject[] GetItemSpawnList()
+        public GameObject[] GetHackerItemSpawnList()
         {
-            return _itemSpawnList;
+            throw new System.NotImplementedException();
         }
 
-        public GameObject[] GetSlotList()
+        public GameObject[] GetHackerSlotList()
         {
-            return _slotPositionList;
+            throw new System.NotImplementedException();
         }
 
+        public GameObject[] GetCitizenItemSpawnList()
+        {
+            return _citizenItemSpawnList;
+        }
+
+        public GameObject[] GetCitizenSlotList()
+        {
+            return _citizenSlotList;
+        }
+
+        public GameObject GetCitizenMap()
+        {
+            return _citizenMap;
+        }
+        
+
+        public GameObject GetHackerMap()
+        {
+            return _hackerMap;
+        }
     }
 }

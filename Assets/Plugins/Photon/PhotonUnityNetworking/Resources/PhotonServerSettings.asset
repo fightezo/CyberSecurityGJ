@@ -47,6 +47,7 @@ MonoBehaviour:
   - _RPC_SendUpdatedGameState
   - _RPC_SendCitizenButtonClicked
   - _RPC_UpdatePlayerData
+  - _RPC_SetTeam
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

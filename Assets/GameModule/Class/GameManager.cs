@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GameModule.Class.Component;
+using GameModule.Class.Interface;
 using ItemModule.Class.Data;
 using MapModule.Class;
 using Photon.Pun;
-using Photon.Pun.UtilityScripts;
 using Photon.Realtime;
 using PlayerModule.Class;
 using PlayerModule.Class.Data;
@@ -23,17 +24,30 @@ namespace GameModule.Class
         [Tooltip("The prefab to use for representing the player")]
         public GameObject playerPrefab;
 
+        [SerializeField] private WaitingPanel WaitingPanel;
+        [SerializeField] private PlanningPanel PlanningPanel;
+        [SerializeField] private GameplayPanel GameplayPanel;
+        [SerializeField] private EndPanel EndPanel;
+        
         [SerializeField] private List<GameObject> _phasePanelList;
+        [SerializeField] private Text _roomIdText;
+
+        // waiting phase
         [SerializeField] private List<Text> _playerNameList;
         [SerializeField] private GameObject _player0ButtonGroup;
         [SerializeField] private GameObject _player1ButtonGroup;
-
         [SerializeField] private GameObject _startButton;
 
-        [SerializeField] private Text _roomIdText;
+        // planning phase
+        [SerializeField] private int _citizenPoints = 10;
+        [SerializeField] private int _hackerPoints = 10;
+        
+        // preparation & gameplay phase
         [SerializeField] private Text _countDownText;
         [SerializeField] private Slider _securityLevelSlider;
+        [SerializeField] private int _securityLevel = 10;
 
+        // end phase
         [SerializeField] private GameObject _victoryPanel;
         [SerializeField] private GameObject _gameOverPanel;
 
@@ -55,14 +69,13 @@ namespace GameModule.Class
             {GameState.WaitingForPlayers, 60f},
             {GameState.Planning, 10f},
             {GameState.Preparation, 30f},
-            {GameState.Battle, 300f},
+            {GameState.Battle, 600f},
             {GameState.End, 120f},
         };
 
         private float _currentPlayTime = 0f;
         private GameState _currentState = GameState.WaitingForPlayers;
 
-        [SerializeField] private int _securityLevel = 0;
         private int _citizenSecurityThreshold = 5;
         private int _citizenSecurityMax = 10;
         private int _hackerSecurityThreshold = 0;
@@ -100,7 +113,7 @@ namespace GameModule.Class
 
             if (_currentPlayTime <= 0f)
             {
-                _UpdateNextGameState();
+                UpdateNextGameState();
             }
         }
 
@@ -145,7 +158,7 @@ namespace GameModule.Class
             // _localPlayerManager = self;
             if (_currentState == GameState.Battle)
             {
-                _UpdateNextGameState();
+                UpdateNextGameState();
             }
             else
             {
@@ -160,17 +173,30 @@ namespace GameModule.Class
                 PhotonNetwork.LeaveRoom();
             }
         }
-        
+
+        public void UpdateSecurityLevel(float newLevel)
+        {
+            _securityLevelSlider.value = newLevel;
+        }
+
+        public bool IsReadyToTeleport(Team _team)
+        {
+            if (_team == Team.Citizen && _securityLevel >= _citizenSecurityThreshold)
+            {
+                return true;
+            }
+
+            if (_team == Team.Hacker && _securityLevel <= _hackerSecurityThreshold)
+            {
+                return true;
+            }
+            return false;
+        }
         #endregion
 
         #region Public Button Methods
 
-        public void OnStartGameButtonClicked()
-        {
-            if (!PhotonNetwork.IsMasterClient) return;
-            if (_playersTeamStateList.Contains(Team.None)) return;
-            _UpdateNextGameState();
-        }
+
 
         public void OnCitizenButtonClicked()
         {
@@ -231,6 +257,7 @@ namespace GameModule.Class
             _securityLevelSlider.minValue = _hackerSecurityMax;
             _securityLevelSlider.maxValue = _citizenSecurityMax;
             _securityLevelSlider.value = _securityLevel;
+            // _securityLevelSlider.onValueChanged.AddListener(UpdateSecurityLevel);
         }
 
         private void _UpdateViewPanel()
@@ -245,7 +272,7 @@ namespace GameModule.Class
         }
 
 
-        private void _UpdateNextGameState()
+        protected internal void UpdateNextGameState()
         {
             switch (_currentState)
             {
@@ -313,33 +340,28 @@ namespace GameModule.Class
         {
             _currentState = GameState.End;
             _currentPlayTime = TotalTimeList[_currentState];
-            if (_securityLevel >= _citizenSecurityThreshold)
-            {
-                _victoryPanel.SetActive(_localPlayerManager.GetTeam() == Team.Citizen);
-                _gameOverPanel.SetActive(_localPlayerManager.GetTeam() == Team.Hacker);
-                //In the DarkWeb; capturing hacker
-                // _DisplayCitizenEnding();
-            }
-
-            if (_securityLevel <= _hackerSecurityThreshold)
-            {
-                _victoryPanel.SetActive(_localPlayerManager.GetTeam() == Team.Hacker);
-                _gameOverPanel.SetActive(_localPlayerManager.GetTeam() == Team.Citizen);
-                // In Hacked Computer; steals identity
-                // _DisplayHackerEnding();
-            }
-
-            _victoryPanel.SetActive(_localPlayerManager.GetState() == PlayerState.Invading);
-            _gameOverPanel.SetActive(_localPlayerManager.GetState() != PlayerState.Invading);
+            EndPanel.UpdateView(_securityLevel, _citizenSecurityThreshold, _hackerSecurityThreshold,
+                _localPlayerManager);
+            // if (_securityLevel >= _citizenSecurityThreshold)
+            // {
+            //     _victoryPanel.SetActive(_localPlayerManager.GetTeam() == Team.Citizen);
+            //     _gameOverPanel.SetActive(_localPlayerManager.GetTeam() == Team.Hacker);
+            //     //In the DarkWeb; capturing hacker
+            //     // _DisplayCitizenEnding();
+            // }
+            //
+            // if (_securityLevel <= _hackerSecurityThreshold)
+            // {
+            //     _victoryPanel.SetActive(_localPlayerManager.GetTeam() == Team.Hacker);
+            //     _gameOverPanel.SetActive(_localPlayerManager.GetTeam() == Team.Citizen);
+            //     // In Hacked Computer; steals identity
+            //     // _DisplayHackerEnding();
+            // }
+            //
+            // _victoryPanel.SetActive(_localPlayerManager.GetState() == PlayerState.Invading);
+            // _gameOverPanel.SetActive(_localPlayerManager.GetState() != PlayerState.Invading);
         }
 
-        private void _DisplayHackerEnding()
-        {
-        }
-
-        private void _DisplayCitizenEnding()
-        {
-        }
 
         private void _BeginAfterEnd()
         {
@@ -349,7 +371,7 @@ namespace GameModule.Class
         {
             _currentState = GameState.WaitingForPlayers;
             _currentPlayTime = TotalTimeList[_currentState];
-            _startButton.SetActive(PhotonNetwork.IsMasterClient);
+            WaitingPanel.StartButton.SetActive(PhotonNetwork.IsMasterClient);
         }
 
 
@@ -363,16 +385,16 @@ namespace GameModule.Class
                 {
                     _localPlayerIndex = index;
                     _localPlayerName = player.NickName;
-                    _player0ButtonGroup.SetActive(index == 0);
-                    _player1ButtonGroup.SetActive(index == 1);
+                    WaitingPanel.Player0ButtonGroup.SetActive(index == 0);
+                    WaitingPanel.Player1ButtonGroup.SetActive(index == 1);
                 }
 
-                _playerNameList[index].text = player.NickName;
+                WaitingPanel.PlayerNameList[index].text = player.NickName;
             }
 
             _CreateLocalPlayerInstance();
 
-            _startButton.SetActive(_playerList.Length == PhotonNetwork.CurrentRoom.MaxPlayers);
+            WaitingPanel.StartButton.SetActive(_playerList.Length == PhotonNetwork.CurrentRoom.MaxPlayers);
         }
 
         #endregion
@@ -383,6 +405,7 @@ namespace GameModule.Class
         private void _RPC_UpdatePlayerData()
         {
             var position = Vector3.zero;
+
             if (_playersTeamStateList[_localPlayerIndex] == Team.Citizen)
             {
                 position = MapManager.Instance.GetCitizenSpawnPoint();
@@ -427,5 +450,18 @@ namespace GameModule.Class
         }
 
         #endregion
+
+        internal List<Team> GetPlayersTeamStateList()
+        {
+            return _playersTeamStateList;
+        }
+        internal Player[] GetPlayersList()
+        {
+            return _playerList;
+        }
+        internal int GetLocalPlayerIndex()
+        {
+            return _localPlayerIndex;
+        }
     }
 }

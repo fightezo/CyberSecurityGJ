@@ -648,7 +648,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9a0215de13cd8724f9d5912c7ed44813, type: 2}
+  - {fileID: 2100000, guid: 2d61356072265e649aba11baf03ad5da, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -952,18 +952,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _citizenSpawnPoint: {fileID: 3285071433374038290}
-  _hackerSpawnPoint: {fileID: 788142747096638353}
-  _itemSpawnList:
+  _citizenItemSpawnList:
   - {fileID: 310613316650810984}
   - {fileID: 8251939429756518006}
   - {fileID: 2160873765382726778}
-  _slotPositionList:
+  _citizenSlotList:
   - {fileID: 4786130670083149123}
   - {fileID: 7910830983329935538}
   - {fileID: 6464582387317848458}
   - {fileID: 2597459683748832560}
   - {fileID: 4659559857220742848}
   - {fileID: 3713580570534250629}
+  _citizenMap: {fileID: 5485509149224407104}
+  _hackerSpawnPoint: {fileID: 788142747096638353}
+  _hackerItemSpawnList:
+  - {fileID: 5510318512239484023}
+  - {fileID: 2305326284768486694}
+  - {fileID: 2106843105463681584}
+  _hackerSlotList:
+  - {fileID: 2834943266341785901}
+  - {fileID: 7103520164271987186}
+  - {fileID: 25836919130119546}
+  - {fileID: 4453629280706547314}
+  - {fileID: 742682888027536451}
+  - {fileID: 8621668185719598426}
+  _hackerMap: {fileID: 1380369433069878055}
 --- !u!1 &8621668185719598426
 GameObject:
   m_ObjectHideFlags: 0

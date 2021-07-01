@@ -24,25 +24,25 @@ namespace PlayerModule.Class
         // Update is called once per frame
         private void Update()
         {
-            if (GameManager.Instance.GetGameState() != GameManager.GameState.Preparation||
-                GameManager.Instance.GetGameState() != GameManager.GameState.Battle ) return;
-            if( photonView.IsMine )
-            {
-                var horizontalInputVal = Input.GetAxis("Horizontal") * _speedModifier;
-                if (horizontalInputVal > 0)
+            if (GameManager.Instance.GetGameState() != GameManager.GameState.Preparation &&
+                GameManager.Instance.GetGameState() != GameManager.GameState.Battle) return;
+                if (photonView.IsMine)
                 {
-                    _direction = -1;
-                }
-                else if (horizontalInputVal < 0)
-                {
-                    _direction = 1;
+                    var horizontalInputVal = Input.GetAxis("Horizontal") * _speedModifier;
+                    if (horizontalInputVal > 0)
+                    {
+                        _direction = -1;
+                    }
+                    else if (horizontalInputVal < 0)
+                    {
+                        _direction = 1;
+                    }
+
+                    var verticalInputVal = Input.GetAxis("Vertical") * _speedModifier;
+                    transform.localPosition += new Vector3(horizontalInputVal, 0f, verticalInputVal);
                 }
 
-                var verticalInputVal = Input.GetAxis("Vertical") * _speedModifier;
-                transform.localPosition += new Vector3(horizontalInputVal, 0f, verticalInputVal);
-            }
-            transform.localScale = new Vector3(_direction, 1f, 1f);
-
+                transform.localScale = new Vector3(_direction, 1f, 1f);
         }
 
         #endregion

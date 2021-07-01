@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using GameModule.Class;
 using ItemModule.Class.Data;
 using ItemModule.Class.Interface;
+using MapModule.Class;
 using Photon.Pun.UtilityScripts;
 using Photon.Realtime;
 using PlayerModule.Class.Data;
@@ -21,11 +22,10 @@ namespace PlayerModule.Class
 
         [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
         public static GameObject LocalPlayerInstance;
-        
-        [Tooltip("The Player's UI GameObject Prefab")][SerializeField]
-        public GameObject PlayerUiPrefab;
+        [SerializeField] public GameObject PlayerUiPrefab;
 
         public Renderer Renderer;
+        public GameObject RobotGameObject;
         public GameObject CitizenGameObject;
         public GameObject HackerGameObject;
         #endregion
@@ -71,18 +71,15 @@ namespace PlayerModule.Class
             }
 
             _spawnPosition = spawnPosition;
-            if (photonView.IsMine 
-                //&& !isLocalTesting
-                )
+            if (photonView.IsMine)
             {
                 _team = team;
+                photonView.RPC("_RPC_SetTeam", RpcTarget.Others, (int)_team);
                 _UpdateTeamView();
                 gameObject.transform.position = _spawnPosition;
             }
 
-            if (PlayerUiPrefab != null 
-                //&& !isLocalTesting
-                )
+            if (PlayerUiPrefab != null)
             {
                 _CreatePlayerUi();
             }
@@ -92,7 +89,6 @@ namespace PlayerModule.Class
         {
             CitizenGameObject.SetActive(_team == Team.Citizen);
             HackerGameObject.SetActive(_team == Team.Hacker);
-            
         }
 
 
@@ -204,8 +200,44 @@ namespace PlayerModule.Class
 
         private void _ProcessInputs()
         {
+            if (Input.GetKeyDown(KeyCode.Space) && GameManager.Instance.IsReadyToTeleport(_team))
+            {
+                _Teleport();
+            }
             if (Input.GetKeyDown(KeyCode.E) && _withinItemRange)
             {
+                
+            }
+        }
+
+        private void _Teleport()
+        {
+            if (photonView.IsMine)
+            {
+                if (_currentState == PlayerState.Invading)
+                {
+                    _currentState = PlayerState.Normal;
+                    if (_team == Team.Citizen)
+                    {
+                        transform.localPosition -= MapManager.Instance.GetTranslationToHackerMap();
+                    }
+                    if (_team == Team.Hacker)
+                    {
+                        transform.localPosition -= MapManager.Instance.GetTranslateToCitizenMap();
+                    }  
+                }
+                else
+                {
+                    _currentState = PlayerState.Invading;
+                    if (_team == Team.Citizen)
+                    {
+                        transform.localPosition += MapManager.Instance.GetTranslationToHackerMap();
+                    }
+                    if (_team == Team.Hacker)
+                    {
+                        transform.localPosition += MapManager.Instance.GetTranslateToCitizenMap();
+                    } 
+                }
             }
         }
 
@@ -228,7 +260,13 @@ namespace PlayerModule.Class
         {
             photonView.RPC("_RPC_SendItemList", RpcTarget.Others, _itemList);
         }
-        
+
+        [PunRPC]
+        private void _RPC_SetTeam(int team)
+        {
+            _team = (Team)team;
+            _UpdateTeamView();
+        }
         [PunRPC]
         private void _RPC_SendItemList(List<int> itemList)
         {
