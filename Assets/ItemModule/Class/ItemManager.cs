@@ -11,14 +11,16 @@ namespace ItemModule
     public class ItemManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         public static ItemManager Instance;
-        private List<CitizenItem> _citizenItemPlacementList = new List<CitizenItem>();
-        private List<CitizenItem> _citizenItemActionList = new List<CitizenItem>();
+        public List<DefenderItem> AvailableDefenderItems = new List<DefenderItem>();
+        private List<DefenderItem> _defenderItemPlacementList = new List<DefenderItem>();
+        private List<DefenderItem> _defenderItemActionList = new List<DefenderItem>();
 
+        public List<HackerItem> AvailableHackerItems = new List<HackerItem>();
         private List<HackerItem> _hackerItemPlacementList = new List<HackerItem>();
         private List<HackerItem> _hackerItemActionList = new List<HackerItem>();
 
         private float _currentTimeToCreateItem = 0f;
-        private float _TimeToCreateItem = 30f;
+        private float _timeToCreateItem = 30f;
         public void Awake()
         {
             Instance = this;
@@ -27,6 +29,15 @@ namespace ItemModule
         public void Update()
         {
             //set item timers
+            if (_currentTimeToCreateItem >= _timeToCreateItem)
+            {
+                _currentTimeToCreateItem = 0;
+                //CreateRandomly
+            }
+            else
+            {
+                _currentTimeToCreateItem += Time.deltaTime;
+            }
         }
 
         public void UpdateSecuritySlider()
@@ -34,6 +45,8 @@ namespace ItemModule
             var _newLevel = 0;
             GameManager.Instance.UpdateSecurityLevel(_newLevel);
         }
+        
+        
         #region IPunObservable Implementation
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

@@ -43,3 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c231a0301fa3b6c47bf38766916631e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AvailableDefenderItems:
+  - {fileID: 2401433745077456521, guid: 9ff972e1352146d48b9681c5d64a3f35, type: 3}
+  AvailableHackerItems:
+  - {fileID: 6526275301850413781, guid: de07efbd163eb0a40bc429b497f96a6b, type: 3}

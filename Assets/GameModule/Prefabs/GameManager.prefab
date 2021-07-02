@@ -204,7 +204,7 @@ GameObject:
   - component: {fileID: 593689499}
   - component: {fileID: 593689498}
   m_Layer: 5
-  m_Name: ChooseCitizenButton
+  m_Name: ChooseDefenderButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -313,7 +313,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8710326128996239372}
         m_TargetAssemblyTypeName: GameModule.Class.Component.WaitingPanel, Assembly-CSharp
-        m_MethodName: OnCitizenButtonClicked
+        m_MethodName: OnDefenderButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1819,7 +1819,7 @@ GameObject:
   - component: {fileID: 422717408281189808}
   - component: {fileID: 131895442322204902}
   m_Layer: 5
-  m_Name: ChooseCitizenButton
+  m_Name: ChooseDefenderButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1928,7 +1928,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8710326128996239372}
         m_TargetAssemblyTypeName: GameModule.Class.Component.WaitingPanel, Assembly-CSharp
-        m_MethodName: OnCitizenButtonClicked
+        m_MethodName: OnDefenderButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3379,7 +3379,7 @@ MonoBehaviour:
   _player0ButtonGroup: {fileID: 7410818518988747260}
   _player1ButtonGroup: {fileID: 7433479403318518058}
   _startButton: {fileID: 19806877}
-  _citizenPoints: 10
+  _defenderPoints: 10
   _hackerPoints: 10
   _countDownText: {fileID: 1214055782753902030}
   _securityLevelSlider: {fileID: 7624389402057157268}

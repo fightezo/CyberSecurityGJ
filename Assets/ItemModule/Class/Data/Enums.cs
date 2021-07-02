@@ -41,7 +41,7 @@ namespace ItemModule.Class.Data
     public enum ItemOwner
     {
         None = 0,
-        Citizen = 1,
+        Defender = 1,
         Hacker = 2,
     }
 }

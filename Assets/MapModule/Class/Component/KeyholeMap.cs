@@ -2,30 +2,52 @@ using System.Collections;
 using System.Collections.Generic;
 using MapModule.Class.Interface;
 using UnityEngine;
+
 namespace MapModule
 {
     // Sleutelgat :: Keyhole in Dutch
     public class KeyholeMap : MonoBehaviour, IMap
     {
-        [SerializeField] private GameObject _citizenSpawnPoint;
-        [SerializeField] private GameObject[] _citizenItemSpawnList;
-        [SerializeField] private GameObject[] _citizenSlotList;
-        [SerializeField] private GameObject _citizenMap;
-        
+        [SerializeField] private GameObject _defenderSpawnPoint;
+        [SerializeField] private GameObject _defenderMap;
+        [SerializeField] private GameObject[] _defenderItemSpawnList;
+        [SerializeField] private GameObject[] _defenderSlotList;
+
         [SerializeField] private GameObject _hackerSpawnPoint;
-        [SerializeField] private GameObject[] _hackerItemSpawnList;
-        [SerializeField] private GameObject[] _hackerSlotList; 
         [SerializeField] private GameObject _hackerMap;
+        [SerializeField] private GameObject[] _hackerItemSpawnList;
+        [SerializeField] private GameObject[] _hackerSlotList;
 
         public string GetResourcesName()
         {
             return gameObject.name;
         }
 
-        public Vector3 GetCitizenSpawnPointWorldPosition()
+        #region Defender Methods
+
+        public Vector3 GetDefenderSpawnPointWorldPosition()
         {
-            return _citizenSpawnPoint.transform.position;
+            return _defenderSpawnPoint.transform.position;
         }
+
+        public GameObject[] GetDefenderItemSpawnList()
+        {
+            return _defenderItemSpawnList;
+        }
+
+        public GameObject[] GetDefenderSlotList()
+        {
+            return _defenderSlotList;
+        }
+
+        public GameObject GetDefenderMap()
+        {
+            return _defenderMap;
+        }
+
+        #endregion
+
+        #region Hacker Methods
 
         public Vector3 GetHackerSpawnPointWorldPosition()
         {
@@ -34,33 +56,19 @@ namespace MapModule
 
         public GameObject[] GetHackerItemSpawnList()
         {
-            throw new System.NotImplementedException();
+            return _hackerItemSpawnList;
         }
 
         public GameObject[] GetHackerSlotList()
         {
-            throw new System.NotImplementedException();
+            return _hackerSlotList;
         }
-
-        public GameObject[] GetCitizenItemSpawnList()
-        {
-            return _citizenItemSpawnList;
-        }
-
-        public GameObject[] GetCitizenSlotList()
-        {
-            return _citizenSlotList;
-        }
-
-        public GameObject GetCitizenMap()
-        {
-            return _citizenMap;
-        }
-        
 
         public GameObject GetHackerMap()
         {
             return _hackerMap;
         }
+
+        #endregion
     }
 }

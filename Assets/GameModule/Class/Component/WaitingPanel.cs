@@ -24,10 +24,10 @@ namespace GameModule.Class.Component
             GameManager.Instance.UpdateNextGameState();
         }
         
-        public void OnCitizenButtonClicked()
+        public void OnDefenderButtonClicked()
         {
-            if (GameManager.Instance.GetPlayersTeamStateList().Contains(Team.Citizen) &&
-                GameManager.Instance.GetPlayersTeamStateList().FindIndex(x => x == Team.Citizen) != GameManager.Instance.GetLocalPlayerIndex())
+            if (GameManager.Instance.GetPlayersTeamStateList().Contains(Team.Defender) &&
+                GameManager.Instance.GetPlayersTeamStateList().FindIndex(x => x == Team.Defender) != GameManager.Instance.GetLocalPlayerIndex())
                 return;
             
             var newState = GameManager.Instance.GetPlayersTeamStateList()[GameManager.Instance.GetLocalPlayerIndex()];
@@ -35,15 +35,15 @@ namespace GameModule.Class.Component
             {
                 case Team.None:
                 case Team.Hacker:
-                    newState = Team.Citizen;
+                    newState = Team.Defender;
                     break;
-                case Team.Citizen:
+                case Team.Defender:
                     newState = Team.None;
                     break;
             }
 
             var itemList = new[] {GameManager.Instance.GetLocalPlayerIndex(), (int) newState};
-            GameManager.Instance.photonView.RPC("_RPC_SendCitizenButtonClicked", RpcTarget.AllBuffered, itemList);
+            GameManager.Instance.photonView.RPC("_RPC_SendDefenderButtonClicked", RpcTarget.AllBuffered, itemList);
         }
 
         public void OnHackerButtonClicked()
@@ -56,7 +56,7 @@ namespace GameModule.Class.Component
             switch (newState)
             {
                 case Team.None:
-                case Team.Citizen:
+                case Team.Defender:
                     newState = Team.Hacker;
                     break;
                 case Team.Hacker:
@@ -67,25 +67,7 @@ namespace GameModule.Class.Component
             var itemList = new[] {GameManager.Instance.GetLocalPlayerIndex(), (int) newState};
             GameManager.Instance.photonView.RPC("_RPC_SendHackerButtonClicked", RpcTarget.AllBuffered, itemList);
         }
- 
-        //
-        // [PunRPC]
-        // private void _RPC_SendCitizenButtonClicked(int[] newState)
-        // {
-        //     GameManager.Instance.GetPlayersTeamStateList()[newState[0]] = (Team) newState[1];
-        //     Debug.Log(
-        //         $"_RPC_SendCitizenButtonClicked:: {GameManager.Instance.GetPlayersList()[newState[0]]}::{GameManager.Instance.GetPlayersTeamStateList()[newState[0]]}");
-        // }
-        //
-        // [PunRPC]
-        // private void _RPC_SendHackerButtonClicked(int[] newState)
-        // {
-        //     GameManager.Instance.GetPlayersTeamStateList()[newState[0]] = (Team) newState[1];
-        //     Debug.Log(
-        //         $"_RPC_SendHackerButtonClicked:: {GameManager.Instance.GetPlayersList()[newState[0]]}::{GameManager.Instance.GetPlayersTeamStateList()[newState[0]]}");
-        // }
-        //
-        //
+
         public GameObject GetSelf()
         {
             return gameObject;

@@ -6,11 +6,11 @@ namespace ItemModule.Class.Interface
     {
         public void Create();
         public ItemType GetItemType();
-        
         public ItemState GetItemState();
-        public void SetState(ItemState newState);
-        
+        public void SetItemState(ItemState newState);
         public ItemCategory GetItemCategory();
         public ItemOwner GetItemOwner();
+
+        public int GetCost();
     }
 }

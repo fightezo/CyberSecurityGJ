@@ -31,16 +31,16 @@ namespace MapModule.Class
 
         public GameObject GetCitizenMap()
         {
-            return _currentMap.GetCitizenMap();
+            return _currentMap.GetDefenderMap();
         }
 
         public GameObject GetHackerMap()
         {
             return _currentMap.GetHackerMap();
         }
-         public Vector3 GetCitizenSpawnPoint()
+         public Vector3 GetDefenderSpawnPoint()
          {
-             return _currentMap.GetCitizenSpawnPointWorldPosition();
+             return _currentMap.GetDefenderSpawnPointWorldPosition();
          }
          public Vector3 GetHackerSpawnPoint()
         {
@@ -59,12 +59,12 @@ namespace MapModule.Class
 
          public List<GameObject> GetCitizenItemSpawnPoints()
          {
-             return _currentMap.GetCitizenItemSpawnList().ToList();
+             return _currentMap.GetDefenderItemSpawnList().ToList();
          }
          
          public List<GameObject> GetCitizenSlotPoints()
          {
-             return _currentMap.GetCitizenSlotList().ToList();
+             return _currentMap.GetDefenderSlotList().ToList();
          }
          
          public List<GameObject> GetHackerItemSpawnPoints()

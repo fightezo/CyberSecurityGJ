@@ -87,7 +87,7 @@ namespace PlayerModule.Class
 
         private void _UpdateTeamView()
         {
-            CitizenGameObject.SetActive(_team == Team.Citizen);
+            CitizenGameObject.SetActive(_team == Team.Defender);
             HackerGameObject.SetActive(_team == Team.Hacker);
         }
 
@@ -217,7 +217,7 @@ namespace PlayerModule.Class
                 if (_currentState == PlayerState.Invading)
                 {
                     _currentState = PlayerState.Normal;
-                    if (_team == Team.Citizen)
+                    if (_team == Team.Defender)
                     {
                         transform.localPosition -= MapManager.Instance.GetTranslationToHackerMap();
                     }
@@ -229,7 +229,7 @@ namespace PlayerModule.Class
                 else
                 {
                     _currentState = PlayerState.Invading;
-                    if (_team == Team.Citizen)
+                    if (_team == Team.Defender)
                     {
                         transform.localPosition += MapManager.Instance.GetTranslationToHackerMap();
                     }

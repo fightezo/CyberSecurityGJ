@@ -4,11 +4,11 @@ using Photon.Pun;
 
 namespace ItemModule.Class
 {
-    public abstract class HackerItem : Item
+    public abstract class DefenderItem : Item
     {
         public override ItemOwner GetItemOwner()
         {
-            return ItemOwner.Hacker;
+            return ItemOwner.Defender;
         }
     }
 }

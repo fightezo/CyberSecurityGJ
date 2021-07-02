@@ -6,10 +6,10 @@ namespace MapModule.Class.Interface
     {
         // Citizen
         string GetResourcesName();
-        Vector3 GetCitizenSpawnPointWorldPosition();
-        GameObject[] GetCitizenItemSpawnList();
-        GameObject[] GetCitizenSlotList();
-        GameObject GetCitizenMap();
+        Vector3 GetDefenderSpawnPointWorldPosition();
+        GameObject[] GetDefenderItemSpawnList();
+        GameObject[] GetDefenderSlotList();
+        GameObject GetDefenderMap();
 
         //Hacker        
         Vector3 GetHackerSpawnPointWorldPosition();

@@ -1,12 +1,23 @@
 using ItemModule.Class;
 using ItemModule.Class.Data;
 
-public abstract class Chest : CitizenItem
+public abstract class Chest : DefenderItem
 {
     private string _password;
-    private ItemState _currentState;
-    
+    private string _restrictedCharacters;
 
+    public string GetRestrictedCharacters()
+    {
+        return _restrictedCharacters;
+    }
+
+    public void SetRestrictedCharacters(string restrictedCharacters)
+    {
+        //^[0-9]+$ digits only
+        //^[a-zA-Z][a-zA-Z0-9]*$ alpha numeric
+        
+        _restrictedCharacters = restrictedCharacters;
+    }
     public string GetPassword()
     {
         return _password;
@@ -16,12 +27,7 @@ public abstract class Chest : CitizenItem
         _password = password;
     }
     
-    public override ItemState GetItemState()
-    {
-        return _currentState;
-    }
-
-    public override void SetState(ItemState newState)
+    public override void SetItemState(ItemState newState)
     {
         _currentState = newState;
     }

@@ -1,15 +1,22 @@
 using ItemModule.Class.Data;
-using Photon.Pun;
-using UnityEngine;
 
 namespace ItemModule.Class.Component
 {
     public class NormalChest : Chest
     {
+        public override void Create()
+        {
+           SetRestrictedCharacters("");
+           SetItemState(ItemState.World);
+        }
         public override ItemType GetItemType()
         {
             return ItemType.NormalChest;
         }
 
+        public override int GetCost()
+        {
+            return 1;
+        }
     }
 }

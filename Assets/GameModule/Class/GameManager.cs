@@ -39,7 +39,7 @@ namespace GameModule.Class
         [SerializeField] private GameObject _startButton;
 
         // planning phase
-        [SerializeField] private int _citizenPoints = 10;
+        [SerializeField] private int _defenderPoints = 10;
         [SerializeField] private int _hackerPoints = 10;
         
         // preparation & gameplay phase
@@ -76,8 +76,8 @@ namespace GameModule.Class
         private float _currentPlayTime = 0f;
         private GameState _currentState = GameState.WaitingForPlayers;
 
-        private int _citizenSecurityThreshold = 5;
-        private int _citizenSecurityMax = 10;
+        private int _defenderSecurityThreshold = 5;
+        private int _defenderSecurityMax = 10;
         private int _hackerSecurityThreshold = 0;
         private int _hackerSecurityMax = -10;
 
@@ -181,7 +181,7 @@ namespace GameModule.Class
 
         public bool IsReadyToTeleport(Team _team)
         {
-            if (_team == Team.Citizen && _securityLevel >= _citizenSecurityThreshold)
+            if (_team == Team.Defender && _securityLevel >= _defenderSecurityThreshold)
             {
                 return true;
             }
@@ -196,53 +196,6 @@ namespace GameModule.Class
 
         #region Public Button Methods
 
-
-
-        public void OnCitizenButtonClicked()
-        {
-            if (_playersTeamStateList.Contains(Team.Citizen) &&
-                _playersTeamStateList.FindIndex(x => x == Team.Citizen) != _localPlayerIndex)
-                return;
-
-            var newState = _playersTeamStateList[_localPlayerIndex];
-            switch (newState)
-            {
-                case Team.None:
-                case Team.Hacker:
-                    newState = Team.Citizen;
-                    break;
-                case Team.Citizen:
-                    newState = Team.None;
-                    break;
-            }
-
-            var itemList = new[] {_localPlayerIndex, (int) newState};
-            Debug.Log($"BEFORE::_RPC_SendCitizenButtonClicked:: {_playerList[itemList[0]]}::{newState}");
-            photonView.RPC("_RPC_SendCitizenButtonClicked", RpcTarget.AllBuffered, itemList);
-        }
-
-        public void OnHackerButtonClicked()
-        {
-            if (_playersTeamStateList.Contains(Team.Hacker) &&
-                _playersTeamStateList.FindIndex(x => x == Team.Hacker) != _localPlayerIndex)
-                return;
-
-            var newState = _playersTeamStateList[_localPlayerIndex];
-            switch (newState)
-            {
-                case Team.None:
-                case Team.Citizen:
-                    newState = Team.Hacker;
-                    break;
-                case Team.Hacker:
-                    newState = Team.None;
-                    break;
-            }
-
-            var itemList = new[] {_localPlayerIndex, (int) newState};
-            photonView.RPC("_RPC_SendHackerButtonClicked", RpcTarget.AllBuffered, itemList);
-        }
-
         public void OnItemClicked()
         {
             
@@ -255,7 +208,7 @@ namespace GameModule.Class
         {
             _roomIdText.text = $"RoomID: {PhotonNetwork.CurrentRoom.Name}";
             _securityLevelSlider.minValue = _hackerSecurityMax;
-            _securityLevelSlider.maxValue = _citizenSecurityMax;
+            _securityLevelSlider.maxValue = _defenderSecurityMax;
             _securityLevelSlider.value = _securityLevel;
             // _securityLevelSlider.onValueChanged.AddListener(UpdateSecurityLevel);
         }
@@ -340,26 +293,8 @@ namespace GameModule.Class
         {
             _currentState = GameState.End;
             _currentPlayTime = TotalTimeList[_currentState];
-            EndPanel.UpdateView(_securityLevel, _citizenSecurityThreshold, _hackerSecurityThreshold,
+            EndPanel.UpdateView(_securityLevel, _defenderSecurityThreshold, _hackerSecurityThreshold,
                 _localPlayerManager);
-            // if (_securityLevel >= _citizenSecurityThreshold)
-            // {
-            //     _victoryPanel.SetActive(_localPlayerManager.GetTeam() == Team.Citizen);
-            //     _gameOverPanel.SetActive(_localPlayerManager.GetTeam() == Team.Hacker);
-            //     //In the DarkWeb; capturing hacker
-            //     // _DisplayCitizenEnding();
-            // }
-            //
-            // if (_securityLevel <= _hackerSecurityThreshold)
-            // {
-            //     _victoryPanel.SetActive(_localPlayerManager.GetTeam() == Team.Hacker);
-            //     _gameOverPanel.SetActive(_localPlayerManager.GetTeam() == Team.Citizen);
-            //     // In Hacked Computer; steals identity
-            //     // _DisplayHackerEnding();
-            // }
-            //
-            // _victoryPanel.SetActive(_localPlayerManager.GetState() == PlayerState.Invading);
-            // _gameOverPanel.SetActive(_localPlayerManager.GetState() != PlayerState.Invading);
         }
 
 
@@ -406,9 +341,9 @@ namespace GameModule.Class
         {
             var position = Vector3.zero;
 
-            if (_playersTeamStateList[_localPlayerIndex] == Team.Citizen)
+            if (_playersTeamStateList[_localPlayerIndex] == Team.Defender)
             {
-                position = MapManager.Instance.GetCitizenSpawnPoint();
+                position = MapManager.Instance.GetDefenderSpawnPoint();
             }
             else if (_playersTeamStateList[_localPlayerIndex] == Team.Hacker)
             {
@@ -426,11 +361,11 @@ namespace GameModule.Class
         }
 
         [PunRPC]
-        private void _RPC_SendCitizenButtonClicked(int[] newState)
+        private void _RPC_SendDefenderButtonClicked(int[] newState)
         {
             _playersTeamStateList[newState[0]] = (Team) newState[1];
             Debug.Log(
-                $"_RPC_SendCitizenButtonClicked:: {_playerList[newState[0]]}::{_playersTeamStateList[newState[0]]}");
+                $"_RPC_SendDefenderButtonClicked:: {_playerList[newState[0]]}::{_playersTeamStateList[newState[0]]}");
         }
 
         [PunRPC]

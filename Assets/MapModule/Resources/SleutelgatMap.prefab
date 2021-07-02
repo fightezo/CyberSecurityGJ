@@ -445,7 +445,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3293225768906376458}
   m_Layer: 0
-  m_Name: CSpawnPoint
+  m_Name: DSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -598,7 +598,7 @@ GameObject:
   - component: {fileID: 1858714625454837454}
   - component: {fileID: 5252806025631190617}
   m_Layer: 0
-  m_Name: Citizen
+  m_Name: Defender
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -951,19 +951,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 174a5caae155aca43bc052f0eb743b13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _citizenSpawnPoint: {fileID: 3285071433374038290}
-  _citizenItemSpawnList:
+  _defenderSpawnPoint: {fileID: 3285071433374038290}
+  _defenderItemSpawnList:
   - {fileID: 310613316650810984}
   - {fileID: 8251939429756518006}
   - {fileID: 2160873765382726778}
-  _citizenSlotList:
+  _defenderSlotList:
   - {fileID: 4786130670083149123}
   - {fileID: 7910830983329935538}
   - {fileID: 6464582387317848458}
   - {fileID: 2597459683748832560}
   - {fileID: 4659559857220742848}
   - {fileID: 3713580570534250629}
-  _citizenMap: {fileID: 5485509149224407104}
+  _defenderMap: {fileID: 5485509149224407104}
   _hackerSpawnPoint: {fileID: 788142747096638353}
   _hackerItemSpawnList:
   - {fileID: 5510318512239484023}

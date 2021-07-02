@@ -150,12 +150,12 @@ namespace GameModule.Class
         {
             // if (stream.IsWriting)
             // {
-            //     stream.SendNext(_isCitizenChosen);
+            //     stream.SendNext(_isDefenderChosen);
             //     stream.SendNext(_isHackerChosen);
             // }
             // else
             // {
-            //     _isCitizenChosen = (bool) stream.ReceiveNext();
+            //     _isDefenderChosen = (bool) stream.ReceiveNext();
             //     _isHackerChosen = (bool) stream.ReceiveNext();
             // }
         }

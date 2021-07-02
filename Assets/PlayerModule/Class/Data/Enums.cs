@@ -4,7 +4,7 @@ namespace PlayerModule.Class.Data
     public enum Team
     {
         None = 0,
-        Citizen = 1,
+        Defender = 1,
         Hacker = 2,
     }
 

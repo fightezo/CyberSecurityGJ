@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace GameModule.Class.Component
 {
-
     internal class EndPanel : MonoBehaviour, IUIPanel
     {
         [SerializeField] private GameObject VictoryPanel;
@@ -16,22 +15,22 @@ namespace GameModule.Class.Component
             return gameObject;
         }
 
-        public void UpdateView(int securityLevel, int citizenSecurityThreshold, int hackerSecurityThreshold, PlayerManager localPlayerManager)
+        public void UpdateView(int securityLevel, int defenderSecurityThreshold, int hackerSecurityThreshold, PlayerManager localPlayerManager)
         {
-            if (securityLevel >= citizenSecurityThreshold)
+            if (securityLevel >= defenderSecurityThreshold)
             {
-                VictoryPanel.SetActive(localPlayerManager.GetTeam() == Team.Citizen);
+                VictoryPanel.SetActive(localPlayerManager.GetTeam() == Team.Defender);
                 GameOverPanel.SetActive(localPlayerManager.GetTeam() == Team.Hacker);
                 //In the DarkWeb; capturing hacker
-                // _DisplayCitizenEnding();
+                _DisplayDefenderEnding();
             }
 
             if (securityLevel <= hackerSecurityThreshold)
             {
                 VictoryPanel.SetActive(localPlayerManager.GetTeam() == Team.Hacker);
-                GameOverPanel.SetActive(localPlayerManager.GetTeam() == Team.Citizen);
+                GameOverPanel.SetActive(localPlayerManager.GetTeam() == Team.Defender);
                 // In Hacked Computer; steals identity
-                // _DisplayHackerEnding();
+                _DisplayHackerEnding();
             }
 
             // VictoryPanel.SetActive(localPlayerManager.GetState() == PlayerState.Invading);
@@ -42,7 +41,7 @@ namespace GameModule.Class.Component
         {
         }
 
-        private void _DisplayCitizenEnding()
+        private void _DisplayDefenderEnding()
         {
         }
 
