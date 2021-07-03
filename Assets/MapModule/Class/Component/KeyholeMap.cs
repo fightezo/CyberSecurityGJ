@@ -10,12 +10,12 @@ namespace MapModule
     {
         [SerializeField] private GameObject _defenderSpawnPoint;
         [SerializeField] private GameObject _defenderMap;
-        [SerializeField] private Collider[] _defenderItemSpawnList;
+        [SerializeField] private Collider[] _defenderItemTriggerAreaList;
         [SerializeField] private Collider[] _defenderSlotList;
 
         [SerializeField] private GameObject _hackerSpawnPoint;
         [SerializeField] private GameObject _hackerMap;
-        [SerializeField] private Collider[] _hackerItemSpawnList;
+        [SerializeField] private Collider[] _hackerItemTriggerAreaList;
         [SerializeField] private Collider[] _hackerSlotList;
 
         public string GetResourcesName()
@@ -32,7 +32,7 @@ namespace MapModule
 
         public Collider[] GetDefenderItemSpawnList()
         {
-            return _defenderItemSpawnList;
+            return _defenderItemTriggerAreaList;
         }
 
         public Collider[] GetDefenderSlotList()
@@ -56,7 +56,7 @@ namespace MapModule
 
         public Collider[] GetHackerItemSpawnList()
         {
-            return _hackerItemSpawnList;
+            return _hackerItemTriggerAreaList;
         }
 
         public Collider[] GetHackerSlotList()

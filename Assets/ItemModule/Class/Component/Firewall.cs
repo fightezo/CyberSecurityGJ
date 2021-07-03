@@ -13,9 +13,5 @@ namespace ItemModule.Class.Component
             return ItemType.Firewall;
         }
 
-        public override ItemCategory GetItemCategory()
-        {
-            return ItemCategory.Action;
-        }
     }
 }

@@ -1,11 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
+using ItemModule.Class;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIGameplayTool : MonoBehaviour
+namespace GameModule.Class.Component.UI
 {
-    public Image Image;
-    public Text Description;
+    public class UIGameplayTool : MonoBehaviour
+    {
+        public Item Item;
+        public Image Image;
+        public Text Description;
 
+    }
 }

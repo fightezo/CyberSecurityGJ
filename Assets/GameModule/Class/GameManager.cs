@@ -273,7 +273,7 @@ namespace GameModule.Class
                     break;
             }
 
-            photonView.RPC("_RPC_SendUpdatedGameState", RpcTarget.AllBuffered, _nextState);
+            photonView.RPC("RPC_SendUpdatedGameState", RpcTarget.AllBuffered, _nextState);
         }
 
         protected internal void UpdateNewGameState()
@@ -397,9 +397,9 @@ namespace GameModule.Class
         #region PUNRPC Methods
 
         [PunRPC]
-        private void _RPC_UpdatePlayerData()
+        private void RPC_UpdatePlayerData()
         {
-            Debug.Log($"{name}:: _RPC_UpdatePlayerData called;");
+            Debug.Log($"{name}:: RPC_UpdatePlayerData called;");
             var position = Vector3.zero;
 
             if (_playersTeamStateList[_localPlayerIndex] == Team.Defender)
@@ -416,7 +416,7 @@ namespace GameModule.Class
         }
 
         [PunRPC]
-        private void _RPC_SendUpdatedGameState(GameState gameState)
+        private void RPC_SendUpdatedGameState(GameState gameState)
         {
             _currentState = gameState;
             _currentPlayTime = TotalTimeList[_currentState];
@@ -425,22 +425,22 @@ namespace GameModule.Class
         }
 
         [PunRPC]
-        private void _RPC_SendDefenderButtonClicked(int[] newState)
+        private void RPC_SendDefenderButtonClicked(int[] newState)
         {
             _playersTeamStateList[newState[0]] = (Team) newState[1];
             WaitingPanel.UpdatePlayerTeam(newState);
 
             Debug.Log(
-                $"_RPC_SendDefenderButtonClicked:: {_playerList[newState[0]]}::{_playersTeamStateList[newState[0]]}");
+                $"RPC_SendDefenderButtonClicked:: {_playerList[newState[0]]}::{_playersTeamStateList[newState[0]]}");
         }
 
         [PunRPC]
-        private void _RPC_SendHackerButtonClicked(int[] newState)
+        private void RPC_SendHackerButtonClicked(int[] newState)
         {
             _playersTeamStateList[newState[0]] = (Team) newState[1];
             WaitingPanel.UpdatePlayerTeam(newState);
             Debug.Log(
-                $"_RPC_SendHackerButtonClicked:: {_playerList[newState[0]]}::{_playersTeamStateList[newState[0]]}");
+                $"RPC_SendHackerButtonClicked:: {_playerList[newState[0]]}::{_playersTeamStateList[newState[0]]}");
         }
 
         #endregion

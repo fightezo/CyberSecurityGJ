@@ -6,13 +6,13 @@ namespace ItemModule.Class
 {
     public abstract class HackerItem : Item
     {
-        public override void SetItemState(ItemState newState)
-        {
-            _currentState = newState;
-        }
-        public override ItemOwner GetItemOwner()
-        {
-            return ItemOwner.Hacker;
-        }
+        // public override void SetItemState(ItemState newState)
+        // {
+        //     _currentState = newState;
+        // }
+        // public override ItemOwner GetItemOwner()
+        // {
+        //     return ItemOwner.Hacker;
+        // }
     }
 }

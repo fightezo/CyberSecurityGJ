@@ -15,17 +15,21 @@ namespace ItemModule.Class
         protected ItemCategory _itemCategory;
         public abstract void Create();
 
+
         public abstract ItemType GetItemType();
 
         public ItemState GetItemState()
         {
             return _currentState;
         }
+        public void SetItemState(ItemState newState)
+        {
+            _currentState = newState;
+        }
+        // public abstract void SetItemState(ItemState newState);
 
-        public abstract void SetItemState(ItemState newState);
+        // public abstract ItemCategory GetItemCategory();
 
-        public abstract ItemCategory GetItemCategory();
-
-        public abstract ItemOwner GetItemOwner();
+        // public abstract ItemOwner GetItemOwner();
     }
 }

@@ -144,7 +144,7 @@ GameObject:
   - component: {fileID: 7678205751015229099}
   m_Layer: 0
   m_Name: TriggerPoints (7)
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -172,7 +172,7 @@ SphereCollider:
   m_GameObject: {fileID: 103135968088048211}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.03
   m_Center: {x: 0, y: 0, z: 0}
@@ -540,7 +540,7 @@ GameObject:
   - component: {fileID: 382283861915955393}
   m_Layer: 0
   m_Name: TriggerPoints (1)
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -568,7 +568,7 @@ SphereCollider:
   m_GameObject: {fileID: 310613316650810984}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.03
   m_Center: {x: 0, y: 0, z: 0}
@@ -584,7 +584,7 @@ GameObject:
   - component: {fileID: 9085249463951426633}
   m_Layer: 0
   m_Name: SpawnPoint (6)
-  m_TagString: Untagged
+  m_TagString: Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -612,7 +612,7 @@ SphereCollider:
   m_GameObject: {fileID: 323635648595128881}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -760,7 +760,7 @@ GameObject:
   - component: {fileID: 1185967695778314391}
   m_Layer: 0
   m_Name: TriggerPoints (1)
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -788,7 +788,7 @@ SphereCollider:
   m_GameObject: {fileID: 602410913230344629}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.03
   m_Center: {x: 0, y: 0, z: 0}
@@ -1054,7 +1054,7 @@ GameObject:
   - component: {fileID: 6781120939374578752}
   m_Layer: 0
   m_Name: TriggerPoints (4)
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1082,7 +1082,7 @@ SphereCollider:
   m_GameObject: {fileID: 842082983895587649}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.03
   m_Center: {x: 0, y: 0, z: 0}
@@ -1348,7 +1348,7 @@ GameObject:
   - component: {fileID: 1840353171299208747}
   m_Layer: 0
   m_Name: TriggerPoints (9)
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1376,7 +1376,7 @@ SphereCollider:
   m_GameObject: {fileID: 1302536015125657775}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.03
   m_Center: {x: 0, y: 0, z: 0}
@@ -1640,7 +1640,7 @@ GameObject:
   - component: {fileID: 8572653139775016715}
   m_Layer: 0
   m_Name: TriggerPoints (7)
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1668,7 +1668,7 @@ SphereCollider:
   m_GameObject: {fileID: 1427472755146204702}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.03
   m_Center: {x: 0, y: 0, z: 0}
@@ -2293,7 +2293,7 @@ GameObject:
   - component: {fileID: 1803510155701672398}
   m_Layer: 0
   m_Name: SpawnPoint (7)
-  m_TagString: Untagged
+  m_TagString: Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2321,7 +2321,7 @@ SphereCollider:
   m_GameObject: {fileID: 2018552620078044358}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -2860,7 +2860,7 @@ GameObject:
   - component: {fileID: 7829071153978142}
   m_Layer: 0
   m_Name: SpawnPoint (4)
-  m_TagString: Untagged
+  m_TagString: Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2888,7 +2888,7 @@ SphereCollider:
   m_GameObject: {fileID: 2597459683748832560}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -3195,7 +3195,7 @@ GameObject:
   - component: {fileID: 6083218233505293759}
   m_Layer: 0
   m_Name: TriggerPoints (3)
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3223,7 +3223,7 @@ SphereCollider:
   m_GameObject: {fileID: 2855165055111222916}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.03
   m_Center: {x: 0, y: 0, z: 0}
@@ -3239,7 +3239,7 @@ GameObject:
   - component: {fileID: 3315579539547997110}
   m_Layer: 0
   m_Name: SpawnPoint (7)
-  m_TagString: Untagged
+  m_TagString: Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3267,7 +3267,7 @@ SphereCollider:
   m_GameObject: {fileID: 2928582530520012109}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -3459,7 +3459,7 @@ GameObject:
   - component: {fileID: 4910048743832168416}
   m_Layer: 0
   m_Name: TriggerPoints (6)
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3487,7 +3487,7 @@ SphereCollider:
   m_GameObject: {fileID: 3104140641130172959}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.03
   m_Center: {x: 0, y: 0, z: 0}
@@ -3900,7 +3900,7 @@ GameObject:
   - component: {fileID: 3839325773360967552}
   m_Layer: 0
   m_Name: SpawnPoint (3)
-  m_TagString: Untagged
+  m_TagString: Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3928,7 +3928,7 @@ SphereCollider:
   m_GameObject: {fileID: 3268045537854938788}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -4106,7 +4106,7 @@ GameObject:
   - component: {fileID: 1745248622773508364}
   m_Layer: 0
   m_Name: SpawnPoint (5)
-  m_TagString: Untagged
+  m_TagString: Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4134,7 +4134,7 @@ SphereCollider:
   m_GameObject: {fileID: 3499812591672940053}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -4502,7 +4502,7 @@ GameObject:
   - component: {fileID: 5312875084349565119}
   m_Layer: 0
   m_Name: SpawnPoint (6)
-  m_TagString: Untagged
+  m_TagString: Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4530,7 +4530,7 @@ SphereCollider:
   m_GameObject: {fileID: 3713580570534250629}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -4546,7 +4546,7 @@ GameObject:
   - component: {fileID: 5130790839411030108}
   m_Layer: 0
   m_Name: TriggerPoints (8)
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4574,7 +4574,7 @@ SphereCollider:
   m_GameObject: {fileID: 3862513485092057916}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.03
   m_Center: {x: 0, y: 0, z: 0}
@@ -4590,7 +4590,7 @@ GameObject:
   - component: {fileID: 8239604000290226014}
   m_Layer: 0
   m_Name: TriggerPoints (5)
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4618,7 +4618,7 @@ SphereCollider:
   m_GameObject: {fileID: 3863395456615708588}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.03
   m_Center: {x: 0, y: 0, z: 0}
@@ -4810,7 +4810,7 @@ GameObject:
   - component: {fileID: 9202703764434721766}
   m_Layer: 0
   m_Name: TriggerPoints (8)
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4838,7 +4838,7 @@ SphereCollider:
   m_GameObject: {fileID: 4045397414608718739}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.03
   m_Center: {x: 0, y: 0, z: 0}
@@ -4898,7 +4898,7 @@ GameObject:
   - component: {fileID: 6102772202797457587}
   m_Layer: 0
   m_Name: TriggerPoints (9)
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4926,7 +4926,7 @@ SphereCollider:
   m_GameObject: {fileID: 4064537976568064866}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.03
   m_Center: {x: 0, y: 0, z: 0}
@@ -5287,7 +5287,7 @@ GameObject:
   - component: {fileID: 8819874585033892786}
   m_Layer: 0
   m_Name: SpawnPoint (2)
-  m_TagString: Untagged
+  m_TagString: Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5315,7 +5315,7 @@ SphereCollider:
   m_GameObject: {fileID: 4306231308460585379}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -5510,7 +5510,7 @@ GameObject:
   - component: {fileID: 1604910707654765989}
   m_Layer: 0
   m_Name: TriggerPoints (6)
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5538,7 +5538,7 @@ SphereCollider:
   m_GameObject: {fileID: 4349697088079402987}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.03
   m_Center: {x: 0, y: 0, z: 0}
@@ -5774,7 +5774,7 @@ GameObject:
   - component: {fileID: 8677709286400179477}
   m_Layer: 0
   m_Name: SpawnPoint (5)
-  m_TagString: Untagged
+  m_TagString: Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5802,7 +5802,7 @@ SphereCollider:
   m_GameObject: {fileID: 4659559857220742848}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -5906,7 +5906,7 @@ GameObject:
   - component: {fileID: 3511731390945104223}
   m_Layer: 0
   m_Name: SpawnPoint (1)
-  m_TagString: Untagged
+  m_TagString: Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5934,7 +5934,7 @@ SphereCollider:
   m_GameObject: {fileID: 4786130670083149123}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -6272,7 +6272,7 @@ GameObject:
   - component: {fileID: 8268579130651574801}
   m_Layer: 0
   m_Name: SpawnPoint (8)
-  m_TagString: Untagged
+  m_TagString: Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6300,7 +6300,7 @@ SphereCollider:
   m_GameObject: {fileID: 5233923423320643049}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -6492,7 +6492,7 @@ GameObject:
   - component: {fileID: 8517071884307729431}
   m_Layer: 0
   m_Name: TriggerPoints (2)
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6520,7 +6520,7 @@ SphereCollider:
   m_GameObject: {fileID: 5481037881437812383}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.03
   m_Center: {x: 0, y: 0, z: 0}
@@ -6828,7 +6828,7 @@ GameObject:
   - component: {fileID: 3626415213136971854}
   m_Layer: 0
   m_Name: SpawnPoint (4)
-  m_TagString: Untagged
+  m_TagString: Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6856,7 +6856,7 @@ SphereCollider:
   m_GameObject: {fileID: 5653135713682394043}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -7447,7 +7447,7 @@ GameObject:
   - component: {fileID: 4145354312846788646}
   m_Layer: 0
   m_Name: TriggerPoints (5)
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7475,7 +7475,7 @@ SphereCollider:
   m_GameObject: {fileID: 6346228609294899446}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.03
   m_Center: {x: 0, y: 0, z: 0}
@@ -7579,7 +7579,7 @@ GameObject:
   - component: {fileID: 1565020320170164145}
   m_Layer: 0
   m_Name: SpawnPoint (3)
-  m_TagString: Untagged
+  m_TagString: Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7607,7 +7607,7 @@ SphereCollider:
   m_GameObject: {fileID: 6464582387317848458}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -8397,7 +8397,7 @@ GameObject:
   - component: {fileID: 7443579446655090895}
   m_Layer: 0
   m_Name: SpawnPoint (8)
-  m_TagString: Untagged
+  m_TagString: Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8425,7 +8425,7 @@ SphereCollider:
   m_GameObject: {fileID: 7072758093007709849}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -8958,7 +8958,7 @@ GameObject:
   - component: {fileID: 1242538403693916971}
   m_Layer: 0
   m_Name: TriggerPoints (3)
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8986,7 +8986,7 @@ SphereCollider:
   m_GameObject: {fileID: 7570062772181707655}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.03
   m_Center: {x: 0, y: 0, z: 0}
@@ -9215,7 +9215,7 @@ GameObject:
   - component: {fileID: 89908772058505426}
   m_Layer: 0
   m_Name: SpawnPoint (2)
-  m_TagString: Untagged
+  m_TagString: Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9243,7 +9243,7 @@ SphereCollider:
   m_GameObject: {fileID: 7910830983329935538}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -9303,7 +9303,7 @@ GameObject:
   - component: {fileID: 2319617181690319656}
   m_Layer: 0
   m_Name: TriggerPoints (2)
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9331,7 +9331,7 @@ SphereCollider:
   m_GameObject: {fileID: 7940977523846408805}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.03
   m_Center: {x: 0, y: 0, z: 0}
@@ -9435,7 +9435,7 @@ GameObject:
   - component: {fileID: 1723669517426299343}
   m_Layer: 0
   m_Name: SpawnPoint (1)
-  m_TagString: Untagged
+  m_TagString: Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9463,7 +9463,7 @@ SphereCollider:
   m_GameObject: {fileID: 8003039528537775839}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -9523,7 +9523,7 @@ GameObject:
   - component: {fileID: 8632634902556173052}
   m_Layer: 0
   m_Name: TriggerPoints (4)
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9551,7 +9551,7 @@ SphereCollider:
   m_GameObject: {fileID: 8030061612296506389}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.03
   m_Center: {x: 0, y: 0, z: 0}
@@ -9860,7 +9860,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _defenderSpawnPoint: {fileID: 3285071433374038290}
   _defenderMap: {fileID: 5485509149224407104}
-  _defenderItemSpawnList:
+  _defenderItemTriggerAreaList:
   - {fileID: 382283861915955393}
   - {fileID: 2319617181690319656}
   - {fileID: 6083218233505293759}
@@ -9881,7 +9881,7 @@ MonoBehaviour:
   - {fileID: 8268579130651574801}
   _hackerSpawnPoint: {fileID: 788142747096638353}
   _hackerMap: {fileID: 1380369433069878055}
-  _hackerItemSpawnList:
+  _hackerItemTriggerAreaList:
   - {fileID: 1185967695778314391}
   - {fileID: 8517071884307729431}
   - {fileID: 1242538403693916971}

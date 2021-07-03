@@ -1,10 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using ItemModule.Class.Data;
-using UnityEngine;
 
-namespace ItemModule.Class
+namespace ItemModule.Class.Component
 {
 
     public class Ransomware : HackerItem
@@ -17,11 +13,6 @@ namespace ItemModule.Class
         public override ItemType GetItemType()
         {
             return ItemType.Ransomware;
-        }
-
-        public override ItemCategory GetItemCategory()
-        {
-            return ItemCategory.Placement;
         }
 
     }

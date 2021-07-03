@@ -35,13 +35,13 @@ namespace ItemModule.Class.Data
     public enum ItemCategory
     {
         Placement = 1,
-        Action = 2,
+        Tool = 2,
     }
 
-    public enum ItemOwner
-    {
-        None = 0,
-        Defender = 1,
-        Hacker = 2,
-    }
+    // public enum ItemOwner
+    // {
+    //     None = 0,
+    //     Defender = 1,
+    //     Hacker = 2,
+    // }
 }

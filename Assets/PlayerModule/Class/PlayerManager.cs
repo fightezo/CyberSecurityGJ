@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using GameModule.Class;
 using ItemModule;
+using ItemModule.Class;
 using ItemModule.Class.Data;
 using ItemModule.Class.Interface;
 using MapModule.Class;
@@ -28,6 +29,7 @@ namespace PlayerModule.Class
         public GameObject RobotGameObject;
         public GameObject CitizenGameObject;
         public GameObject HackerGameObject;
+        public GameObject PressEButtonGameObject;
         #endregion
 
         #region Private Fields
@@ -73,7 +75,7 @@ namespace PlayerModule.Class
             if (photonView.IsMine && !isLocalTesting)
             {
                 _team = team;
-                photonView.RPC("_RPC_SetTeam", RpcTarget.AllBuffered, (int)_team);
+                photonView.RPC("RPC_SetTeam", RpcTarget.AllBuffered, (int)_team);
                 gameObject.transform.position = spawnPosition;
             }
 
@@ -107,6 +109,7 @@ namespace PlayerModule.Class
 
             if (other.CompareTag("Item") && _currentState != PlayerState.Invading)
             {
+                PressEButtonGameObject.SetActive(true);
                 _itemInRange = other.gameObject.GetComponent<IItem>();
                 if (_itemInRange.GetItemState() == ItemState.World)
                 {
@@ -135,6 +138,8 @@ namespace PlayerModule.Class
             if (other.CompareTag("Item"))
             {
                 _itemInRange = null;
+                PressEButtonGameObject.SetActive(false);
+
             } 
 
         }
@@ -264,17 +269,17 @@ namespace PlayerModule.Class
         
         private void _GetItem()
         {
-            photonView.RPC("_RPC_SendItemList", RpcTarget.Others, _itemList);
+            photonView.RPC("RPC_SendItemList", RpcTarget.Others, _itemList);
         }
 
         [PunRPC]
-        private void _RPC_SetTeam(int team)
+        private void RPC_SetTeam(int team)
         {
             _team = (Team)team;
             _UpdateTeamView();
         }
         [PunRPC]
-        private void _RPC_SendItemList(List<int> itemList)
+        private void RPC_SendItemList(List<int> itemList)
         {
             _itemList = itemList;
         }

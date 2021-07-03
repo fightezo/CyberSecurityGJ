@@ -26,14 +26,5 @@ namespace ItemModule.Class.Data
             _password = password;
         }
     
-        public override void SetItemState(ItemState newState)
-        {
-            _currentState = newState;
-        }
-    
-        public override ItemCategory GetItemCategory()
-        {
-            return ItemCategory.Placement;
-        }
     }
 }

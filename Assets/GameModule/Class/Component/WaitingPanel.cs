@@ -102,7 +102,7 @@ namespace GameModule.Class.Component
             }
 
             var itemList = new[] {_localPlayerIndex, (int) newState};
-            GameManager.Instance.photonView.RPC("_RPC_SendDefenderButtonClicked", RpcTarget.AllBuffered, itemList);
+            GameManager.Instance.photonView.RPC("RPC_SendDefenderButtonClicked", RpcTarget.AllBuffered, itemList);
         }
 
         public void OnHackerButtonClicked(bool isOn)
@@ -146,7 +146,7 @@ namespace GameModule.Class.Component
                     break;
             }
             var itemList = new[] {_localPlayerIndex, (int) newState};
-            GameManager.Instance.photonView.RPC("_RPC_SendHackerButtonClicked", RpcTarget.AllBuffered, itemList);
+            GameManager.Instance.photonView.RPC("RPC_SendHackerButtonClicked", RpcTarget.AllBuffered, itemList);
         }
 
         public GameObject GetSelf()
@@ -156,7 +156,7 @@ namespace GameModule.Class.Component
 
         public void EndPhaseUpdate()
         {
-            GameManager.Instance.photonView.RPC("_RPC_UpdatePlayerData", RpcTarget.AllBuffered);
+            GameManager.Instance.photonView.RPC("RPC_UpdatePlayerData", RpcTarget.AllBuffered);
         }
 
 

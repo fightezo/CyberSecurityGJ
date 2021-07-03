@@ -149,7 +149,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &368329043
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1118,13 +1118,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 7917422334182025502}
+        m_TargetAssemblyTypeName: UIPlanningItem, Assembly-CSharp
+        m_MethodName: OnAddButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1337,6 +1337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cbf762c4463e024fa5b1138589210c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ItemType: 0
   NameText: {fileID: 5639370968128019280}
   DescriptionText: {fileID: 2980315839356313541}
   Texture: {fileID: 9029505871041271335}
@@ -3919,13 +3920,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 5865723478587435678}
+        m_TargetAssemblyTypeName: UIPlanningItem, Assembly-CSharp
+        m_MethodName: OnAddButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -5579,6 +5580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cbf762c4463e024fa5b1138589210c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ItemType: 0
   NameText: {fileID: 0}
   DescriptionText: {fileID: 0}
   Texture: {fileID: 0}
@@ -5923,6 +5925,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cbf762c4463e024fa5b1138589210c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ItemType: 0
   NameText: {fileID: 4783101299382483418}
   DescriptionText: {fileID: 3834777776326220326}
   Texture: {fileID: 2477016412098788008}
@@ -6528,6 +6531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cbf762c4463e024fa5b1138589210c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ItemType: 0
   NameText: {fileID: 1545135333898184010}
   DescriptionText: {fileID: 894908192972352788}
   Texture: {fileID: 844636327763887879}
@@ -7400,6 +7404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cbf762c4463e024fa5b1138589210c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ItemType: 0
   NameText: {fileID: 0}
   DescriptionText: {fileID: 0}
   Texture: {fileID: 0}
@@ -9753,6 +9758,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cbf762c4463e024fa5b1138589210c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ItemType: 0
   NameText: {fileID: 986939535085761674}
   DescriptionText: {fileID: 3185811473055962}
   Texture: {fileID: 6572500726786924070}
@@ -14116,6 +14122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cbf762c4463e024fa5b1138589210c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ItemType: 0
   NameText: {fileID: 0}
   DescriptionText: {fileID: 0}
   Texture: {fileID: 0}
@@ -14718,6 +14725,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cbf762c4463e024fa5b1138589210c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ItemType: 0
   NameText: {fileID: 0}
   DescriptionText: {fileID: 0}
   Texture: {fileID: 0}
@@ -14781,6 +14789,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cbf762c4463e024fa5b1138589210c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ItemType: 0
   NameText: {fileID: 0}
   DescriptionText: {fileID: 0}
   Texture: {fileID: 0}
@@ -14923,6 +14932,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cbf762c4463e024fa5b1138589210c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ItemType: 0
   NameText: {fileID: 0}
   DescriptionText: {fileID: 0}
   Texture: {fileID: 0}
@@ -16013,6 +16023,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cbf762c4463e024fa5b1138589210c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ItemType: 0
   NameText: {fileID: 0}
   DescriptionText: {fileID: 0}
   Texture: {fileID: 0}
@@ -16515,6 +16526,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cbf762c4463e024fa5b1138589210c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ItemType: 0
   NameText: {fileID: 0}
   DescriptionText: {fileID: 0}
   Texture: {fileID: 0}
@@ -17992,6 +18004,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cbf762c4463e024fa5b1138589210c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ItemType: 0
   NameText: {fileID: 7935613698799540405}
   DescriptionText: {fileID: 4192625384990561806}
   Texture: {fileID: 3108130933237740591}

@@ -12,9 +12,5 @@ namespace ItemModule.Class.Component
         {
             return ItemType.AntiVirus;
         }
-        public override ItemCategory GetItemCategory()
-        {
-            return ItemCategory.Action;
-        }
     }
 }

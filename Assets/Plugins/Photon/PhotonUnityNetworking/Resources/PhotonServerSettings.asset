@@ -49,6 +49,13 @@ MonoBehaviour:
   - _RPC_UpdatePlayerData
   - _RPC_SetTeam
   - _RPC_SendDefenderButtonClicked
+  - RPC_SendDefenderButtonClicked
+  - RPC_SendHackerButtonClicked
+  - RPC_SendItemList
+  - RPC_SendUpdatedGameState
+  - RPC_SetTeam
+  - RPC_UpdateItemManager
+  - RPC_UpdatePlayerData
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

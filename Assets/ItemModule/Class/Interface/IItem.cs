@@ -8,8 +8,8 @@ namespace ItemModule.Class.Interface
         public ItemType GetItemType();
         public ItemState GetItemState();
         public void SetItemState(ItemState newState);
-        public ItemCategory GetItemCategory();
-        public ItemOwner GetItemOwner();
+        // public ItemCategory GetItemCategory();
+        // public ItemOwner GetItemOwner();
         
     }
 }

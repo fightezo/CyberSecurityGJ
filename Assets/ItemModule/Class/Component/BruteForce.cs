@@ -1,12 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using ItemModule.Class.Data;
-using UnityEngine;
 
-namespace ItemModule.Class
+namespace ItemModule.Class.Component
 {
-
     public class BruteForce : HackerItem
     {
         public override void Create()
@@ -17,10 +12,5 @@ namespace ItemModule.Class
         {
             return ItemType.BruteForce;
         }
-        public override ItemCategory GetItemCategory()
-        {
-            return ItemCategory.Placement;
-        }
-
     }
 }

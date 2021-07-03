@@ -1,11 +1,13 @@
 using System;
 using GameModule.Class;
 using GameModule.Class.Component;
+using ItemModule.Class.Data;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIPlanningItem : MonoBehaviour
 {
+    public ItemType ItemType;
     public Text NameText;
     public Text DescriptionText;
     public Image Texture;
