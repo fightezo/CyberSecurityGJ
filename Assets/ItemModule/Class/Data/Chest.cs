@@ -1,39 +1,39 @@
-using ItemModule.Class;
-using ItemModule.Class.Data;
-
-public abstract class Chest : DefenderItem
+namespace ItemModule.Class.Data
 {
-    private string _password;
-    private string _restrictedCharacters;
-
-    public string GetRestrictedCharacters()
+    public abstract class Chest : DefenderItem
     {
-        return _restrictedCharacters;
-    }
+        private string _password;
+        private string _restrictedCharacters;
 
-    public void SetRestrictedCharacters(string restrictedCharacters)
-    {
-        //^[0-9]+$ digits only
-        //^[a-zA-Z][a-zA-Z0-9]*$ alpha numeric
+        public string GetRestrictedCharacters()
+        {
+            return _restrictedCharacters;
+        }
+
+        public void SetRestrictedCharacters(string restrictedCharacters)
+        {
+            //^[0-9]+$ digits only
+            //^[a-zA-Z][a-zA-Z0-9]*$ alpha numeric
         
-        _restrictedCharacters = restrictedCharacters;
-    }
-    public string GetPassword()
-    {
-        return _password;
-    }
-    public void SetPassword(string password)
-    {
-        _password = password;
-    }
+            _restrictedCharacters = restrictedCharacters;
+        }
+        public string GetPassword()
+        {
+            return _password;
+        }
+        public void SetPassword(string password)
+        {
+            _password = password;
+        }
     
-    public override void SetItemState(ItemState newState)
-    {
-        _currentState = newState;
-    }
+        public override void SetItemState(ItemState newState)
+        {
+            _currentState = newState;
+        }
     
-    public override ItemCategory GetItemCategory()
-    {
-        return ItemCategory.Placement;
+        public override ItemCategory GetItemCategory()
+        {
+            return ItemCategory.Placement;
+        }
     }
 }

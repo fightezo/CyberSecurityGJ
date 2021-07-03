@@ -5,10 +5,10 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using GameModule.Class;
+using ItemModule;
 using ItemModule.Class.Data;
 using ItemModule.Class.Interface;
 using MapModule.Class;
-using Photon.Pun.UtilityScripts;
 using Photon.Realtime;
 using PlayerModule.Class.Data;
 using PlayerModule.Class.UI;
@@ -32,13 +32,13 @@ namespace PlayerModule.Class
 
         #region Private Fields
 
-        private bool _withinItemRange;
+        private IItem _itemInRange;
+
         private List<int> _itemList = new List<int>();
         private PlayerManager _taggedPlayer;
-        private PlayerModule.Class.Data.Team _team;
-        private PlayerModule.Class.Data.PlayerState _currentState;
-        private Vector3 _spawnPosition;
-        // private bool isLocalTesting;
+        private Team _team;
+        private PlayerState _currentState;
+        private bool isLocalTesting;
         #endregion
 
         #region MonoBehaviour Callbacks
@@ -64,19 +64,17 @@ namespace PlayerModule.Class
             var cameraWork = gameObject.GetComponent<CameraWork>();
             if (cameraWork != null)
             {
-                if (photonView.IsMine)
+                if (photonView.IsMine && !isLocalTesting)
                 {
                     cameraWork.OnStartFollowing(gameObject);
                 }
             }
 
-            _spawnPosition = spawnPosition;
-            if (photonView.IsMine)
+            if (photonView.IsMine && !isLocalTesting)
             {
                 _team = team;
-                photonView.RPC("_RPC_SetTeam", RpcTarget.Others, (int)_team);
-                _UpdateTeamView();
-                gameObject.transform.position = _spawnPosition;
+                photonView.RPC("_RPC_SetTeam", RpcTarget.AllBuffered, (int)_team);
+                gameObject.transform.position = spawnPosition;
             }
 
             if (PlayerUiPrefab != null)
@@ -107,14 +105,13 @@ namespace PlayerModule.Class
                 return;
             }
 
-            if (other.CompareTag("Item"))
+            if (other.CompareTag("Item") && _currentState != PlayerState.Invading)
             {
-                var item = other.gameObject.GetComponent<IItem>();
-                if (item.GetItemState() == ItemState.World)
+                _itemInRange = other.gameObject.GetComponent<IItem>();
+                if (_itemInRange.GetItemState() == ItemState.World)
                 {
                     _GetItem();
                 }
-                _withinItemRange = true;
             }
 
         }
@@ -137,7 +134,7 @@ namespace PlayerModule.Class
             
             if (other.CompareTag("Item"))
             {
-                _withinItemRange = false;
+                _itemInRange = null;
             } 
 
         }
@@ -204,10 +201,19 @@ namespace PlayerModule.Class
             {
                 _Teleport();
             }
-            if (Input.GetKeyDown(KeyCode.E) && _withinItemRange)
+
+            if (_itemInRange != null)
             {
-                
+                if (Input.GetKeyDown(KeyCode.E) && !ItemManager.Instance.MiniGameCanvas.activeSelf)
+                {
+                    ItemManager.Instance.StartMiniGame();
+                } 
+                if (Input.GetKeyDown(KeyCode.Escape) && ItemManager.Instance.MiniGameCanvas.activeSelf)
+                {
+                    ItemManager.Instance.EndMiniGame();
+                }
             }
+
         }
 
         private void _Teleport()
@@ -223,7 +229,7 @@ namespace PlayerModule.Class
                     }
                     if (_team == Team.Hacker)
                     {
-                        transform.localPosition -= MapManager.Instance.GetTranslateToCitizenMap();
+                        transform.localPosition -= MapManager.Instance.GetTranslateToDefenderMap();
                     }  
                 }
                 else
@@ -235,7 +241,7 @@ namespace PlayerModule.Class
                     }
                     if (_team == Team.Hacker)
                     {
-                        transform.localPosition += MapManager.Instance.GetTranslateToCitizenMap();
+                        transform.localPosition += MapManager.Instance.GetTranslateToDefenderMap();
                     } 
                 }
             }
@@ -276,7 +282,7 @@ namespace PlayerModule.Class
         [Conditional("UNITY_EDITOR")]
         private void _SetIsLocalTesting()
         {
-            // isLocalTesting = false;
+            isLocalTesting = GameManager.Instance == null;
         }
         #endregion
 

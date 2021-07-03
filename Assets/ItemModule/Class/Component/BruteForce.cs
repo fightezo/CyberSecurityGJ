@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using ItemModule.Class.Data;
@@ -10,7 +11,7 @@ namespace ItemModule.Class
     {
         public override void Create()
         {
-            SetItemState(ItemState.World);
+            SetItemState(ItemState.Player);
         }
 
         public override ItemType GetItemType()

@@ -18,6 +18,8 @@ namespace GameModule.Class
         [SerializeField] private GameObject _controlPanel;
 
         [SerializeField] private GameObject _progressLabel;
+        [SerializeField] private GameObject _popupPanel;
+
         #endregion
 
         #region Private Serializable Fields
@@ -45,6 +47,7 @@ namespace GameModule.Class
         private void Start()
         {
             _controlPanel.SetActive(true);
+            _popupPanel.SetActive(false);
             _progressLabel.SetActive(false);
         }
 
@@ -62,7 +65,7 @@ namespace GameModule.Class
         }
         public override void OnJoinedRoom()
         {
-            PhotonNetwork.LoadLevel("MazeRoom");
+            PhotonNetwork.LoadLevel(1);
 
             _controlPanel.SetActive(false);
             _progressLabel.SetActive(false);
@@ -93,9 +96,40 @@ namespace GameModule.Class
         #endregion
         #region Public Methods
 
-        public void ConnectButtonClicked()
+        public void HostButtonClicked()
         {
+            _popupPanel.SetActive(true);
+        }
+
+        public void JoinButtonClicked()
+        {
+            _popupPanel.SetActive(true);
+        }
+
+        public void ClosePopupButtonClicked()
+        {
+            _popupPanel.SetActive(false);
+        }
+
+        public void ExtraButtonClicked()
+        {
+            Debug.Log($"{name}::extra");
+        }
+
+        public void TutorialButtonClicked()
+        {
+            Debug.Log($"{name}::tutorial");
+        }
+
+        public void CreditsButtonClicked()
+        {
+            Debug.Log($"{name}::credits");
+        }
+public void ConnectButtonClicked()
+        {
+            Debug.Log($"{name}::connect");
             _controlPanel.SetActive(false);
+            _popupPanel.SetActive(false);
             _progressLabel.SetActive(true);
             
             if (PhotonNetwork.IsConnected)

@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/_Scenes/Launcher.unity
     guid: 043679f7d89fcb84886137077f6a4da3
   - enabled: 1
-    path: Assets/_Scenes/MazeRoom.unity
+    path: Assets/_Scenes/GameScene.unity
     guid: c454ec7b767daf743b466bdb07aa8cf1
   m_configObjects: {}

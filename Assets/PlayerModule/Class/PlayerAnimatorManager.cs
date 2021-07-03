@@ -24,8 +24,8 @@ namespace PlayerModule.Class
         // Update is called once per frame
         private void Update()
         {
-            if (GameManager.Instance.GetGameState() != GameManager.GameState.Preparation &&
-                GameManager.Instance.GetGameState() != GameManager.GameState.Battle) return;
+            // if (GameManager.Instance.GetGameState() != GameManager.GameState.Preparation &&
+                // GameManager.Instance.GetGameState() != GameManager.GameState.Battle) return;
                 if (photonView.IsMine)
                 {
                     var horizontalInputVal = Input.GetAxis("Horizontal") * _speedModifier;

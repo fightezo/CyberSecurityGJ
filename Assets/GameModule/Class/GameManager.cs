@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ExitGames.Client.Photon;
 using GameModule.Class.Component;
 using GameModule.Class.Interface;
 using ItemModule.Class.Data;
@@ -28,24 +29,17 @@ namespace GameModule.Class
         [SerializeField] private PlanningPanel PlanningPanel;
         [SerializeField] private GameplayPanel GameplayPanel;
         [SerializeField] private EndPanel EndPanel;
-        
+        // private IUIPanel _currentPanel;
+
         [SerializeField] private List<GameObject> _phasePanelList;
         [SerializeField] private Text _roomIdText;
 
-        // waiting phase
-        [SerializeField] private List<Text> _playerNameList;
-        [SerializeField] private GameObject _player0ButtonGroup;
-        [SerializeField] private GameObject _player1ButtonGroup;
-        [SerializeField] private GameObject _startButton;
-
         // planning phase
-        [SerializeField] private int _defenderPoints = 10;
-        [SerializeField] private int _hackerPoints = 10;
-        
+
         // preparation & gameplay phase
         [SerializeField] private Text _countDownText;
         [SerializeField] private Slider _securityLevelSlider;
-        [SerializeField] private int _securityLevel = 10;
+        [SerializeField] private int _securityLevel = 0;
 
         // end phase
         [SerializeField] private GameObject _victoryPanel;
@@ -67,12 +61,14 @@ namespace GameModule.Class
         private Dictionary<GameState, float> TotalTimeList = new Dictionary<GameState, float>()
         {
             {GameState.WaitingForPlayers, 60f},
-            {GameState.Planning, 10f},
+            {GameState.Planning, 60f},
             {GameState.Preparation, 30f},
             {GameState.Battle, 600f},
             {GameState.End, 120f},
         };
 
+        private Dictionary<GameState, IUIPanel> PanelList = new Dictionary<GameState, IUIPanel>();
+        
         private float _currentPlayTime = 0f;
         private GameState _currentState = GameState.WaitingForPlayers;
 
@@ -100,6 +96,15 @@ namespace GameModule.Class
             _ResetGameState();
             _UpdateViewPanel();
             _UpdatePlayerList();
+
+            PanelList = new Dictionary<GameState, IUIPanel>()
+            {
+                {GameState.WaitingForPlayers, WaitingPanel},
+                {GameState.Planning, PlanningPanel},
+                {GameState.Preparation, GameplayPanel},
+                {GameState.Battle, GameplayPanel},
+                {GameState.End, EndPanel},
+            };
         }
 
         private void Update()
@@ -109,11 +114,14 @@ namespace GameModule.Class
                 _currentPlayTime -= Time.deltaTime;
                 var timeLeft = TimeSpan.FromSeconds(_currentPlayTime);
                 _countDownText.text = $"{timeLeft.Minutes:00}:{timeLeft.Seconds:00}";
+                PlanningPanel.CountDownText.text = _countDownText.text;
+                GameplayPanel.CountDownText.text = _countDownText.text;
             }
 
             if (_currentPlayTime <= 0f)
             {
-                UpdateNextGameState();
+                PanelList[_currentState].EndPhaseUpdate();
+                GetNextGameState();
             }
         }
 
@@ -152,13 +160,17 @@ namespace GameModule.Class
             return _currentState;
         }
 
+        public IUIPanel GetPanel()
+        {
+            return PanelList[_currentState];
+        }
         public void CheckState(PlayerManager self, PlayerManager taggedPlayer)
         {
             Debug.Log("Check State");
             // _localPlayerManager = self;
             if (_currentState == GameState.Battle)
             {
-                UpdateNextGameState();
+                GetNextGameState();
             }
             else
             {
@@ -176,7 +188,7 @@ namespace GameModule.Class
 
         public void UpdateSecurityLevel(float newLevel)
         {
-            _securityLevelSlider.value = newLevel;
+            GameplayPanel.SecurityLevelSlider.value = newLevel;
         }
 
         public bool IsReadyToTeleport(Team _team)
@@ -190,27 +202,26 @@ namespace GameModule.Class
             {
                 return true;
             }
+
             return false;
         }
+
         #endregion
 
         #region Public Button Methods
 
         public void OnItemClicked()
         {
-            
         }
+
         #endregion
 
         #region Private Methods
 
         private void _FirstTimeSetup()
         {
-            _roomIdText.text = $"RoomID: {PhotonNetwork.CurrentRoom.Name}";
-            _securityLevelSlider.minValue = _hackerSecurityMax;
-            _securityLevelSlider.maxValue = _defenderSecurityMax;
-            _securityLevelSlider.value = _securityLevel;
-            // _securityLevelSlider.onValueChanged.AddListener(UpdateSecurityLevel);
+            _roomIdText.text = $"{PhotonNetwork.CurrentRoom.Name}";
+
         }
 
         private void _UpdateViewPanel()
@@ -224,46 +235,79 @@ namespace GameModule.Class
             }
         }
 
-
-        protected internal void UpdateNextGameState()
+        protected internal void GetNextGameState()
         {
+            var _nextState = GameState.WaitingForPlayers;
             switch (_currentState)
             {
                 case GameState.WaitingForPlayers:
-                    _BeginPlanningPhase();
+                    _nextState = GameState.Planning;
                     break;
                 case GameState.Planning:
-                    _BeginPreparationPhase();
+                    _nextState = GameState.Preparation;
                     break;
                 case GameState.Preparation:
-                    _BeginBattlePhase();
+                    _nextState = GameState.Battle;
                     break;
                 case GameState.Battle:
-                    _BeginEndPhase();
+                    _nextState = GameState.End;
+                    break;
+            }
+
+            photonView.RPC("_RPC_SendUpdatedGameState", RpcTarget.AllBuffered, _nextState);
+        }
+
+        protected internal void UpdateNewGameState()
+        {
+            switch (_currentState)
+            {
+                case GameState.Planning:
+                    _BeginPlanningPhase();
+                    break;
+                case GameState.Preparation:
+                    _BeginPreparationPhase();
+                    break;
+                case GameState.Battle:
+                    _BeginBattlePhase();
                     break;
                 case GameState.End:
-                    _BeginAfterEnd();
+                    _BeginEndPhase();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
-            photonView.RPC("_RPC_SendUpdatedGameState", RpcTarget.Others, _currentState);
-            _UpdateViewPanel();
+            // switch (_currentState)
+            // {
+            //     // case GameState.WaitingForPlayers:
+            //          _BeginPlanningPhase();
+            //         break;
+            //     case GameState.Planning:
+            //         _BeginPreparationPhase();
+            //         break;
+            //     case GameState.Preparation:
+            //         _BeginBattlePhase();
+            //         break;
+            //     case GameState.Battle:
+            //         _BeginEndPhase();
+            //         break;
+            //     case GameState.End:
+            //         // _BeginAfterEnd();
+            //         break;
+            //     default:
+            //         throw new ArgumentOutOfRangeException();
+            // }
         }
 
 
         private void _BeginPlanningPhase()
         {
-            _currentState = GameState.Planning;
-            _currentPlayTime = TotalTimeList[_currentState];
+            PlanningPanel.UpdateView();
             photonView.RPC("_RPC_UpdatePlayerData", RpcTarget.AllBuffered);
         }
 
         private void _BeginPreparationPhase()
         {
-            _currentState = GameState.Preparation;
-            _currentPlayTime = TotalTimeList[_currentState];
+            GameplayPanel.UpdateView(GameState.Preparation, _defenderSecurityMax, _hackerSecurityMax, _securityLevel);
         }
 
         private void _CreateLocalPlayerInstance()
@@ -285,16 +329,12 @@ namespace GameModule.Class
 
         private void _BeginBattlePhase()
         {
-            _currentState = GameState.Battle;
-            _currentPlayTime = TotalTimeList[_currentState];
+            GameplayPanel.UpdateView(GameState.Battle, _defenderSecurityMax, _hackerSecurityMax, _securityLevel);
         }
 
         private void _BeginEndPhase()
         {
-            _currentState = GameState.End;
-            _currentPlayTime = TotalTimeList[_currentState];
-            EndPanel.UpdateView(_securityLevel, _defenderSecurityThreshold, _hackerSecurityThreshold,
-                _localPlayerManager);
+            EndPanel.UpdateView(_securityLevel, _defenderSecurityThreshold, _hackerSecurityThreshold, _localPlayerManager);
         }
 
 
@@ -306,7 +346,8 @@ namespace GameModule.Class
         {
             _currentState = GameState.WaitingForPlayers;
             _currentPlayTime = TotalTimeList[_currentState];
-            WaitingPanel.StartButton.SetActive(PhotonNetwork.IsMasterClient);
+            
+            WaitingPanel.ResetData();
         }
 
 
@@ -320,17 +361,18 @@ namespace GameModule.Class
                 {
                     _localPlayerIndex = index;
                     _localPlayerName = player.NickName;
-                    WaitingPanel.Player0ButtonGroup.SetActive(index == 0);
-                    WaitingPanel.Player1ButtonGroup.SetActive(index == 1);
+                    // WaitingPanel.Player0ButtonGroup.SetActive(index == 0);
+                    // WaitingPanel.Player1ButtonGroup.SetActive(index == 1);
                 }
 
                 WaitingPanel.PlayerNameList[index].text = player.NickName;
+                WaitingPanel.UpdateData(_localPlayerIndex);
             }
 
             _CreateLocalPlayerInstance();
-
             WaitingPanel.StartButton.SetActive(_playerList.Length == PhotonNetwork.CurrentRoom.MaxPlayers);
         }
+
 
         #endregion
 
@@ -339,6 +381,7 @@ namespace GameModule.Class
         [PunRPC]
         private void _RPC_UpdatePlayerData()
         {
+            Debug.Log($"{name}:: _RPC_UpdatePlayerData called;");
             var position = Vector3.zero;
 
             if (_playersTeamStateList[_localPlayerIndex] == Team.Defender)
@@ -357,6 +400,8 @@ namespace GameModule.Class
         private void _RPC_SendUpdatedGameState(GameState gameState)
         {
             _currentState = gameState;
+            _currentPlayTime = TotalTimeList[_currentState];
+            UpdateNewGameState();
             _UpdateViewPanel();
         }
 
@@ -364,6 +409,8 @@ namespace GameModule.Class
         private void _RPC_SendDefenderButtonClicked(int[] newState)
         {
             _playersTeamStateList[newState[0]] = (Team) newState[1];
+            WaitingPanel.UpdatePlayerTeam(newState);
+
             Debug.Log(
                 $"_RPC_SendDefenderButtonClicked:: {_playerList[newState[0]]}::{_playersTeamStateList[newState[0]]}");
         }
@@ -372,6 +419,7 @@ namespace GameModule.Class
         private void _RPC_SendHackerButtonClicked(int[] newState)
         {
             _playersTeamStateList[newState[0]] = (Team) newState[1];
+            WaitingPanel.UpdatePlayerTeam(newState);
             Debug.Log(
                 $"_RPC_SendHackerButtonClicked:: {_playerList[newState[0]]}::{_playersTeamStateList[newState[0]]}");
         }
@@ -390,13 +438,19 @@ namespace GameModule.Class
         {
             return _playersTeamStateList;
         }
+
         internal Player[] GetPlayersList()
         {
             return _playerList;
         }
+
         internal int GetLocalPlayerIndex()
         {
             return _localPlayerIndex;
         }
+        internal PlayerManager GetPlayerManager()
+        {
+            return _localPlayerManager;
+        } 
     }
 }

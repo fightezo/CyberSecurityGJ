@@ -15,6 +15,11 @@ namespace GameModule.Class.Component
             return gameObject;
         }
 
+        public void EndPhaseUpdate()
+        {
+            
+        }
+
         public void UpdateView(int securityLevel, int defenderSecurityThreshold, int hackerSecurityThreshold, PlayerManager localPlayerManager)
         {
             if (securityLevel >= defenderSecurityThreshold)

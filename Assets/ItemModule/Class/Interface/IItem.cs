@@ -12,5 +12,6 @@ namespace ItemModule.Class.Interface
         public ItemOwner GetItemOwner();
 
         public int GetCost();
+        
     }
 }

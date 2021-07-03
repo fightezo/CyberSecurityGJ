@@ -7,7 +7,7 @@ namespace ItemModule.Class.Component
         public override void Create()
         {
            SetRestrictedCharacters("");
-           SetItemState(ItemState.World);
+           SetItemState(ItemState.Player);
         }
         public override ItemType GetItemType()
         {

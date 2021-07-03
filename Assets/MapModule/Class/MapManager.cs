@@ -13,7 +13,7 @@ namespace MapModule.Class
         private IMap _currentMap;
         private GameObject _currentMapGameObject;
         private Vector3 _translationToHackerMap;
-        private Vector3 _translationToCitizenMap;
+        private Vector3 _translationToDefenderMap;
 
         private void Awake()
         {
@@ -25,11 +25,11 @@ namespace MapModule.Class
             _currentMapGameObject = Instantiate((GameObject) Resources.Load(MapList[0].GetComponent<IMap>().GetResourcesName()), Vector3.zero, Quaternion.identity);
             _currentMap = _currentMapGameObject.GetComponent<IMap>();
 
-            _translationToCitizenMap = GetCitizenMap().transform.position - GetHackerMap().transform.position;
-            _translationToHackerMap = GetHackerMap().transform.position - GetCitizenMap().transform.position;
+            _translationToDefenderMap = GetDefenderMap().transform.position - GetHackerMap().transform.position;
+            _translationToHackerMap = GetHackerMap().transform.position - GetDefenderMap().transform.position;
         }
 
-        public GameObject GetCitizenMap()
+        public GameObject GetDefenderMap()
         {
             return _currentMap.GetDefenderMap();
         }
@@ -47,9 +47,9 @@ namespace MapModule.Class
             return _currentMap.GetHackerSpawnPointWorldPosition();
         }
 
-         public Vector3 GetTranslateToCitizenMap()
+         public Vector3 GetTranslateToDefenderMap()
          {
-             return _translationToCitizenMap;
+             return _translationToDefenderMap;
          }
 
          public Vector3 GetTranslationToHackerMap()
@@ -57,7 +57,7 @@ namespace MapModule.Class
              return _translationToHackerMap;
          }
 
-         public List<GameObject> GetCitizenItemSpawnPoints()
+         public List<GameObject> GetDefenderItemSpawnPoints()
          {
              return _currentMap.GetDefenderItemSpawnList().ToList();
          }
