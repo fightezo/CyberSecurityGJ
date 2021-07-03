@@ -18,6 +18,8 @@ public class UIPlanningItem : MonoBehaviour
     
     public void OnMinusButtonClicked()
     {
+        if (CurrentCount <= 0)
+            return;
         var planningPanel = (PlanningPanel) GameManager.Instance.GetPanel();
         if (planningPanel == null)
             return;

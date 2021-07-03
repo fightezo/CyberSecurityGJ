@@ -32,52 +32,60 @@ namespace GameModule.Class.Component
         {
             UpdateItemManager();
         }
-        public void UpdateView()
+        public void UpdateView(Team team)
         {
+            PointsLeftText.text = (team switch
+            {
+                Team.Defender => _defenderPoints,
+                Team.Hacker => _hackerPoints,
+                _ => 0
+            }).ToString();
             _playerManager =  GameManager.Instance.GetPlayerManager();
             for (int i = 0; i < PlanningChestList.Count; i++)
             {
                 var chest = PlanningChestList[i];
-                if (_playerManager.GetTeam() == Team.Defender)
+                if (team == Team.Defender)
                 {
                     chest.NameText.text = ItemHelper.GetName(ItemManager.Instance.AvailableDefenderChest[i].GetItemType());
                     chest.DescriptionText.text = ItemHelper.GetDescription(ItemManager.Instance.AvailableDefenderChest[i].GetItemType());
                     chest.Cost = ItemHelper.GetCost(ItemManager.Instance.AvailableDefenderChest[i].GetItemType());
-                    chest.CostText.text = chest.Cost.ToString();
                     chest.Texture.sprite = ItemManager.Instance.DefenderChestSpriteList[i];
                 }
-            
-                if (_playerManager.GetTeam() == Team.Hacker)
+                if (team == Team.Hacker)
                 {
                     chest.NameText.text = ItemHelper.GetName(ItemManager.Instance.AvailableHackerChest[i].GetItemType());
                     chest.DescriptionText.text = ItemHelper.GetDescription(ItemManager.Instance.AvailableHackerChest[i].GetItemType());
                     chest.Cost = ItemHelper.GetCost(ItemManager.Instance.AvailableHackerChest[i].GetItemType());
-                    chest.CostText.text = chest.Cost.ToString();
                     chest.Texture.sprite = ItemManager.Instance.HackerChestSpriteList[i];
                 } 
+                chest.CostText.text = chest.Cost.ToString();
+                chest.CurrentCount = 0;
+                chest.CurrentCountText.text = chest.CurrentCount.ToString();
             }
                 
             for (int i = 0; i < PlanningToolList.Count; i++)
             {
                 var chest = PlanningToolList[i];
 
-                if (_playerManager.GetTeam() == Team.Defender)
+                if (team == Team.Defender)
                 {
                     chest.NameText.text = ItemHelper.GetName(ItemManager.Instance.AvailableDefenderTools[i].GetItemType());
                     chest.DescriptionText.text = ItemHelper.GetDescription(ItemManager.Instance.AvailableDefenderTools[i].GetItemType());
                     chest.Cost = ItemHelper.GetCost(ItemManager.Instance.AvailableDefenderTools[i].GetItemType());
-                    chest.CostText.text = chest.Cost.ToString();
                     chest.Texture.sprite = ItemManager.Instance.DefenderActionToolSpriteList[i]; 
+                    
                 }
             
-                if (_playerManager.GetTeam() == Team.Hacker)
+                if (team == Team.Hacker)
                 {
                     chest.NameText.text = ItemHelper.GetName(ItemManager.Instance.AvailableHackerTools[i].GetItemType());
                     chest.DescriptionText.text = ItemHelper.GetDescription(ItemManager.Instance.AvailableHackerTools[i].GetItemType());
                     chest.Cost = ItemHelper.GetCost(ItemManager.Instance.AvailableHackerTools[i].GetItemType());
-                    chest.CostText.text = chest.Cost.ToString();
                     chest.Texture.sprite = ItemManager.Instance.HackerActionToolSpriteList[i]; 
                 } 
+                chest.CostText.text = chest.Cost.ToString();
+                chest.CurrentCount = 0;
+                chest.CurrentCountText.text = chest.CurrentCount.ToString();
             } 
 
         }

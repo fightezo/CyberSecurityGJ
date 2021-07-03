@@ -14,7 +14,7 @@ namespace PlayerModule.Class.UI
         private Vector3 _screenOffset = new Vector3(0f, 30f, 0f);
 
         private PlayerManager _target;
-        private float _characterControllerHeight = 0f;
+        private float _characterControllerHeight = 10f;
         private Transform _targetTransform;
         private Renderer _targetRenderer;
         private CanvasGroup _canvasGroup;
@@ -22,7 +22,6 @@ namespace PlayerModule.Class.UI
         private Camera _camera;
 
         #endregion
-
 
         #region MonoBehaviour Callbacks
 
@@ -63,7 +62,6 @@ namespace PlayerModule.Class.UI
         }
 
         #endregion
-
 
         #region Public Methods
 

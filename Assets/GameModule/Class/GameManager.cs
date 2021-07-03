@@ -120,7 +120,6 @@ namespace GameModule.Class
 
             if (_currentPlayTime <= 0f)
             {
-                PanelList[_currentState].EndPhaseUpdate();
                 GetNextGameState();
             }
         }
@@ -229,14 +228,34 @@ namespace GameModule.Class
             // var currentIndex = (_currentState > GameState.Planning && _currentState < GameState.End ) ? 2 : (int) _currentState;
             var currentIndex = (int) _currentState;
             Debug.Log($"panelList::{(GameState) currentIndex}");
+            var currentPhase = 0;
+            switch (_currentState)
+            {
+                case GameState.WaitingForPlayers:
+                    currentPhase = 0;
+                    break;
+                case GameState.Planning:
+                    currentPhase = 1;
+                    break;
+                case GameState.Preparation:
+                case GameState.Battle:
+                    currentPhase = 2;
+                    break;
+                case GameState.End:
+                    currentPhase = 3;
+
+                    break;
+            }
+            
             for (var index = 0; index < _phasePanelList.Count; index++)
             {
-                _phasePanelList[index].SetActive(index == currentIndex);
+                _phasePanelList[index].SetActive(index == currentPhase);
             }
         }
 
         protected internal void GetNextGameState()
         {
+            PanelList[_currentState].EndPhaseUpdate();
             var _nextState = GameState.WaitingForPlayers;
             switch (_currentState)
             {
@@ -301,8 +320,7 @@ namespace GameModule.Class
 
         private void _BeginPlanningPhase()
         {
-            PlanningPanel.UpdateView();
-            photonView.RPC("_RPC_UpdatePlayerData", RpcTarget.AllBuffered);
+            PlanningPanel.UpdateView(_playersTeamStateList[_localPlayerIndex]);
         }
 
         private void _BeginPreparationPhase()
@@ -394,6 +412,7 @@ namespace GameModule.Class
             }
 
             _localPlayerManager.UpdatePlayerData(position, _playersTeamStateList[_localPlayerIndex]);
+
         }
 
         [PunRPC]

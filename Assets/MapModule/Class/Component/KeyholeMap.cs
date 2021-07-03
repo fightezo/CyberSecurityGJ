@@ -10,13 +10,13 @@ namespace MapModule
     {
         [SerializeField] private GameObject _defenderSpawnPoint;
         [SerializeField] private GameObject _defenderMap;
-        [SerializeField] private GameObject[] _defenderItemSpawnList;
-        [SerializeField] private GameObject[] _defenderSlotList;
+        [SerializeField] private Collider[] _defenderItemSpawnList;
+        [SerializeField] private Collider[] _defenderSlotList;
 
         [SerializeField] private GameObject _hackerSpawnPoint;
         [SerializeField] private GameObject _hackerMap;
-        [SerializeField] private GameObject[] _hackerItemSpawnList;
-        [SerializeField] private GameObject[] _hackerSlotList;
+        [SerializeField] private Collider[] _hackerItemSpawnList;
+        [SerializeField] private Collider[] _hackerSlotList;
 
         public string GetResourcesName()
         {
@@ -30,12 +30,12 @@ namespace MapModule
             return _defenderSpawnPoint.transform.position;
         }
 
-        public GameObject[] GetDefenderItemSpawnList()
+        public Collider[] GetDefenderItemSpawnList()
         {
             return _defenderItemSpawnList;
         }
 
-        public GameObject[] GetDefenderSlotList()
+        public Collider[] GetDefenderSlotList()
         {
             return _defenderSlotList;
         }
@@ -54,12 +54,12 @@ namespace MapModule
             return _hackerSpawnPoint.transform.position;
         }
 
-        public GameObject[] GetHackerItemSpawnList()
+        public Collider[] GetHackerItemSpawnList()
         {
             return _hackerItemSpawnList;
         }
 
-        public GameObject[] GetHackerSlotList()
+        public Collider[] GetHackerSlotList()
         {
             return _hackerSlotList;
         }

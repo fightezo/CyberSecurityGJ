@@ -13,10 +13,5 @@ namespace ItemModule.Class.Component
         {
             return ItemType.NormalChest;
         }
-
-        public override int GetCost()
-        {
-            return 1;
-        }
     }
 }

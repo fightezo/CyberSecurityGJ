@@ -254,9 +254,9 @@ namespace PlayerModule.Class
 
         private void _CalledOnLevelWasLoaded(int level)
         {
-            if (!Physics.Raycast(transform.position, -Vector3.up, 5f))
+            if (!Physics.Raycast(transform.position, -Vector3.up, 10f))
             {
-                transform.position = new Vector3(0f, 5f, 0f);
+                transform.position = new Vector3(0f, 10f, 0f);
             }
 
             _CreatePlayerUi();

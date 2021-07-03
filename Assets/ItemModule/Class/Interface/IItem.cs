@@ -10,8 +10,6 @@ namespace ItemModule.Class.Interface
         public void SetItemState(ItemState newState);
         public ItemCategory GetItemCategory();
         public ItemOwner GetItemOwner();
-
-        public int GetCost();
         
     }
 }

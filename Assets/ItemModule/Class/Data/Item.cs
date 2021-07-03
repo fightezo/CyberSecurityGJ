@@ -27,7 +27,5 @@ namespace ItemModule.Class
         public abstract ItemCategory GetItemCategory();
 
         public abstract ItemOwner GetItemOwner();
-
-        public abstract int GetCost();
     }
 }

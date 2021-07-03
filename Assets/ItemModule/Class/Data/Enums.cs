@@ -17,7 +17,7 @@ namespace ItemModule.Class.Data
         // Hacking Tools
         BruteForce = 1001,
         Phishing = 1002,
-        SpyWare = 1003,
+        Spyware = 1003,
         // Action Tools
         Trojan = 1101,
         Ransomware = 1102,

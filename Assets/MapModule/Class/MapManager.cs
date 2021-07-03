@@ -57,21 +57,21 @@ namespace MapModule.Class
              return _translationToHackerMap;
          }
 
-         public List<GameObject> GetDefenderItemSpawnPoints()
+         public List<Collider> GetDefenderItemSpawnPoints()
          {
              return _currentMap.GetDefenderItemSpawnList().ToList();
          }
          
-         public List<GameObject> GetCitizenSlotPoints()
+         public List<Collider> GetCitizenSlotPoints()
          {
              return _currentMap.GetDefenderSlotList().ToList();
          }
          
-         public List<GameObject> GetHackerItemSpawnPoints()
+         public List<Collider> GetHackerItemSpawnPoints()
          {
              return _currentMap.GetHackerItemSpawnList().ToList();
          }
-         public List<GameObject> GetHackerSlotPoints()
+         public List<Collider> GetHackerSlotPoints()
          {
              return _currentMap.GetHackerSlotList().ToList();
          }

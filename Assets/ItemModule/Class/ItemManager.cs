@@ -80,7 +80,7 @@ namespace ItemModule
         private void _CreateHackerItemRandomly()
         {
             Debug.Log($"{name}::CreateHackerItem");
-            var randomItemIndex = UnityEngine.Random.Range(0, AvailableDefenderChest.Count);
+            var randomItemIndex = UnityEngine.Random.Range(0, AvailableHackerChest.Count);
             var hackerItemSpawnPoints = MapManager.Instance.GetHackerItemSpawnPoints();
             var randomItemPosition = UnityEngine.Random.Range(0, hackerItemSpawnPoints.Count);
             var item = PhotonNetwork.Instantiate(HasGetItemPlaceholder.name, hackerItemSpawnPoints[randomItemPosition].transform.position, 

@@ -47,8 +47,12 @@ MonoBehaviour:
   MiniGameCanvas: {fileID: 4399504200416183523}
   HasGetItemPlaceholder: {fileID: 5313752235531391580, guid: 27e0c9d60e8885d4eb8e7d5f5d09d0d8, type: 3}
   AvailableDefenderChest:
+  - {fileID: 1314692970548352527, guid: 97b85ae0bf440454b96319ca1de7ba54, type: 3}
+  - {fileID: 4537317722497381497, guid: 8d1537cf45e6ee348bf558fb9d1cb24c, type: 3}
   - {fileID: 2401433745077456521, guid: 9ff972e1352146d48b9681c5d64a3f35, type: 3}
-  AvailableDefenderTools: []
+  AvailableDefenderTools:
+  - {fileID: 6663904674419170309, guid: e6d86f5a3ad09164c9963dc659458869, type: 3}
+  - {fileID: 8135553257811757954, guid: 4a3bd92bb7ef28948bb436a3306fce04, type: 3}
   DefenderChestSpriteList:
   - {fileID: 21300000, guid: 2c954a56c4a03c743b525e83d2298671, type: 3}
   - {fileID: 21300000, guid: fb1ab0ae7ed41504d969a44ca1a2471f, type: 3}
@@ -59,14 +63,18 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 41369c073539d9640a6aa5bf8a335ede, type: 3}
   AvailableHackerChest:
   - {fileID: 6526275301850413781, guid: de07efbd163eb0a40bc429b497f96a6b, type: 3}
-  AvailableHackerTools: []
+  - {fileID: 8217081282910167753, guid: 5cb25401fef5f1e46a596b5898659c08, type: 3}
+  - {fileID: 3693674269195847077, guid: afa92b3dc035bfe44b0409c3f910eed2, type: 3}
+  AvailableHackerTools:
+  - {fileID: 1517240184975936416, guid: 65f439af03f3d7e488414a54f0e2996b, type: 3}
+  - {fileID: 7823090543287375172, guid: 0aec80368c6e1944192d5d7e6b131734, type: 3}
   HackerChestSpriteList:
   - {fileID: 21300000, guid: fd2facbe8b9d712438f08ad9192eb217, type: 3}
   - {fileID: 21300000, guid: 818817e855d145243926f6aea5b65283, type: 3}
   - {fileID: 21300000, guid: d9a1d115c748d9743af9da11549b7f35, type: 3}
   HackerActionToolSpriteList:
-  - {fileID: 21300000, guid: 593631a59e9e19c4ca8acbce4c02033c, type: 3}
   - {fileID: 21300000, guid: d8a9d9721c52e8549892ec9e89c2aa50, type: 3}
+  - {fileID: 21300000, guid: 593631a59e9e19c4ca8acbce4c02033c, type: 3}
 --- !u!1 &4286921702159621092
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,25 +13,14 @@ namespace ItemModule.Class
         {
             SetItemState(ItemState.Player);
         }
-
         public override ItemType GetItemType()
         {
             return ItemType.BruteForce;
         }
-
-        public override void SetItemState(ItemState newState)
-        {
-            _currentState = newState;
-        }
-
         public override ItemCategory GetItemCategory()
         {
             return ItemCategory.Placement;
         }
 
-        public override int GetCost()
-        {
-            return 1;
-        }
     }
 }

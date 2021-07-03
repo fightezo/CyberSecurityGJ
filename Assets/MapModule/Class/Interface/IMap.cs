@@ -7,14 +7,14 @@ namespace MapModule.Class.Interface
         // Citizen
         string GetResourcesName();
         Vector3 GetDefenderSpawnPointWorldPosition();
-        GameObject[] GetDefenderItemSpawnList();
-        GameObject[] GetDefenderSlotList();
+        Collider[] GetDefenderItemSpawnList();
+        Collider[] GetDefenderSlotList();
         GameObject GetDefenderMap();
 
         //Hacker        
         Vector3 GetHackerSpawnPointWorldPosition();
-        GameObject[] GetHackerItemSpawnList();
-        GameObject[] GetHackerSlotList();
+        Collider[] GetHackerItemSpawnList();
+        Collider[] GetHackerSlotList();
         GameObject GetHackerMap();
     }
 }

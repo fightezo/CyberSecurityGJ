@@ -156,6 +156,7 @@ namespace GameModule.Class.Component
 
         public void EndPhaseUpdate()
         {
+            GameManager.Instance.photonView.RPC("_RPC_UpdatePlayerData", RpcTarget.AllBuffered);
         }
 
 
