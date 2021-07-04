@@ -91,7 +91,6 @@ MonoBehaviour:
   CitizenGameObject: {fileID: 8582333710458467765}
   HackerGameObject: {fileID: 5365230669041738093}
   PressEButtonGameObject: {fileID: 6190381388123282195}
-  _direction: 0
 --- !u!114 &2209475709574871137
 MonoBehaviour:
   m_ObjectHideFlags: 0
