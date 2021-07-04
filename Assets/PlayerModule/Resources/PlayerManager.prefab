@@ -90,7 +90,7 @@ MonoBehaviour:
   RobotGameObject: {fileID: 0}
   CitizenGameObject: {fileID: 8582333710458467765}
   HackerGameObject: {fileID: 5365230669041738093}
-  PressEButtonGameObject: {fileID: 0}
+  PressEButtonGameObject: {fileID: 6190381388123282195}
 --- !u!114 &4892555563263498037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,7 +185,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 1
 --- !u!65 &6782513469026636524
 BoxCollider:

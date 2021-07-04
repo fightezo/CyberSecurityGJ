@@ -139,18 +139,17 @@ namespace PlayerModule.Class
             {
                 _itemInRange = null;
                 PressEButtonGameObject.SetActive(false);
-
             } 
 
         }
 
-        private void OnControllerColliderHit(ControllerColliderHit hit)
+        private void OnCollisionEnter(Collision other)
         {
             if (!photonView.IsMine)
             {
                 return;
             }
-            if (hit.collider.CompareTag("Player"))
+            if (other.gameObject.CompareTag("Player"))
             {
                 GameManager.Instance.CheckState(this, _taggedPlayer);
             }

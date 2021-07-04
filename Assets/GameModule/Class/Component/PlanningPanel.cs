@@ -138,8 +138,7 @@ namespace GameModule.Class.Component
             {
                 itemList.Add((int)item.ItemType);
             }
-            ItemManager.Instance.UpdateItem(itemList);
-            ItemManager.Instance.photonView.RPC("RPC_UpdateItemManager", RpcTarget.OthersBuffered, itemList);
+            ItemManager.Instance.photonView.RPC("RPC_UpdateItemManager", RpcTarget.AllBuffered, itemList.ToArray());
         }
     }
 }

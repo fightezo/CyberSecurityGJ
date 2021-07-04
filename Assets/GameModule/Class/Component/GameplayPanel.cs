@@ -37,6 +37,7 @@ namespace GameModule.Class.Component
             for (int i = 0; i < planningList.Length; i++)
             {
                 var item = planningList[i];
+                if(item == null) continue;
                 var itemCategory = ItemHelper.GetItemCategory(item.GetItemType());
                 var itemOwner = ItemHelper.GetItemOwner(item.GetItemType());
 

@@ -177,10 +177,10 @@ namespace ItemModule.Class
             foreach (var itemTypeInt in itemTypeList)
             {
                 var itemType = (ItemType)itemTypeInt;
-                var itemName = ItemHelper.GetName(itemType);
+                var resourcesName = ItemHelper.GetResourcesName(itemType);
                 var itemOwner = ItemHelper.GetItemOwner(itemType);
                 var itemCategory = ItemHelper.GetItemCategory(itemType);
-                var newItem = PhotonNetwork.Instantiate(itemName, GameHelper.GetResourceArea(), Quaternion.identity);
+                var newItem = PhotonNetwork.Instantiate(resourcesName, GameHelper.GetResourceArea(), Quaternion.identity);
                 if (itemOwner == Team.Defender)
                 {
                     var dItem = newItem.GetComponent<DefenderItem>();

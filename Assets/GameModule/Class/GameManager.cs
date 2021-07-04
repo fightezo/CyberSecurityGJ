@@ -61,7 +61,7 @@ namespace GameModule.Class
         private Dictionary<GameState, float> TotalTimeList = new Dictionary<GameState, float>()
         {
             {GameState.WaitingForPlayers, 60f},
-            {GameState.Planning, 60f},
+            {GameState.Planning, 20f},
             {GameState.Preparation, 30f},
             {GameState.Battle, 600f},
             {GameState.End, 120f},

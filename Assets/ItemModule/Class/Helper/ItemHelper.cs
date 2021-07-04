@@ -146,4 +146,9 @@ public static class ItemHelper
     {
         return ItemDataList[itemType].SpriteIndex;
     }
+
+    public static string GetResourcesName(ItemType itemType)
+    {
+        return ItemDataList[itemType].ResourcesName;
+    }
 }

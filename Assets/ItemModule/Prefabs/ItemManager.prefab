@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 608128177772125810}
   - component: {fileID: 608128177772125813}
+  - component: {fileID: -67163594331052551}
   m_Layer: 0
   m_Name: ItemManager
   m_TagString: Untagged
@@ -53,6 +54,8 @@ MonoBehaviour:
   AvailableDefenderTools:
   - {fileID: 6663904674419170309, guid: e6d86f5a3ad09164c9963dc659458869, type: 3}
   - {fileID: 8135553257811757954, guid: 4a3bd92bb7ef28948bb436a3306fce04, type: 3}
+  _defenderItemPlacementList: []
+  _defenderItemToolList: []
   DefenderChestSpriteList:
   - {fileID: 21300000, guid: 2c954a56c4a03c743b525e83d2298671, type: 3}
   - {fileID: 21300000, guid: fb1ab0ae7ed41504d969a44ca1a2471f, type: 3}
@@ -68,6 +71,8 @@ MonoBehaviour:
   AvailableHackerTools:
   - {fileID: 1517240184975936416, guid: 65f439af03f3d7e488414a54f0e2996b, type: 3}
   - {fileID: 7823090543287375172, guid: 0aec80368c6e1944192d5d7e6b131734, type: 3}
+  _hackerItemPlacementList: []
+  _hackerItemToolList: []
   HackerChestSpriteList:
   - {fileID: 21300000, guid: fd2facbe8b9d712438f08ad9192eb217, type: 3}
   - {fileID: 21300000, guid: 818817e855d145243926f6aea5b65283, type: 3}
@@ -75,6 +80,29 @@ MonoBehaviour:
   HackerActionToolSpriteList:
   - {fileID: 21300000, guid: d8a9d9721c52e8549892ec9e89c2aa50, type: 3}
   - {fileID: 21300000, guid: 593631a59e9e19c4ca8acbce4c02033c, type: 3}
+--- !u!114 &-67163594331052551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608128177772125811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 1
+  ObservedComponents:
+  - {fileID: 608128177772125813}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &4286921702159621092
 GameObject:
   m_ObjectHideFlags: 0
