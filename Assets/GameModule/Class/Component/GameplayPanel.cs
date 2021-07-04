@@ -44,6 +44,8 @@ namespace GameModule.Class.Component
             SecurityLevelSlider.minValue = hackerSecurityMax;
             SecurityLevelSlider.maxValue = defenderSecurityMax;
             SecurityLevelSlider.value = securityLevel;
+            MinText.text = SecurityLevelSlider.minValue.ToString();
+            MaxText.text = SecurityLevelSlider.maxValue.ToString();
             _playerManager = GameManager.Instance.GetPlayerManager();
             UpdateUIView();
             SecurityLevelSlider.onValueChanged.AddListener(GameManager.Instance.UpdateGame);
@@ -79,6 +81,9 @@ namespace GameModule.Class.Component
 
         public void UpdateUIView()
         {
+            CurrentText.text = SecurityLevelSlider.value.ToString();
+            NoActionTeleport.SetActive(!GameManager.Instance.IsReadyToTeleport(_playerManager.GetTeam()));
+            NoActionDestroy.SetActive(!_playerManager.GetIsPlayerInRange());
             _UpdateChests();
             _UpdateTools();
         }
@@ -89,6 +94,8 @@ namespace GameModule.Class.Component
             for (int i = 0; i < toolList.Length; i++)
             {
                 UIGameplayToolList[i].gameObject.SetActive(false);
+                NoItemToolList[i].SetActive(true);
+                NotInRangeList[i].SetActive(false);
                 var item = toolList[i];
                 if (item == null) continue;
                 var itemCategory = ItemHelper.GetItemCategory(item.GetItemType());
@@ -101,10 +108,17 @@ namespace GameModule.Class.Component
                     UIGameplayToolList[i].Image.sprite = itemOwner == Team.Defender
                         ? ItemManager.Instance.DefenderChestSpriteList[ItemHelper.GetSpriteIndex(item.GetItemType())]
                         : ItemManager.Instance.HackerChestSpriteList[ItemHelper.GetSpriteIndex(item.GetItemType())];
+                   
                     UIGameplayToolList[i].gameObject.SetActive(true);
-
+                    NoItemToolList[i].SetActive(false);
+                    if (_playerManager.ItemInRange() != null)
+                    {
+                        NotInRangeList[i].SetActive(false);
+                    }
                 }
             }
+
+
         }
 
         private void _UpdateChests()
@@ -114,6 +128,7 @@ namespace GameModule.Class.Component
             for (int i = 0; i < planningList.Length; i++)
             {
                 UIGameplayChestList[i].gameObject.SetActive(false);
+                KeyCapList[i].SetActive(false);
                 var item = planningList[i];
                 if (item == null) continue;
                 var itemCategory = ItemHelper.GetItemCategory(item.GetItemType());
@@ -127,6 +142,11 @@ namespace GameModule.Class.Component
                         ? ItemManager.Instance.DefenderChestSpriteList[ItemHelper.GetSpriteIndex(item.GetItemType())]
                         : ItemManager.Instance.HackerChestSpriteList[ItemHelper.GetSpriteIndex(item.GetItemType())];
                     UIGameplayChestList[i].gameObject.SetActive(true);
+                    if (_playerManager.GetIsSlotPointInRange() != null)
+                    {
+                        KeyCapList[i].SetActive(true);
+                    }  
+
                 }
             }
         }

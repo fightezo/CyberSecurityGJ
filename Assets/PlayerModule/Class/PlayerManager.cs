@@ -40,10 +40,11 @@ namespace PlayerModule.Class
         private bool _isPlayerInRange;
 
         private List<int> _itemList = new List<int>();
-        private PlayerManager _taggedPlayer;
         private Team _team;
         private PlayerState _currentState;
         private bool isLocalTesting;
+        private bool _isFrozen;
+
         #endregion
 
         #region MonoBehaviour Callbacks
@@ -168,7 +169,7 @@ namespace PlayerModule.Class
 
                 } 
                 // play miniGame
-                if (other.CompareTag("GetItemPoint"))
+                if (other.CompareTag("ComputerPoint"))
                 {
                     _computerInRange = null;
                 }
@@ -212,18 +213,7 @@ namespace PlayerModule.Class
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
-            if (stream.IsWriting)
-            {
-                // stream.SendNext(IsFiring);
-                // stream.SendNext(itemList.ToArray());
-            }
-            else
-            {
-                // IsFiring = (bool) stream.ReceiveNext();
-                // itemList = ((int[]) stream.ReceiveNext()).ToList();
-            }
         }
-
         #endregion
 
         #region Public Methods
@@ -237,6 +227,32 @@ namespace PlayerModule.Class
         {
             return _team;
         }
+
+        public bool GetIsFrozen()
+        {
+            return _isFrozen;
+        }
+        public IItem ItemInRange()
+        {
+            return _itemInRange;
+        }
+        public Collider GetComputerInRange()
+        {
+            return _computerInRange;
+        }
+        public Collider GetIsSlotPointInRange()
+        {
+            return _slotPointInRange;
+        }
+        public bool GetIsPlayerInRange()
+        {
+            return _isPlayerInRange;
+        }
+        public void SetIsFrozen(bool isFrozen, Team team)
+        {
+            if(_team == team)
+                _isFrozen = isFrozen;
+        }
         #endregion
         #region Private Methods
         private void _CreatePlayerUi()
@@ -247,6 +263,8 @@ namespace PlayerModule.Class
 
         private void _ProcessInputs()
         {
+            if (_isFrozen) return;
+     
             if (Input.GetKeyDown(KeyCode.T) && GameManager.Instance.IsReadyToTeleport(_team))
             {
                 Teleport();
@@ -317,11 +335,11 @@ namespace PlayerModule.Class
             }
         }
 
-        public void Teleport(bool isForceReturn = false)
+        public void Teleport()
         {
             if (photonView.IsMine)
             {
-                if (_currentState == PlayerState.Invading || isForceReturn)
+                if (_currentState == PlayerState.Invading )
                 {
                     _currentState = PlayerState.Normal;
                     if (_team == Team.Defender)

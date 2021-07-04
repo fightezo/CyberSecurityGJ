@@ -24,7 +24,6 @@ namespace ItemModule.Class.Component
         private void RPC_ActivateSkill()
         {
             GameManager.Instance.SendAttacker();
-            ItemManager.Instance.PhishingToolActive();
         }
     }
 }

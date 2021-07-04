@@ -47,6 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 799f0ba38b9b7bf418c3ea9772603a8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CountDownGameObject: {fileID: 0}
+  TimeLeftText: {fileID: 0}
 --- !u!65 &8631771761366443298
 BoxCollider:
   m_ObjectHideFlags: 0

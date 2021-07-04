@@ -131,12 +131,18 @@ namespace GameModule.Class.Component
 
             foreach (var item in PlanningChestList)
             {
-                itemList.Add((int)item.ItemType);
+                for (int i = 0; i < item.CurrentCount; i++)
+                {
+                    itemList.Add((int) item.ItemType);
+                }
             }
 
             foreach (var item in PlanningToolList)
             {
-                itemList.Add((int)item.ItemType);
+                for (int i = 0; i < item.CurrentCount; i++)
+                {
+                    itemList.Add((int)item.ItemType);
+                }
             }
             ItemManager.Instance.photonView.RPC("RPC_UpdateSceneItem", RpcTarget.AllBuffered, itemList.ToArray());
         }

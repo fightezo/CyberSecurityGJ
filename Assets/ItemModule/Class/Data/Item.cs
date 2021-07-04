@@ -35,5 +35,9 @@ namespace ItemModule.Class
         {
             photonView.RPC("RPC_ActivateSkill", RpcTarget.All);
         }
+        public void DeactivateSkill()
+        {
+            photonView.RPC("RPC_DeactivateSkill", RpcTarget.All);
+        }
     }
 }

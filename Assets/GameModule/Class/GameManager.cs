@@ -188,7 +188,8 @@ namespace GameModule.Class
         {
             if(!IsReadyToTeleport(_localPlayerManager.GetTeam()))
             {
-                _localPlayerManager.Teleport(true);
+                if(_localPlayerManager.GetState() == PlayerState.Invading)
+                    _localPlayerManager.Teleport();
             }
         }
 
@@ -340,14 +341,14 @@ namespace GameModule.Class
             {
                 var position = Vector3.zero;
 
-                Debug.LogWarning($"BEFORE::PlayerManager.LocalPlayerInstance::{PlayerManager.LocalPlayerInstance}");
+                // Debug.LogWarning($"BEFORE::PlayerManager.LocalPlayerInstance::{PlayerManager.LocalPlayerInstance}");
                 if (PlayerManager.LocalPlayerInstance == null)
                 {
                     _localPlayerManager = PhotonNetwork.Instantiate(playerPrefab.name, position, Quaternion.identity, 0)
                         .GetComponent<PlayerManager>();
                 }
 
-                Debug.LogWarning($"AFTER::PlayerManager.LocalPlayerInstance::{PlayerManager.LocalPlayerInstance}");
+                // Debug.LogWarning($"AFTER::PlayerManager.LocalPlayerInstance::{PlayerManager.LocalPlayerInstance}");
             }
         }
 
@@ -358,7 +359,7 @@ namespace GameModule.Class
 
         private void _BeginEndPhase()
         {
-            EndPanel.UpdateView(_securityLevel, _defenderSecurityThreshold, _hackerSecurityThreshold, _localPlayerManager);
+            EndPanel.UpdateView(_securityLevel, _defenderSecurityThreshold, _hackerSecurityThreshold);
         }
 
 
@@ -436,8 +437,7 @@ namespace GameModule.Class
             _playersTeamStateList[newState[0]] = (Team) newState[1];
             WaitingPanel.UpdatePlayerTeam(newState);
 
-            Debug.Log(
-                $"RPC_SendDefenderButtonClicked:: {_playerList[newState[0]]}::{_playersTeamStateList[newState[0]]}");
+            // Debug.Log($"RPC_SendDefenderButtonClicked:: {_playerList[newState[0]]}::{_playersTeamStateList[newState[0]]}");
         }
 
         [PunRPC]
@@ -445,8 +445,7 @@ namespace GameModule.Class
         {
             _playersTeamStateList[newState[0]] = (Team) newState[1];
             WaitingPanel.UpdatePlayerTeam(newState);
-            Debug.Log(
-                $"RPC_SendHackerButtonClicked:: {_playerList[newState[0]]}::{_playersTeamStateList[newState[0]]}");
+            // Debug.Log($"RPC_SendHackerButtonClicked:: {_playerList[newState[0]]}::{_playersTeamStateList[newState[0]]}");
         }
 
         [PunRPC]

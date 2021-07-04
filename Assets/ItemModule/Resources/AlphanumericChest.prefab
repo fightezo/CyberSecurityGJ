@@ -128,6 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c38d7e3024caedf4a8e7db8e9449909b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BeingAttackedGameObject: {fileID: 0}
 --- !u!65 &4537317722497380633
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -16,17 +16,12 @@ namespace PlayerModule.Class
 
         #region MonoBehaviour Callbacks
 
-        // Use this for initialization
-        private void Start()
-        {
-        }
-
-
         // Update is called once per frame
         private void Update()
         {
             // if (GameManager.Instance.GetGameState() != GameManager.GameState.Preparation &&
                 // GameManager.Instance.GetGameState() != GameManager.GameState.Battle) return;
+                if (GameManager.Instance.GetPlayerManager().GetIsFrozen()) return;
                 if (photonView.IsMine && !ItemManager.Instance.MiniGameCanvas.activeSelf)
                 {
                     var horizontalInputVal = Input.GetAxis("Horizontal") * _speedModifier;

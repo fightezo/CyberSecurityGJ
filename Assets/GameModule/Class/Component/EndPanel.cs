@@ -20,20 +20,20 @@ namespace GameModule.Class.Component
             
         }
 
-        public void UpdateView(int securityLevel, int defenderSecurityThreshold, int hackerSecurityThreshold, PlayerManager localPlayerManager)
+        public void UpdateView(int securityLevel, int defenderSecurityThreshold, int hackerSecurityThreshold )
         {
             if (securityLevel >= defenderSecurityThreshold)
             {
-                DefenderPanel.SetActive(localPlayerManager.GetTeam() == Team.Defender);
-                HackerPanel.SetActive(localPlayerManager.GetTeam() == Team.Hacker);
+                DefenderPanel.SetActive(true);
+                HackerPanel.SetActive(false);
                 //In the DarkWeb; capturing hacker
                 _DisplayDefenderEnding();
             }
 
             if (securityLevel <= hackerSecurityThreshold)
             {
-                HackerPanel.SetActive(localPlayerManager.GetTeam() == Team.Hacker);
-                DefenderPanel.SetActive(localPlayerManager.GetTeam() == Team.Defender);
+                HackerPanel.SetActive(true);
+                DefenderPanel.SetActive(false);
                 // In Hacked Computer; steals identity
                 _DisplayHackerEnding();
             }

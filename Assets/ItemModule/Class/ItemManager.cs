@@ -315,10 +315,5 @@ namespace ItemModule.Class
         {
             throw new NotImplementedException();
         }
-
-        public void PhishingToolActive()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
