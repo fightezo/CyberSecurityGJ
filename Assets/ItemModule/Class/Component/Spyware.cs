@@ -1,4 +1,6 @@
+using GameModule.Class;
 using ItemModule.Class.Data;
+using Photon.Pun;
 
 namespace ItemModule.Class.Component
 {
@@ -14,6 +16,11 @@ namespace ItemModule.Class.Component
         {
             return ItemType.Spyware;
         }
-
+        // keylogger; shows password within a limited time
+        [PunRPC]
+        private void RPC_ActivateSkill()
+        {
+            GameManager.Instance.SendAttacker();
+        }
     }
 }

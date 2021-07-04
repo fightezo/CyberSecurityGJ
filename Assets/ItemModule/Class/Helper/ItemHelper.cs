@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using ItemModule.Class.Data;
+using ItemModule.Class.Interface;
 using PlayerModule.Class.Data;
 using UnityEngine;
 
-public struct ItemData
+public struct ItemData 
 {
     public string Name;
     public string Description;
@@ -13,6 +14,8 @@ public struct ItemData
     public Team ItemOwner;
     public int SpriteIndex;
     public string ResourcesName;
+    public int SecurityValue;
+
 }
 public static class ItemHelper
 {
@@ -27,6 +30,7 @@ public static class ItemHelper
             ItemOwner = Team.Defender,
             SpriteIndex = 0,
             ResourcesName = "NumericChest",
+            SecurityValue = 1,
         }},
         {ItemType.AlphanumericChest, new ItemData()
         {
@@ -37,6 +41,7 @@ public static class ItemHelper
             ItemOwner = Team.Defender,
             SpriteIndex = 1,
             ResourcesName = "AlphanumericChest",
+            SecurityValue = 2,
         }},
         {ItemType.NormalChest, new ItemData()
         {
@@ -47,6 +52,7 @@ public static class ItemHelper
             ItemOwner = Team.Defender,
             SpriteIndex = 2,
             ResourcesName = "NormalChest",
+            SecurityValue = 3,
         }},
         {ItemType.AntiVirus, new ItemData()
         {
@@ -57,6 +63,7 @@ public static class ItemHelper
             ItemOwner = Team.Defender,
             SpriteIndex = 0,
             ResourcesName = "AntiVirusTool",
+            SecurityValue = 0,
         }},
         {ItemType.Firewall, new ItemData()
         {
@@ -67,6 +74,7 @@ public static class ItemHelper
             ItemOwner = Team.Defender,
             SpriteIndex = 1,
             ResourcesName = "FirewallTool",
+            SecurityValue = 0,
         }},
         {ItemType.BruteForce, new ItemData()
         {
@@ -77,6 +85,7 @@ public static class ItemHelper
             ItemOwner = Team.Hacker,
             SpriteIndex = 0,
             ResourcesName = "BruteForce",
+            SecurityValue = 0,
         }},
         {ItemType.Phishing, new ItemData()
         {
@@ -87,6 +96,7 @@ public static class ItemHelper
             ItemOwner = Team.Hacker,
             SpriteIndex = 1,
             ResourcesName = "Phishing",
+            SecurityValue = 0,
         }},
         {ItemType.Spyware, new ItemData()
         {
@@ -97,6 +107,7 @@ public static class ItemHelper
             ItemOwner = Team.Hacker,
             SpriteIndex = 2,
             ResourcesName = "Spyware",
+            SecurityValue = 0,
         }},
         {ItemType.Trojan, new ItemData()
         {
@@ -107,6 +118,7 @@ public static class ItemHelper
             ItemOwner = Team.Hacker,
             SpriteIndex = 0,
             ResourcesName = "TrojanTool",
+            SecurityValue = 0,
         }},
         {ItemType.Ransomware, new ItemData()
         {
@@ -117,6 +129,7 @@ public static class ItemHelper
             ItemOwner = Team.Hacker,
             SpriteIndex = 1,
             ResourcesName = "RansomwareTool",
+            SecurityValue = 0,
         }},
     };
 
@@ -150,5 +163,36 @@ public static class ItemHelper
     public static string GetResourcesName(ItemType itemType)
     {
         return ItemDataList[itemType].ResourcesName;
+    }
+
+    public static int GetSecurityLevelPoints(int count)
+    {
+        int level;
+        switch (count)
+        {
+         case 0:
+             level = -7;
+             break;
+         case 1:
+             level = -5;
+             break;
+         case 2:
+             level = -1;
+             break;
+         case 3:
+             level = 1;
+             break; 
+         case 4:
+             level = 5;
+             break;
+         case 5:
+             level = 10;
+             break;
+         default:
+             level = 0;
+             break;
+        }
+
+        return level;
     }
 }

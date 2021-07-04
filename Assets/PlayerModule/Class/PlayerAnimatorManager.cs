@@ -1,4 +1,5 @@
 using GameModule.Class;
+using ItemModule.Class;
 using Photon.Pun;
 using UnityEngine;
 
@@ -26,7 +27,7 @@ namespace PlayerModule.Class
         {
             // if (GameManager.Instance.GetGameState() != GameManager.GameState.Preparation &&
                 // GameManager.Instance.GetGameState() != GameManager.GameState.Battle) return;
-                if (photonView.IsMine)
+                if (photonView.IsMine && !ItemManager.Instance.MiniGameCanvas.activeSelf)
                 {
                     var horizontalInputVal = Input.GetAxis("Horizontal") * _speedModifier;
                     if (horizontalInputVal > 0)

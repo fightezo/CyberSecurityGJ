@@ -1,4 +1,6 @@
+using GameModule.Class;
 using ItemModule.Class.Data;
+using Photon.Pun;
 
 namespace ItemModule.Class.Component
 {
@@ -11,6 +13,12 @@ namespace ItemModule.Class.Component
         public override ItemType GetItemType()
         {
             return ItemType.BruteForce;
+        }
+
+        // slowly displays full password
+        [PunRPC]
+        private void RPC_ActivateSkill()
+        {
         }
     }
 }

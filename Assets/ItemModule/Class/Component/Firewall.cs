@@ -1,4 +1,7 @@
+using GameModule.Class;
 using ItemModule.Class.Data;
+using Photon.Pun;
+using PlayerModule.Class;
 
 namespace ItemModule.Class.Component
 {
@@ -12,6 +15,12 @@ namespace ItemModule.Class.Component
         {
             return ItemType.Firewall;
         }
+        // freeze hacker
 
+        [PunRPC]
+        private void RPC_ActivateSkill()
+        {
+            
+        }
     }
 }

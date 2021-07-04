@@ -13,5 +13,10 @@ namespace ItemModule.Class.Component
         {
             return ItemType.NormalChest;
         }
+
+        public override int GetPasswordLength()
+        {
+            return 20;
+        }
     }
 }

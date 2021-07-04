@@ -45,9 +45,11 @@ namespace ItemModule.Class
         private float _currentTimeToCreateItem = 0f;
         private float _timeToCreateItem = 30f;
 
+        private float _currentTimeToUpdateSecurityLevel = 0f;
+        private float _timeToUpdateSecurityLevel = 30f;
         private PlayerManager _playerManager;
 
-        
+ 
         public void Awake()
         {
             Instance = this;
@@ -72,24 +74,53 @@ namespace ItemModule.Class
             if (_currentTimeToCreateItem >= _timeToCreateItem)
             {
                 _currentTimeToCreateItem = 0;
-                //CreateRandomly
-                Debug.Log($"{name}::CreateDefenderItem");
-                // TODO keep track and 
+                
                 if (_playerManager.GetTeam() == Team.Defender)
-                    _CreateDefenderItemRandomly();
+                {
+                    _EnableDefenderItemSpawnPointsRandomly(true);
+                    _EnableDefenderItemSpawnPointsRandomly(false);
+                }
 
                 if (_playerManager.GetTeam() == Team.Hacker)
-                    _CreateHackerItemRandomly();
+                {
+                    _EnableHackerItemSpawnPointsRandomly(true);
+                    _EnableHackerItemSpawnPointsRandomly(false);
+                }
             }
             else
             {
                 _currentTimeToCreateItem += Time.deltaTime;
             }
+            
+            //Update based on # of Defender Chest
+            if (_currentTimeToUpdateSecurityLevel >= _timeToUpdateSecurityLevel)
+            {
+                var newSecurityLevelChange = ItemHelper.GetSecurityLevelPoints(GetDefendingSecurityLevel());
+                _UpdateSecuritySlider(newSecurityLevelChange);
+                _currentTimeToUpdateSecurityLevel = 0;
+            }
+            else
+            {
+                _currentTimeToUpdateSecurityLevel += Time.deltaTime;
+            }
+            
         }
-        // Planning Phase
+
+        private int GetDefendingSecurityLevel()
+        {
+            var count = 0;
+            foreach (var item in _defenderItemPlacementList)
+            {
+                if(item == null) continue;
+                if (item.GetItemState() == ItemState.Active)
+                    count++;
+            }
+
+            return count;
+        }
 
         #region Public Methods
-
+        // Preparation Phase
         public Item[] GetPlacementList(Team team)
         {
             if(team == Team.Defender) 
@@ -98,41 +129,88 @@ namespace ItemModule.Class
                 return _hackerItemPlacementList;
             return new Item[]{};
         }
-
-        #endregion
-        private void _CreateHackerItemRandomly()
+        public Item[] GeToolList(Team team)
         {
-            Debug.Log($"{name}::CreateHackerItem");
+            if(team == Team.Defender) 
+                return _defenderItemToolList;
+            if (team == Team.Hacker)
+                return _hackerItemToolList;
+            return new Item[]{};
+        }
+
+        // Gameplay Phase
+        public void PlaceItemOnSlotPoint(int index, Collider slotCollider)
+        {
+            Item item = null;
+            if (_playerManager.GetTeam() == Team.Defender)
+            {
+                item = _defenderItemPlacementList[index];
+                item.transform.position = slotCollider.gameObject.transform.position;
+            }
+            if (_playerManager.GetTeam() == Team.Hacker)
+            {
+                item = _hackerItemPlacementList[index];
+                _hackerItemPlacementList[index].transform.position = slotCollider.gameObject.transform.position;
+ 
+            }
+            // if has opposing item activate; else wait
+            if(item != null)
+                item.ActivateSkill();
+            GameManager.Instance.UpdateGameplayUIView();
+
+            Debug.Log($"");
+        }
+        
+        public void UseTool(int index)
+        {
+            Item item = null;
+            if (_playerManager.GetTeam() == Team.Defender)
+            {
+                if (_defenderItemToolList[index] == null) return;
+                item = _defenderItemToolList[index];
+            }
+            if (_playerManager.GetTeam() == Team.Hacker)
+            {
+                if (_hackerItemToolList[index] == null) return;
+                item = _hackerItemToolList[index];
+            }
+
+            if(item != null)
+                item.ActivateSkill(); 
+            // ActivateItemAbility(itemType);
+            GameManager.Instance.UpdateGameplayUIView();
+
+        }
+        #endregion
+        private void _EnableHackerItemSpawnPointsRandomly(bool isOn)
+        {
+            Debug.Log($"{name}::EnableHackerItem::{isOn}");
             var randomItemIndex = UnityEngine.Random.Range(0, AvailableHackerChest.Count);
             var hackerItemSpawnPoints = MapManager.Instance.GetHackerItemSpawnPoints();
             var randomItemPosition = UnityEngine.Random.Range(0, hackerItemSpawnPoints.Count);
-            hackerItemSpawnPoints[randomItemPosition].enabled = true;
+            hackerItemSpawnPoints[randomItemPosition].enabled = isOn;
             // var item = PhotonNetwork.Instantiate(HasGetItemPlaceholder.name, hackerItemSpawnPoints[randomItemPosition].transform.position, Quaternion.identity);
 
             // var item = PhotonNetwork.Instantiate(AvailableHackerItems[randomItemIndex].name, hackerItemSpawnPoints[randomItemPosition].transform.position, 
             // Quaternion.identity);
         }
-
-        private void _CreateDefenderItemRandomly()
+        private void _EnableDefenderItemSpawnPointsRandomly(bool isOn)
         {
-            Debug.Log($"{name}::CreateDefenderItem");
+            Debug.Log($"{name}::EnableDefenderItem::{isOn}");
             var randomItemIndex = UnityEngine.Random.Range(0, AvailableDefenderChest.Count);
             var defenderItemSpawnPoints = MapManager.Instance.GetDefenderItemSpawnPoints();
             var randomItemPosition = UnityEngine.Random.Range(0, defenderItemSpawnPoints.Count);
-            defenderItemSpawnPoints[randomItemPosition].enabled = true;
+            defenderItemSpawnPoints[randomItemPosition].enabled = isOn;
 
             // var item = PhotonNetwork.Instantiate(HasGetItemPlaceholder.name, defenderItemSpawnPoints[randomItemPosition].transform.position, Quaternion.identity);
             // var item = PhotonNetwork.Instantiate(AvailableDefenderItems[randomItemIndex].name, defenderItemSpawnPoints[randomItemPosition].transform.position, 
             // Quaternion.identity);
         }
 
-        public void UpdateSecuritySlider()
+        private void _UpdateSecuritySlider(int newSecurityLevelChange)
         {
-            var _newLevel = 0;
-            GameManager.Instance.UpdateSecurityLevel(_newLevel);
+            GameManager.Instance.photonView.RPC("RPC_UpdateSecurityLevel", RpcTarget.AllBuffered, newSecurityLevelChange);
         }
-
-        // public void 
 
         #region IPunObservable Implementation
 
@@ -145,20 +223,25 @@ namespace ItemModule.Class
         #region PUNRPC Methods
 
         [PunRPC]
-        private void RPC_UpdateItemManager(int[] data)
+        private void RPC_PlaceItemOnSlotPoint(int data)
         {
-            Debug.Log($"RPC_UpdateItemManager::{string.Join("|", data)}");
-            UpdateItem(data.ToList());
+            
+        }
+        [PunRPC]
+        private void RPC_UpdateSceneItem(int[] data)
+        {
+            Debug.Log($"RPC_UpdateSceneItem::{string.Join("|", data)}");
+            _UpdateSceneItem(data.ToList());
         }
 
         #endregion
 
-        public void StartMiniGame()
+        public void PopupMiniGameUI()
         {
             MiniGameCanvas.SetActive(true);
         }
 
-        public void EndMiniGame()
+        public void DismissMiniGameUI()
         {
             MiniGameCanvas.SetActive(false);
         }
@@ -167,12 +250,12 @@ namespace ItemModule.Class
 
         public void OnExitMiniGameClicked()
         {
-            EndMiniGame();
+            DismissMiniGameUI();
         }
 
         #endregion
 
-        public void UpdateItem(List<int> itemTypeList)
+        private void _UpdateSceneItem(List<int> itemTypeList)
         {
             foreach (var itemTypeInt in itemTypeList)
             {
@@ -226,6 +309,16 @@ namespace ItemModule.Class
                     }
                 }
             }
+        }
+        // TODO item UI; change password; new password; hack password
+        public void PopupItemUI()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PhishingToolActive()
+        {
+            throw new NotImplementedException();
         }
     }
 }

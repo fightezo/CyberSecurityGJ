@@ -1,4 +1,6 @@
+using GameModule.Class;
 using ItemModule.Class.Data;
+using Photon.Pun;
 
 namespace ItemModule.Class.Component
 {
@@ -12,6 +14,11 @@ namespace ItemModule.Class.Component
         public override ItemType GetItemType()
         {
             return ItemType.AlphanumericChest;
+        }
+
+        public override int GetPasswordLength()
+        {
+        return 15;
         }
     }
 }

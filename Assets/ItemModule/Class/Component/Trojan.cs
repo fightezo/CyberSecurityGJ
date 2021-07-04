@@ -1,4 +1,6 @@
+using GameModule.Class;
 using ItemModule.Class.Data;
+using Photon.Pun;
 
 namespace ItemModule.Class.Component
 {
@@ -14,6 +16,12 @@ namespace ItemModule.Class.Component
         {
             return ItemType.Trojan;
         }
-
+        
+        //sends attacker helper to attack defender (stuns defender)
+        [PunRPC]
+        private void RPC_ActivateSkill()
+        {
+            GameManager.Instance.SendAttacker();
+        }
     }
 }

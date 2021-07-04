@@ -1,4 +1,6 @@
+using GameModule.Class;
 using ItemModule.Class.Data;
+using Photon.Pun;
 
 namespace ItemModule.Class.Component
 {
@@ -15,5 +17,10 @@ namespace ItemModule.Class.Component
             return ItemType.Ransomware;
         }
 
+        // freeze defender
+        [PunRPC]
+        private void RPC_ActivateSkill()
+        {
+        }
     }
 }

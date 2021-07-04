@@ -31,5 +31,9 @@ namespace ItemModule.Class
         // public abstract ItemCategory GetItemCategory();
 
         // public abstract ItemOwner GetItemOwner();
+        public void ActivateSkill()
+        {
+            photonView.RPC("RPC_ActivateSkill", RpcTarget.All);
+        }
     }
 }

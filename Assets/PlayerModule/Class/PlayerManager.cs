@@ -35,6 +35,9 @@ namespace PlayerModule.Class
         #region Private Fields
 
         private IItem _itemInRange;
+        private Collider _computerInRange;
+        private Collider _slotPointInRange;
+        private bool _isPlayerInRange;
 
         private List<int> _itemList = new List<int>();
         private PlayerManager _taggedPlayer;
@@ -107,16 +110,35 @@ namespace PlayerModule.Class
                 return;
             }
 
-            if (other.CompareTag("Item") && _currentState != PlayerState.Invading)
+            if (_currentState != PlayerState.Invading)
             {
-                PressEButtonGameObject.SetActive(true);
-                _itemInRange = other.gameObject.GetComponent<IItem>();
-                if (_itemInRange.GetItemState() == ItemState.World)
+                // interact with items
+                if (other.CompareTag("Item"))
                 {
-                    _GetItem();
+                    PressEButtonGameObject.SetActive(true);
+                    _itemInRange = other.gameObject.GetComponent<IItem>();
+                }
+
+                // play miniGame
+                if (other.CompareTag("ComputerPoint"))
+                {
+                    _computerInRange = other;
+                }
+
+                //
+                if (other.CompareTag("SlotPoint"))
+                {
+                    _slotPointInRange = other;
                 }
             }
-
+            else
+            {
+                if (other.CompareTag("Player"))
+                {
+                    _isPlayerInRange = true;
+                }
+                 
+            }
         }
 
 
@@ -135,12 +157,36 @@ namespace PlayerModule.Class
                 return;
             }
             
-            if (other.CompareTag("Item"))
-            {
-                _itemInRange = null;
-                PressEButtonGameObject.SetActive(false);
-            } 
 
+            if (_currentState != PlayerState.Invading)
+            {
+                // interact with items
+                if (other.CompareTag("Item"))
+                {
+                    PressEButtonGameObject.SetActive(false);
+                    _itemInRange = null;
+
+                } 
+                // play miniGame
+                if (other.CompareTag("GetItemPoint"))
+                {
+                    _computerInRange = null;
+                }
+
+                //
+                if (other.CompareTag("SlotPoint"))
+                {
+                    _slotPointInRange = null;
+                }
+            }
+            else
+            {
+                if (other.CompareTag("Player"))
+                {
+                    _isPlayerInRange = false;
+                }
+                 
+            }
         }
 
         private void OnCollisionEnter(Collision other)
@@ -149,10 +195,10 @@ namespace PlayerModule.Class
             {
                 return;
             }
-            if (other.gameObject.CompareTag("Player"))
-            {
-                GameManager.Instance.CheckState(this, _taggedPlayer);
-            }
+            // if (other.gameObject.CompareTag("Player"))
+            // {
+            //     GameManager.Instance.CheckState();
+            // }
         }
 
         public override void OnDisable()
@@ -201,30 +247,81 @@ namespace PlayerModule.Class
 
         private void _ProcessInputs()
         {
-            if (Input.GetKeyDown(KeyCode.Space) && GameManager.Instance.IsReadyToTeleport(_team))
+            if (Input.GetKeyDown(KeyCode.T) && GameManager.Instance.IsReadyToTeleport(_team))
             {
-                _Teleport();
+                Teleport();
             }
-
+            // Interact with Item
             if (_itemInRange != null)
+            {
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    ItemManager.Instance.PopupItemUI();
+                }
+            }
+            // Interact with Computer
+            if (_computerInRange != null)
             {
                 if (Input.GetKeyDown(KeyCode.E) && !ItemManager.Instance.MiniGameCanvas.activeSelf)
                 {
-                    ItemManager.Instance.StartMiniGame();
+                    ItemManager.Instance.PopupMiniGameUI();
                 } 
                 if (Input.GetKeyDown(KeyCode.Escape) && ItemManager.Instance.MiniGameCanvas.activeSelf)
                 {
-                    ItemManager.Instance.EndMiniGame();
+                    ItemManager.Instance.DismissMiniGameUI();
+                }
+            }
+            // Destroy Enemy
+            if (Input.GetKeyDown(KeyCode.Space) && _isPlayerInRange)
+            {
+                GameManager.Instance.CheckState();
+            }
+
+            // Interact with Slot
+            if (_slotPointInRange != null)
+            {
+                if (Input.GetKeyDown(KeyCode.Z))
+                {
+                    ItemManager.Instance.PlaceItemOnSlotPoint(0, _slotPointInRange);
+                }
+                if (Input.GetKeyDown(KeyCode.X))
+                {
+                    ItemManager.Instance.PlaceItemOnSlotPoint(1, _slotPointInRange);
+                }
+                if (Input.GetKeyDown(KeyCode.C))
+                {
+                    ItemManager.Instance.PlaceItemOnSlotPoint(2, _slotPointInRange);
+                }
+                if (Input.GetKeyDown(KeyCode.V))
+                {
+                    ItemManager.Instance.PlaceItemOnSlotPoint(3, _slotPointInRange);
+                }
+                if (Input.GetKeyDown(KeyCode.B))
+                {
+                    ItemManager.Instance.PlaceItemOnSlotPoint(4, _slotPointInRange);
                 }
             }
 
+            // Use Item any time
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                ItemManager.Instance.UseTool(0);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                ItemManager.Instance.UseTool(1);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                ItemManager.Instance.UseTool(2);
+            }
         }
 
-        private void _Teleport()
+        public void Teleport(bool isForceReturn = false)
         {
             if (photonView.IsMine)
             {
-                if (_currentState == PlayerState.Invading)
+                if (_currentState == PlayerState.Invading || isForceReturn)
                 {
                     _currentState = PlayerState.Normal;
                     if (_team == Team.Defender)

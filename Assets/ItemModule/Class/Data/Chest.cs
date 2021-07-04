@@ -25,6 +25,7 @@ namespace ItemModule.Class.Data
         {
             _password = password;
         }
-    
+
+        public abstract int GetPasswordLength();
     }
 }

@@ -7,8 +7,8 @@ namespace GameModule.Class.Component
 {
     internal class EndPanel : MonoBehaviour, IUIPanel
     {
-        [SerializeField] private GameObject VictoryPanel;
-        [SerializeField] private GameObject GameOverPanel; 
+        [SerializeField] private GameObject DefenderPanel;
+        [SerializeField] private GameObject HackerPanel; 
         
         public GameObject GetSelf()
         {
@@ -24,16 +24,16 @@ namespace GameModule.Class.Component
         {
             if (securityLevel >= defenderSecurityThreshold)
             {
-                VictoryPanel.SetActive(localPlayerManager.GetTeam() == Team.Defender);
-                GameOverPanel.SetActive(localPlayerManager.GetTeam() == Team.Hacker);
+                DefenderPanel.SetActive(localPlayerManager.GetTeam() == Team.Defender);
+                HackerPanel.SetActive(localPlayerManager.GetTeam() == Team.Hacker);
                 //In the DarkWeb; capturing hacker
                 _DisplayDefenderEnding();
             }
 
             if (securityLevel <= hackerSecurityThreshold)
             {
-                VictoryPanel.SetActive(localPlayerManager.GetTeam() == Team.Hacker);
-                GameOverPanel.SetActive(localPlayerManager.GetTeam() == Team.Defender);
+                HackerPanel.SetActive(localPlayerManager.GetTeam() == Team.Hacker);
+                DefenderPanel.SetActive(localPlayerManager.GetTeam() == Team.Defender);
                 // In Hacked Computer; steals identity
                 _DisplayHackerEnding();
             }

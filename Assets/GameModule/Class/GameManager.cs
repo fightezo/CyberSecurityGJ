@@ -163,10 +163,9 @@ namespace GameModule.Class
         {
             return PanelList[_currentState];
         }
-        public void CheckState(PlayerManager self, PlayerManager taggedPlayer)
+        public void CheckState()
         {
             Debug.Log("Check State");
-            // _localPlayerManager = self;
             if (_currentState == GameState.Battle)
             {
                 GetNextGameState();
@@ -185,19 +184,22 @@ namespace GameModule.Class
             }
         }
 
-        public void UpdateSecurityLevel(float newLevel)
+        public void UpdateGame(float newVal)
         {
-            GameplayPanel.SecurityLevelSlider.value = newLevel;
+            if(!IsReadyToTeleport(_localPlayerManager.GetTeam()))
+            {
+                _localPlayerManager.Teleport(true);
+            }
         }
 
-        public bool IsReadyToTeleport(Team _team)
+        public bool IsReadyToTeleport(Team team)
         {
-            if (_team == Team.Defender && _securityLevel >= _defenderSecurityThreshold)
+            if (team == Team.Defender && _securityLevel >= _defenderSecurityThreshold)
             {
                 return true;
             }
 
-            if (_team == Team.Hacker && _securityLevel <= _hackerSecurityThreshold)
+            if (team == Team.Hacker && _securityLevel <= _hackerSecurityThreshold)
             {
                 return true;
             }
@@ -205,6 +207,10 @@ namespace GameModule.Class
             return false;
         }
 
+        public void UpdateGameplayUIView()
+        {
+            GameplayPanel.UpdateUIView();
+        }
         #endregion
 
         #region Public Button Methods
@@ -443,6 +449,12 @@ namespace GameModule.Class
                 $"RPC_SendHackerButtonClicked:: {_playerList[newState[0]]}::{_playersTeamStateList[newState[0]]}");
         }
 
+        [PunRPC]
+        private void RPC_UpdateSecurityLevel(int newChangedValue)
+        {
+            _securityLevel += newChangedValue;
+            GameplayPanel.SecurityLevelSlider.value = _securityLevel;
+        }
         #endregion
 
         #region IPunObservable Implementation
@@ -470,6 +482,12 @@ namespace GameModule.Class
         internal PlayerManager GetPlayerManager()
         {
             return _localPlayerManager;
-        } 
+        }
+
+        //Tool Methods
+        public void SendAttacker()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
